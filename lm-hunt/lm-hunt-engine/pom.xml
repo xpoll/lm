@@ -71,6 +71,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
             <optional>true</optional>
+	        <exclusions>
+	          <exclusion>
+	            <groupId>org.springframework</groupId>
+	            <artifactId>spring</artifactId>
+	          </exclusion>
+	        </exclusions>
             <version>2.5.3</version>
         </dependency>
         <dependency>

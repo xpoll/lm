@@ -31,8 +31,7 @@ public class ProfiledAspect {
 
 		watch.stop();
 		if (log.isDebugEnabled()) {
-//			profiled = AnnotationUtils.getAnnotation(profiled, PampasProfiled.class);
-			log.error("这里注了，应该报错");
+			profiled = AnnotationUtils.getAnnotation(profiled, PampasProfiled.class);
 			if (profiled.onlyWhenException() && maybeThrowable == null) {
 				return result;
 			}
