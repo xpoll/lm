@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.blmdz.boot.datasource.autoconfigure.DataSourceAutoConfiguration,\
+cn.blmdz.boot.datasource.autoconfigure.DataSourceTransactionManagerAutoConfiguration
