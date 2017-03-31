@@ -1,48 +1,40 @@
-/*
- * Copyright (c) 2014 杭州端点网络科技有限公司
- */
-
 package cn.blmdz.hunt.engine.utils;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 14-4-28
- */
 public enum Protocol {
-    HTTP("http://"), HTTPS("https://"), SERVLET("resource:"), CLASSPATH("classpath:"), FILE(""), ZK("zookeeper://");
+	   HTTP("http://"),
+	   HTTPS("https://"),
+	   SERVLET("resource:"),
+	   CLASSPATH("classpath:"),
+	   NONE(""),
+	   FILE("file:"),
+	   ZK("zookeeper://"),
+	   REDIS("redis:");
 
-    private String prefix;
+	private String prefix;
 
-    private Protocol(String prefix) {
-        this.prefix = prefix;
-    }
+	private Protocol(String prefix) {
+		this.prefix = prefix;
+	}
 
-    public static Protocol analyze(String uri) {
-        String lowerUri = uri.toLowerCase();
-        if (lowerUri.startsWith(HTTP.prefix)) {
-            return HTTP;
-        }
-        if (lowerUri.startsWith(HTTPS.prefix)) {
-            return HTTPS;
-        }
-        if (lowerUri.startsWith(SERVLET.prefix)) {
-            return SERVLET;
-        }
-        if (lowerUri.startsWith(CLASSPATH.prefix)) {
-            return CLASSPATH;
-        }
-        if (lowerUri.startsWith(ZK.prefix)) {
-            return ZK;
-        }
-        return FILE;
-    }
+	public static Protocol analyze(String uri) {
+		String lowerUri = uri.toLowerCase();
+		return lowerUri.startsWith(FILE.prefix) ? FILE
+				: (lowerUri.startsWith(HTTP.prefix) ? HTTP
+						: (lowerUri.startsWith(HTTPS.prefix) ? HTTPS : (lowerUri.startsWith(SERVLET.prefix) ? SERVLET
+								: (lowerUri.startsWith(CLASSPATH.prefix) ? CLASSPATH
+										: (lowerUri.startsWith(ZK.prefix) ? ZK
+												: (lowerUri.startsWith(REDIS.prefix) ? REDIS : NONE))))));
+	}
 
-    public static String removeProtocol(String uri) {
-        return removeProtocol(uri, analyze(uri));
-    }
+	public static String removeProtocol(String uri) {
+		return removeProtocol(uri, analyze(uri));
+	}
 
-    public static String removeProtocol(String uri, Protocol protocol) {
-        return uri.substring(protocol.prefix.length());
-    }
+	public static String removeProtocol(String uri, Protocol protocol) {
+		return uri.substring(protocol.prefix.length());
+	}
+
+	public String getPrefix() {
+		return this.prefix;
+	}
 }

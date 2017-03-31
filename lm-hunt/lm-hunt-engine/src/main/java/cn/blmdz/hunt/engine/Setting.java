@@ -1,102 +1,50 @@
-/*
- * Copyright (c) 2014 杭州端点网络科技有限公司
- */
-
 package cn.blmdz.hunt.engine;
 
-import com.google.common.base.MoreObjects;
-
-import cn.blmdz.hunt.engine.model.App;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 14-4-22
- */
-public class Setting {
-    private static ThreadLocal<App> currentApp = new ThreadLocal<App>();
-    private static ThreadLocal<String> currentDomain = new ThreadLocal<String>();
+import cn.blmdz.hunt.engine.model.App;
+import lombok.Getter;
+import lombok.ToString;
 
-    @Getter
-    @Setter
-    private Mode mode;
+@Getter
+@ToString
+public class Setting extends AbstractSetting {
+	private Map<String, App> appMap = Maps.newHashMap();
+	private App defaultApp;
 
-    @Getter
-    @Setter
-    private String rootPath;
+	@PostConstruct
+	private void init() {
+		Preconditions.checkNotNull(this.getRootPath(), "rootPath in [Setting] should not be null");
+		Preconditions.checkNotNull(this.getApps(), "fronts in [Setting] should not be null");
+		this.setRootPath(this.normalize(this.getRootPath()));
 
-    @Getter
-    @Setter
-    private App implantApp;
+		for (App app : this.getApps()) {
+			Preconditions.checkNotNull(app.getKey(), "key in App should not be null");
+			app.setAssetsHome(this.normalize(this.getRootPath() + Strings.nullToEmpty(app.getAssetsHome())));
+			if (Strings.isNullOrEmpty(app.getConfigPath())) {
+				app.setConfigPath(app.getAssetsHome() + "back_config.yaml");
+			}
 
-    @Getter
-    @Setter
-    private String registryId;
+			app.setConfigJsFile((String) Objects.firstNonNull(app.getConfigJsFile(), "assets/scripts/config.js"));
+			if (!Strings.isNullOrEmpty(app.getJudgePattern())) {
+				app.setRegexJudgePattern(Pattern.compile(app.getJudgePattern()));
+			}
 
-    @Getter
-    @Setter
-    private boolean devMode = false;
+			this.appMap.put(app.getKey(), app);
+		}
 
-    @PostConstruct
-    private void init() {
-        switch (mode) {
-            case IMPLANT:
-                checkNotNull(implantApp, "implantApp in [Setting] should not be null when IMPLANT mode");
-                checkNotNull(implantApp.getAssetsHome(), "assetsHome in implantApp should not be null");
-                checkNotNull(implantApp.getConfigPath(), "configPath in implantApp should not be null");
-                checkNotNull(implantApp.getDomain(), "domain in implantApp should not be null");
-                checkNotNull(implantApp.getKey(), "key in implantApp should not be null");
-                implantApp.setAssetsHome(normalize(implantApp.getAssetsHome()));
-                break;
-            case CENTER:
-                checkNotNull(rootPath, "rootPath in [Setting] should not be null when CENTER mode");
-                rootPath = normalize(rootPath);
-                break;
-        }
-    }
+		this.defaultApp = (App) this.getApps().get(0);
+	}
 
-    public static enum Mode {
-        CENTER, IMPLANT
-    }
-
-    public static void setCurrentApp(App app) {
-        currentApp.set(app);
-    }
-
-    public static App getCurrentApp() {
-        return currentApp.get();
-    }
-
-    public static void clearCurrentApp() {
-        currentApp.remove();
-    }
-
-    public static String getCurrentAppKey() {
-        return getCurrentApp().getKey();
-    }
-
-    public static void setCurrentDomain(String domain) {
-        currentDomain.set(domain);
-    }
-
-    public static String getCurrentDomain() {
-        return MoreObjects.firstNonNull(currentDomain.get(), getCurrentApp().getDomain());
-    }
-
-    public static void clearCurrentDomain() {
-        currentDomain.remove();
-    }
-
-    private String normalize(String rootPath) {
-        if (rootPath.endsWith("/")) {
-            return rootPath;
-        }
-        return rootPath + "/";
-    }
+	private String normalize(String rootPath) {
+		return rootPath.endsWith("/") ? rootPath : rootPath + "/";
+	}
 }

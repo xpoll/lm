@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2014 杭州端点网络科技有限公司
- */
-
 package cn.blmdz.hunt.engine.mapping;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,141 +6,146 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 import cn.blmdz.home.common.exception.ServiceException;
+import cn.blmdz.home.common.util.Splitters;
 import cn.blmdz.hunt.client.ParamUtil;
+import cn.blmdz.hunt.client.ParamUtil.MethodInfo;
+import cn.blmdz.hunt.client.ParamUtil.ParamInfo;
 import cn.blmdz.hunt.engine.config.model.Service;
-import lombok.extern.slf4j.Slf4j;
+import cn.blmdz.hunt.protocol.Export;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 14-4-12
- */
 @Component
-@Slf4j
-public class SpringExecutor extends Executor<Object> {
-    private static final Splitter splitter = Splitter.on(':').trimResults().omitEmptyStrings();
+public class SpringExecutor extends Executor {
+	private static final Logger log = LoggerFactory.getLogger(SpringExecutor.class);
+	private final LoadingCache<String, MethodInfo> methodInfos;
+//	private DefaultConversionService converter = new DefaultConversionService();
+	@Autowired
+	private ApplicationContext applicationContext;
 
-    protected static class ServiceInfo {
-        private final Class<?> klass;   //类名
+	public SpringExecutor() {
+		CacheLoader<String, MethodInfo> loader = new CacheLoader<String, MethodInfo>() {
+			public MethodInfo load(String key) throws Exception {
+				List<String> parts = Splitters.COLON.splitToList(key);
+				if (parts.size() != 2) {
+					throw new IllegalArgumentException(
+							"bad api format,should be interfaceName:methodName,but is: " + key);
+				} else {
+					Class<?> klass = Class.forName((String) parts.get(0));
+					Object bean = SpringExecutor.this.applicationContext.getBean(klass);
+					Method method = SpringExecutor.this.findMethodByName(klass, (String) parts.get(1));
+					if (method == null) {
+						throw new NoSuchMethodException("failed to find method: " + key);
+					} else {
+						return ParamUtil.getMethodInfo(bean, method);
+					}
+				}
+			}
+		};
+		this.methodInfos = CacheBuilder.newBuilder().build(loader);
+	}
 
-        private final Method method;    //方法
+	public boolean detectType(Service service) {
+		try {
+			MethodInfo result = (MethodInfo) this.methodInfos.getUnchecked(service.getUri());
+			return result != null;
+		} catch (Exception var3) {
+			log.warn(
+					"detect spring service type for [{}] failed, it\'s maybe not an exception that need to attention. {}",
+					service.getUri(), var3.getMessage());
+			log.debug("detect spring service type for [{}] failed, debug info: {}", service.getUri(),
+					Throwables.getStackTraceAsString(var3));
+			return false;
+		}
+	}
 
-        private final Class<?>[] types;  //参数类型数组
+	public Object exec(Service service, Map params) {
+		String api = service.getUri();
+		if (Strings.isNullOrEmpty(api)) {
+			return null;
+		} else {
+			MethodInfo methodInfo = (MethodInfo) this.methodInfos.getUnchecked(api);
+			LinkedHashMap<String, ParamInfo> paramsInfo = methodInfo.getParams();
+			Object[] concernedParams = new Object[paramsInfo.size()];
+			int index = 0;
 
-        private final String[] paramNames;    //参数名称数组
+			for (String paramName : paramsInfo.keySet()) {
+				ParamInfo paramInfo = (ParamInfo) paramsInfo.get(paramName);
+				Object param = ParamConverter.convertParam(paramName, paramInfo.getClazz(), params,
+						paramInfo.isOptional());
+				concernedParams[index++] = ParamUtil.convert(param, paramInfo, params);
+			}
 
-        public ServiceInfo(Class<?> klass, Method method, Class<?>[] types, String[] paramNames) {
-            this.klass = klass;
-            this.method = method;
-            this.types = types;
-            this.paramNames = paramNames;
-        }
+			Object object;
+			try {
+				object = methodInfo.getMethod().invoke(methodInfo.getBean(), concernedParams);
+			} catch (IllegalAccessException var12) {
+				log.error("illegal access method, service: {}", service, var12);
+				throw new ServiceException(var12);
+			} catch (InvocationTargetException var13) {
+				log.error("invocation target exception, service: {}", service, var13);
+				if (var13.getTargetException() instanceof RuntimeException) {
+					throw (RuntimeException) var13.getTargetException();
+				}
 
-        public Class<?> getKlass() {
-            return klass;
-        }
+				throw new ServiceException(var13.getTargetException().getMessage(), var13);
+			}
 
-        public Method getMethod() {
-            return method;
-        }
+			return this.unwrapResponse(object);
+		}
+	}
 
-        public Class<?>[] getTypes() {
-            return types;
-        }
+	private Method findMethodByName(Class beanClazz, String methodName) {
+		Method[] methods = beanClazz.getMethods();
 
-        public String[] getParamNames() {
-            return paramNames;
-        }
-    }
+		for (Method method : methods) {
+			if (method.getName().equals(methodName) && method.getAnnotation(Export.class) != null) {
+				return method;
+			}
+		}
 
-    /**
-     * api string to service info cache
-     */
-    private final LoadingCache<String, ParamUtil.MethodInfo> methodInfos;
+		return null;
+	}
 
-    private DefaultConversionService converter = new DefaultConversionService();
+	protected static class ServiceInfo {
+		private final Class klass;
+		private final Method method;
+		private final Class[] types;
+		private final String[] paramNames;
 
-    @Autowired
-    private ApplicationContext applicationContext;
+		public ServiceInfo(Class klass, Method method, Class[] types, String[] paramNames) {
+			this.klass = klass;
+			this.method = method;
+			this.types = types;
+			this.paramNames = paramNames;
+		}
 
-    public SpringExecutor() {
-        CacheLoader<String, ParamUtil.MethodInfo> loader = new CacheLoader<String, ParamUtil.MethodInfo>() {
+		public Class getKlass() {
+			return this.klass;
+		}
 
-            @Override
-            public ParamUtil.MethodInfo load(String key) throws Exception {
+		public Method getMethod() {
+			return this.method;
+		}
 
-                List<String> parts = splitter.splitToList(key);
-                if (parts.size() != 2) {
-                    throw new IllegalArgumentException("bad api format,should be interfaceName:methodName,but is: " + key);
-                }
-                Class<?> klass = Class.forName(parts.get(0));
-                Object bean = applicationContext.getBean(klass);
-                Method method = findMethodByName(klass, parts.get(1));
-                if (method == null) {
-                    throw new NoSuchMethodException("failed to find method: " + key);
-                }
+		public Class[] getTypes() {
+			return this.types;
+		}
 
-                return ParamUtil.getMethodInfo(bean, method);
-            }
-        };
-
-        this.methodInfos = CacheBuilder.newBuilder().build(loader);
-    }
-
-
-    public Object exec(Service service, Map<String, Object> params) {
-        String api = service.getUri();
-        if (Strings.isNullOrEmpty(api)) return null;
-
-        ParamUtil.MethodInfo methodInfo = methodInfos.getUnchecked(api);
-
-        LinkedHashMap<String, ParamUtil.ParamInfo> paramsInfo = methodInfo.getParams();
-        Object[] concernedParams = new Object[paramsInfo.size()];
-        int index = 0;
-        for (String paramName : paramsInfo.keySet()) {
-            ParamUtil.ParamInfo paramInfo = paramsInfo.get(paramName);
-            // 先转一次
-            Object param = ParamConverter.convertParam(paramName, paramInfo.getClazz(), params);
-            // 再进行 json -> 对象和 params -> 对象的处理
-            concernedParams[index++] = ParamUtil.convert(param, paramInfo.getClazz(), paramInfo.getJavaType(), params);
-        }
-
-        Object object;
-        try {
-            object = methodInfo.getMethod().invoke(methodInfo.getBean(), concernedParams);
-        } catch (IllegalAccessException e) {
-            log.error("illegal access method, service: {}", service, e);
-            throw new ServiceException(e);
-        } catch (InvocationTargetException e) {
-            log.error("invocation target exception, service: {}", service, e);
-            if (e.getTargetException() instanceof RuntimeException) {
-                throw (RuntimeException) e.getTargetException();
-            }
-            throw new ServiceException(e.getTargetException().getMessage(), e);
-        }
-
-        return unwrapResponse(object);
-    }
-
-    private Method findMethodByName(Class<?> beanClazz, String methodName) {
-        Method[] methods = beanClazz.getMethods();
-        for (Method method : methods) {
-            if (method.getName().equals(methodName)) {
-                return method;
-            }
-        }
-        return null;
-    }
+		public String[] getParamNames() {
+			return this.paramNames;
+		}
+	}
 }

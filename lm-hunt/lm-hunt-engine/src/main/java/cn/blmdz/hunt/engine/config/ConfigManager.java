@@ -1,11 +1,9 @@
-/*
- * Copyright (c) 2014 杭州端点网络科技有限公司
- */
-
 package cn.blmdz.hunt.engine.config;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -24,217 +22,117 @@ import cn.blmdz.hunt.engine.Setting;
 import cn.blmdz.hunt.engine.config.model.BackConfig;
 import cn.blmdz.hunt.engine.config.model.Component;
 import cn.blmdz.hunt.engine.config.model.FrontConfig;
-import cn.blmdz.hunt.engine.config.model.Mapping;
 import cn.blmdz.hunt.engine.config.model.Render;
 import cn.blmdz.hunt.engine.config.model.Service;
-import cn.blmdz.hunt.engine.dao.AppDao;
 import cn.blmdz.hunt.engine.model.App;
-import lombok.extern.slf4j.Slf4j;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 14-4-25
- */
 @org.springframework.stereotype.Component
-@Slf4j
 public class ConfigManager implements Runnable {
-    private final ConcurrentMap<String, FrontConfig> frontConfigMap = Maps.newConcurrentMap();
-    private final ConcurrentMap<String, BackConfig> backConfigMap = Maps.newConcurrentMap();
+   private static final Logger log = LoggerFactory.getLogger(ConfigManager.class);
+   private final ConcurrentMap frontConfigMap = Maps.newConcurrentMap();
+   private final ConcurrentMap backConfigMap = Maps.newConcurrentMap();
+   private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+   @Autowired
+   private Setting setting;
+   @Autowired
+   private ConfigParser configParser;
 
-    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+   @PostConstruct
+   private void init() {
+      this.load();
+      if(this.setting.isDevMode()) {
+         this.executorService.scheduleAtFixedRate(this, 5L, 5L, TimeUnit.SECONDS);
+      } else {
+         this.executorService.scheduleAtFixedRate(this, 5L, 5L, TimeUnit.MINUTES);
+      }
 
-    @Autowired
-    private Setting setting;
-    @Autowired
-    private AppDao appDao;
-    @Autowired
-    private FileLoaderHelper fileLoaderHelper;
+   }
 
-    @PostConstruct
-    private void init() {
-        load();
-        // 每 5 分钟 check 一次，如果是 devMode 则改为 5 秒一次
-        if (setting.isDevMode()) {
-            executorService.scheduleAtFixedRate(this, 5, 5, TimeUnit.SECONDS);
-        } else {
-            executorService.scheduleAtFixedRate(this, 5, 5, TimeUnit.MINUTES);
-        }
-    }
+   public List<App> listAllApp() {
+      return this.setting.getApps();
+   }
 
-    public void reloadAll() {
-        load();
-    }
+   public FrontConfig getFrontConfig(String appKey) {
+      return (FrontConfig)this.frontConfigMap.get(appKey);
+   }
 
-    public void reload(String appKey) {
-        List<App> apps = listAllApp();
-        for (App app : apps) {
-            if (app.getKey().equals(appKey)) {
-                loadByApp(app);
-            }
-        }
-    }
+   public BackConfig getBackConfig(String appKey) {
+      return (BackConfig)this.backConfigMap.get(appKey);
+   }
 
-    public List<App> listAllApp() {
-        List<App> apps;
-        if (setting.getMode() == Setting.Mode.IMPLANT) {
-            apps = ImmutableList.of(setting.getImplantApp());
-        } else {
-            apps = appDao.listAll();
-            for (App app : apps) {
-                if (Strings.isNullOrEmpty(app.getAssetsHome())) {
-                    app.setAssetsHome(setting.getRootPath() + app.getKey() + "/");
-                }
-                if (Strings.isNullOrEmpty(app.getConfigPath())) {
-                    app.setConfigPath(setting.getRootPath() + app.getKey() + "/" + App.BACK_CONFIG_FILE);
-                }
-                if (Strings.isNullOrEmpty(app.getProxyRoot())) {
-                    app.setProxyRoot("http://" + app.getDomain() + "/");
-                }
-                if (Strings.isNullOrEmpty(app.getConfigJsFile())) {
-                    app.setConfigJsFile("assets/scripts/config.js");
-                }
-            }
-        }
-        return apps;
-    }
+   public Service findService(String appKey, String serviceKey) {
+      BackConfig backConfig = (BackConfig)this.backConfigMap.get(appKey);
+      return backConfig != null && backConfig.getServices() != null?(Service)backConfig.getServices().get(serviceKey):null;
+   }
 
-    public FrontConfig getFrontConfig(String appKey) {
-        return frontConfigMap.get(appKey);
-    }
+   public Set findMappings(String appKey) {
+      FrontConfig frontConfig = (FrontConfig)this.frontConfigMap.get(appKey);
+      return frontConfig == null?null:frontConfig.getMappings();
+   }
 
-    public FrontConfig getFrontConfig() {
-        return getFrontConfig(Setting.getCurrentAppKey());
-    }
+   public List findComponents(String appKey) {
+      FrontConfig frontConfig = (FrontConfig)this.frontConfigMap.get(appKey);
+      if(frontConfig == null) {
+         return Lists.newArrayList();
+      } else {
+         Map<String, Component> components = frontConfig.getComponents();
+         return components != null && !components.isEmpty()?Lists.newArrayList(components.values()):Lists.newArrayList();
+      }
+   }
 
-    public BackConfig getBackConfig(String appKey) {
-        return backConfigMap.get(appKey);
-    }
+   public Component findComponent(String appKey, String componentPath) {
+      FrontConfig frontConfig = (FrontConfig)this.frontConfigMap.get(appKey);
+      return frontConfig != null && frontConfig.getComponents() != null?(Component)frontConfig.getComponents().get(componentPath):null;
+   }
 
-    public BackConfig getBackConfig() {
-        return getBackConfig(Setting.getCurrentAppKey());
-    }
+   public List findComponentsByCategory(String appKey, String category) {
+      FrontConfig frontConfig = (FrontConfig)this.frontConfigMap.get(appKey);
+      return (List)(frontConfig != null && frontConfig.getComponentCategoryListMap() != null?(List)frontConfig.getComponentCategoryListMap().get(category):Lists.newArrayList());
+   }
 
-    public Service findService(String appKey, String serviceKey) {
-        BackConfig backConfig = backConfigMap.get(appKey);
-        if (backConfig == null || backConfig.getServices() == null) {
-            return null;
-        }
-        return backConfig.getServices().get(serviceKey);
-    }
+   public Render findRender(String appKey) {
+      FrontConfig frontConfig = (FrontConfig)this.frontConfigMap.get(appKey);
+      return frontConfig == null?null:frontConfig.getRender();
+   }
 
-    public List<Mapping> findMappings(String appKey) {
-        FrontConfig frontConfig = frontConfigMap.get(appKey);
-        if (frontConfig == null) {
-            return null;
-        }
-        return frontConfig.getMappings();
-    }
+   private synchronized void load() {
+      List<App> apps = this.listAllApp();
+      int errorCount = 0;
 
-    public List<Component> findComponents(String appKey) {
-        FrontConfig frontConfig = frontConfigMap.get(appKey);
-        if (frontConfig == null) {
-            return Lists.newArrayList();
-        }
-        Map<String, Component> components = frontConfig.getComponents();
-        if (components == null || components.isEmpty()) {
-            return Lists.newArrayList();
-        }
-        return Lists.newArrayList(components.values());
-    }
+      for(App app : apps) {
+         try {
+            this.loadByApp(app);
+         } catch (Exception var6) {
+            log.warn("error when load config for app: {}", app.getKey(), var6);
+            ++errorCount;
+         }
+      }
 
-    public Component findComponent(String appKey, String componentPath) {
-        FrontConfig frontConfig = frontConfigMap.get(appKey);
-        if (frontConfig == null || frontConfig.getComponents() == null) {
-            return null;
-        }
-        return frontConfig.getComponents().get(componentPath);
-    }
+      if(errorCount == apps.size()) {
+         throw new RuntimeException("all apps config load failed");
+      }
+   }
 
-    public List<Component> findComponentsByCategory(String appKey, Component.ComponentCategory category) {
-        FrontConfig frontConfig = frontConfigMap.get(appKey);
-        if (frontConfig == null || frontConfig.getComponentCategoryListMap() == null) {
-            return Lists.newArrayList();
-        }
-        return frontConfig.getComponentCategoryListMap().get(category);
-    }
+   private void loadByApp(App app) throws IllegalAccessException, IOException, InstantiationException {
+      String appKey = app.getKey();
+      FrontConfig frontConfig = (FrontConfig)this.configParser.parseConfig(app, FrontConfig.class);
+      if(frontConfig != null) {
+         this.frontConfigMap.put(appKey, frontConfig);
+      }
 
-    public Render findRender(String appKey) {
-        FrontConfig frontConfig = frontConfigMap.get(appKey);
-        if (frontConfig == null) {
-            return null;
-        }
-        return frontConfig.getRender();
-    }
+      BackConfig backConfig = (BackConfig)this.configParser.parseConfig(app, BackConfig.class);
+      if(backConfig != null) {
+         this.backConfigMap.put(appKey, backConfig);
+      }
 
-    private synchronized void load() {
-        List<App> apps = listAllApp();
-        for (App app : apps) {
-            loadByApp(app);
-        }
-    }
+   }
 
-    private void loadByApp(App app) {
-        try {
-            String appKey = app.getKey();
-            if (Strings.isNullOrEmpty(app.getAssetsHome())) {
-                log.warn("app [{}] have no assetsHome", appKey);
-            } else {
-                String frontConfigPath = app.getAssetsHome() + App.FRONT_CONFIG_FILE;
-                FrontConfig frontConfig = frontConfigMap.get(appKey);
-                FileLoader.Resp frontConfigResp;
-                if (frontConfig == null) {
-                    frontConfigResp = fileLoaderHelper.load(frontConfigPath);
-                } else {
-                    frontConfigResp = fileLoaderHelper.load(frontConfigPath, frontConfig.getSign());
-                }
-                if (frontConfigResp.isNotFound()) {
-                    log.warn("front config not found for app [{}] and path [{}]", app.getKey(), frontConfigPath);
-                } else if (!frontConfigResp.isNotModified()) {
-                    frontConfig = ConfigParser.parseFrontConfig(app, frontConfigResp.asString());
-                    frontConfig.setLocation(frontConfigPath);
-                    frontConfig.setSign(frontConfigResp.getSign());
-                    frontConfig.setLoadedAt(DateTime.now().toDate());
-                    frontConfigMap.put(app.getKey(), frontConfig);
-                    log.info("load app [{}] front config success, config: {}", app, frontConfig);
-                }
-            }
-            if (Strings.isNullOrEmpty(app.getConfigPath())) {
-                log.warn("app [{}] have no configPath", appKey);
-            } else {
-                BackConfig backConfig = backConfigMap.get(appKey);
-                FileLoader.Resp backConfigResp;
-                if (backConfig == null) {
-                    backConfigResp = fileLoaderHelper.load(app.getConfigPath());
-                } else {
-                    backConfigResp = fileLoaderHelper.load(app.getConfigPath(), backConfig.getSign());
-                }
-                if (backConfigResp.isNotFound()) {
-                    log.warn("back config not found for app [{}] and path [{}]", app.getKey(), app.getConfigPath());
-                } else if (!backConfigResp.isNotModified()) {
-                    backConfig = ConfigParser.parseBackConfig(app, backConfigResp.asString());
-                    backConfig.setLocation(app.getConfigPath());
-                    backConfig.setSign(backConfigResp.getSign());
-                    backConfig.setLoadedAt(DateTime.now().toDate());
-                    backConfigMap.put(app.getKey(), backConfig);
-                    log.info("load app [{}] back config success, config: {}", app, backConfig);
-                }
-            }
-        } catch (RuntimeException e) {
-            log.error("error when load config for app [{}]", app);
-            // 如果是嵌入模式就把错误抛出去
-            if (setting.getMode() == Setting.Mode.IMPLANT) {
-                throw e;
-            }
-        }
-    }
+   public void run() {
+      try {
+         this.load();
+      } catch (Exception var2) {
+         log.error("error happened when config load heartbeat", var2);
+      }
 
-    @Override
-    public void run() {
-        try {
-            load();
-        } catch (Exception e) {
-            log.error("error happened when config load heartbeat", e);
-        }
-    }
+   }
 }

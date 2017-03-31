@@ -11,7 +11,6 @@ import java.lang.annotation.Target;
 	ElementType.TYPE
 	})
 public @interface Export {
-	public abstract String[] value();
-
-	public abstract String[] paramNames();
+	String[] value() default {};
+	String[] paramNames() default {};
 }

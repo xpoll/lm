@@ -1,17 +1,13 @@
-/*
- * Copyright (c) 2014 杭州端点网络科技有限公司
- */
-
 package cn.blmdz.hunt.engine.mapping;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -24,71 +20,85 @@ import cn.blmdz.hunt.common.UserUtil;
 import cn.blmdz.hunt.engine.config.model.Service;
 import cn.blmdz.hunt.engine.utils.DubboHelper;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 14-4-17
- */
-@Component
-public class DubboExecutor extends Executor<Object> {
-    @Autowired
-    private DubboHelper dubboHelper;
+public class DubboExecutor extends Executor {
+   private static final Logger log = LoggerFactory.getLogger(DubboExecutor.class);
+   private final DubboHelper dubboHelper;
+   private LoadingCache<Service, LinkedHashMap> methodInfoCache;
 
-    private LoadingCache<Service, LinkedHashMap<String, Class>> methodInfoCache;
+   @Autowired
+   public DubboExecutor(DubboHelper dubboHelper) {
+      this.dubboHelper = dubboHelper;
+      this.methodInfoCache = CacheBuilder.newBuilder().build(new CacheLoader<Service, LinkedHashMap>() {
+         public LinkedHashMap load(Service service) throws Exception {
+            Agent agent = DubboExecutor.this.getAgent(service.getApp());
+            LinkedHashMap<String, cn.blmdz.hunt.client.Agent.ParamInfo> remoteParamInfos = agent.getParamsInfo(service.getUri());
+            LinkedHashMap<String, DubboExecutor.ParamInfo> params = Maps.newLinkedHashMap();
 
-    @PostConstruct
-    private void init() {
-        methodInfoCache = CacheBuilder.newBuilder().build(new CacheLoader<Service, LinkedHashMap<String, Class>>() {
-            @Override
-            public LinkedHashMap<String, Class> load(Service service) throws Exception {
-                Agent agent = getAgent(service.getApp());
-                LinkedHashMap<String, String> paramsInfo = agent.getParamsInfo(service.getUri());
-                LinkedHashMap<String, Class> params = Maps.newLinkedHashMap();
-                for (String name : paramsInfo.keySet()) {
-                    String className = paramsInfo.get(name);
-                    Class paramClass = ParamUtil.getPrimitiveClass(className);
-                    if (paramClass == null) {
-                        try {
-                            paramClass = Class.forName(className);
-                        } catch (ClassNotFoundException e) {
-                            paramClass = ParamConverter.UnKnowClass.class;
-                        }
-                    }
-                    params.put(name, paramClass);
-                }
-                return params;
+            for(String name : remoteParamInfos.keySet()) {
+            	cn.blmdz.hunt.client.Agent.ParamInfo remoteParamInfo = (cn.blmdz.hunt.client.Agent.ParamInfo)remoteParamInfos.get(name);
+               Class paramClass = ParamUtil.getPrimitiveClass(remoteParamInfo.getClassName());
+               if(paramClass == null) {
+                  try {
+                     paramClass = Class.forName(remoteParamInfo.getClassName());
+                  } catch (ClassNotFoundException var10) {
+                     paramClass = ParamConverter.UnKnowClass.class;
+                  }
+               }
+
+               params.put(name, new DubboExecutor.ParamInfo(remoteParamInfo.isOptional(), paramClass));
             }
-        });
-    }
 
-    @Override
-    public Object exec(Service service, Map<String, Object> params) {
-        LinkedHashMap<String, Class> methodParams = methodInfoCache.getUnchecked(service);
-        Map<String, Object> args = Maps.newHashMap();
-        boolean needContext = false;
-        for (String paramName : methodParams.keySet()) {
-            Class paramClass = methodParams.get(paramName);
-            Object arg = ParamConverter.convertParam(paramName, paramClass, params);
-            if (arg != null) {
-                args.put(paramName, arg);
-            } else {
-                // 因为 BaseUser 和 InnerCookie 肯定不会为空
-                // 如果转换完的 arg 为 null ，而参数类型又不是基本类型就认为需要整个上下文到 Agent 那里转对象
-                if (!ParamUtil.isPrimitive(paramClass)) {
-                    needContext = true;
-                }
-            }
-        }
-        Agent agent = getAgent(service.getApp());
-        WrapResp wrapResp = agent.call(service.getUri(), args, needContext ? params : null);
-        // 因为是远端调用 所以这里返回的 InnerCookie 是经过序列化和反序列化后的复制品，需要 merge 起来
-        if (wrapResp.getCookie() != null) {
-            UserUtil.getInnerCookie().merge(wrapResp.getCookie());
-        }
-        return unwrapResponse(wrapResp.getResult());
-    }
+            return params;
+         }
+      });
+   }
 
-    private Agent getAgent(String app) {
-        return dubboHelper.getReference(Agent.class, app);
-    }
+   public boolean detectType(Service service) {
+      try {
+         LinkedHashMap<String, DubboExecutor.ParamInfo> result = (LinkedHashMap)this.methodInfoCache.getUnchecked(service);
+         return result != null;
+      } catch (Exception var3) {
+         log.warn("detect dubbo service type for [{}] failed, it\'s maybe not an exception that need to attention. {}", service.getUri(), var3.getMessage());
+         log.debug("detect dubbo service type for [{}] failed, debug info: {}", service, Throwables.getStackTraceAsString(var3));
+         return false;
+      }
+   }
+
+   public Object exec(Service service, Map params) {
+      LinkedHashMap<String, DubboExecutor.ParamInfo> methodParams = (LinkedHashMap)this.methodInfoCache.getUnchecked(service);
+      Map<String, Object> args = Maps.newHashMap();
+      boolean needContext = false;
+
+      for(String paramName : methodParams.keySet()) {
+         DubboExecutor.ParamInfo paramInfo = (DubboExecutor.ParamInfo)methodParams.get(paramName);
+         Object arg = ParamConverter.convertParam(paramName, paramInfo.clazz, params, paramInfo.isOptional);
+         if(arg != null) {
+            args.put(paramName, arg);
+         } else if(!ParamUtil.isBaseClass(paramInfo.clazz)) {
+            needContext = true;
+         }
+      }
+
+      Agent agent = this.getAgent(service.getApp());
+      WrapResp wrapResp = agent.call(service.getUri(), args, needContext?params:null);
+      if(wrapResp.getCookie() != null) {
+         UserUtil.getInnerCookie().merge(wrapResp.getCookie());
+      }
+
+      return this.unwrapResponse(wrapResp.getResult());
+   }
+
+   private Agent getAgent(String app) {
+      return (Agent)this.dubboHelper.getReference(Agent.class, app);
+   }
+
+   private static class ParamInfo {
+      boolean isOptional;
+      Class clazz;
+
+      public ParamInfo(boolean isOptional, Class clazz) {
+         this.isOptional = isOptional;
+         this.clazz = clazz;
+      }
+   }
 }

@@ -1,135 +1,142 @@
-/*
- * Copyright (c) 2014 杭州端点网络科技有限公司
- */
-
 package cn.blmdz.hunt.engine.handlebars;
 
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.TagType;
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.Maps;
-import com.google.common.html.HtmlEscapers;
-
-import cn.blmdz.hunt.engine.RenderConstants;
-import cn.blmdz.hunt.engine.Setting;
-import cn.blmdz.hunt.engine.config.ConfigManager;
-import cn.blmdz.hunt.engine.config.model.Component;
-import io.terminus.common.utils.JsonMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 13-11-22
- */
-@org.springframework.stereotype.Component
-@Slf4j
-public class RenderHelpers {
-    @Autowired
-    private HandlebarEngine handlebarEngine;
-    @Autowired
-    private ConfigManager configManager;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-    @PostConstruct
-    private void init() {
-        handlebarEngine.registerHelper("inject", new Helper<String>() {
-            @Override
-            public CharSequence apply(String compPath, Options options) throws IOException {
-                boolean isDesignMode = options.get(RenderConstants.DESIGN_MODE) != null;
-                // prepare context
-                Map<String, Object> tempContext = Maps.newHashMap();
-                if (options.context.model() instanceof Map) {
-                    //noinspection unchecked
-                    tempContext.putAll((Map<String, Object>) options.context.model());
-                    // remove CDATA which may from parent inject
-                    @SuppressWarnings("unchecked")
-                    Set<String> cdataKeys = (Set<String>) tempContext.remove(RenderConstants.CDATA_KEYS);
-                    if (cdataKeys != null) {
-                        for (String key : cdataKeys) {
-                            tempContext.remove(key);
-                        }
-                    }
-                    if (isDesignMode) {
-                        // remove COMPONENT_DATA which may from parent inject when designMode
-                        tempContext.remove(RenderConstants.COMPONENT_DATA);
-                    }
-                }
-                if (options.tagType == TagType.SECTION && StringUtils.isNotBlank(options.fn.text())) {
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> config = JsonMapper.nonEmptyMapper().fromJson(options.fn.text(), Map.class);
-                    if (config != null && !config.isEmpty()) {
-                        tempContext.put(RenderConstants.CDATA_KEYS, config.keySet());
-                        tempContext.putAll(config);
-                        if (isDesignMode) {
-                            tempContext.put(RenderConstants.COMPONENT_DATA, HtmlEscapers.htmlEscaper().escape(options.fn.text().trim()));
-                        }
-                    }
-                }
-                Component component = new Component();
-                component.setPath(compPath);
-                Object firstParam = options.<Object>param(0, true);
-                if (firstParam.equals(true)) {
-                    Component result = configManager.findComponent(Setting.getCurrentAppKey(), compPath);
-                    if (result == null) {
-                        log.warn("can't find component config for path:{}", compPath);
-                    } else {
-                        component = result;
-                    }
-                } else if (firstParam instanceof String) {
-                    component.setService((String) firstParam);
-                }
-                if (isDesignMode) {
-                    String[] paths = compPath.split("/");
-                    tempContext.put(RenderConstants.COMPONENT_NAME, MoreObjects.firstNonNull(component.getName(), paths[paths.length - 1]));
-                }
-                return new Handlebars.SafeString(handlebarEngine.execComponent(component, tempContext));
-            }
-        });
+import com.github.jknack.handlebars.Handlebars.SafeString;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
+import com.github.jknack.handlebars.TagType;
+import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.common.html.HtmlEscapers;
 
-        handlebarEngine.registerHelper("component", new Helper<String>() {
+import cn.blmdz.home.common.util.JsonMapper;
+import cn.blmdz.hunt.engine.Setting;
+import cn.blmdz.hunt.engine.ThreadVars;
+import cn.blmdz.hunt.engine.config.ConfigManager;
 
-            @Override
-            public CharSequence apply(String className, Options options) throws IOException {
-                @SuppressWarnings("unchecked")
-                boolean isDesignMode = options.get(RenderConstants.DESIGN_MODE) != null;
-                className = className + " eve-component";
-                Object customClassName = options.context.get(RenderConstants.CLASS);
-                StringBuilder compOpenTag = new StringBuilder("<div class=\"").append(className);
-                if (customClassName != null) {
-                    compOpenTag.append(" ").append(customClassName);
-                }
-                compOpenTag.append("\"");
-                Object style = options.context.get(RenderConstants.STYLE);
-                if (style != null) {
-                    compOpenTag.append(" style=\"").append(style).append("\"");
-                }
-                Object compName = options.context.get(RenderConstants.COMPONENT_NAME);
-                if (compName != null) {
-                    compOpenTag.append(" data-comp-name=\"").append(compName).append("\"");
-                }
-                Object compData = options.context.get(RenderConstants.COMPONENT_DATA);
-                if (compData != null) {
-                    compOpenTag.append(" data-comp-data=\"").append(compData).append("\"");
-                }
-                Object compPath = options.context.get(RenderConstants.COMPONENT_PATH);
-                if (compPath != null) {
-                    compOpenTag.append(" data-comp-path=\"").append(compPath).append("\"");
-                }
-                if (isDesignMode) {
-                    compOpenTag.append(" data-comp-class=\"").append(className).append("\"");
-                }
-                compOpenTag.append(" >");
-                return new Handlebars.SafeString(compOpenTag.toString() + options.fn() + "</div>");
-            }
-        });
-    }
+@Component
+public class RenderHelpers extends AbstractHelpers {
+	private static final Logger log = LoggerFactory.getLogger(RenderHelpers.class);
+	@Autowired
+	private HandlebarsEngine handlebarsEngine;
+	@Autowired
+	private ConfigManager configManager;
+	@Autowired
+	private Setting setting;
+
+	protected void fillHelpers(Map<String, Helper<?>> helpers) {
+		helpers.put("inject", new Helper<String>() {
+			public CharSequence apply(String compPath, Options options) throws IOException {
+				boolean isDesignMode = options.get("_DESIGN_MODE_") != null;
+				Map<String, Object> tempContext = Maps.newHashMap();
+				if (options.context.model() instanceof Map) {
+					tempContext.putAll((Map) options.context.model());
+					if (RenderHelpers.this.setting.isClearInjectNestedContext()) {
+						Set<String> cdataKeys = (Set) tempContext.remove("_CDATA_KEYS_");
+						if (cdataKeys != null) {
+							for (String key : cdataKeys) {
+								tempContext.remove(key);
+							}
+						}
+					}
+
+					if (isDesignMode) {
+						tempContext.remove("_COMP_DATA_");
+					}
+				}
+
+				Set<String> cdataKeys = Sets.newHashSet();
+				if (options.hash != null && !options.hash.isEmpty()) {
+					tempContext.putAll(options.hash);
+					cdataKeys.addAll(options.hash.keySet());
+				}
+
+				if (options.tagType == TagType.SECTION && StringUtils.isNotBlank(options.fn.text())) {
+					Map<String, Object> config = JsonMapper.nonEmptyMapper().fromJson(String.valueOf(options.fn()), Map.class);
+					if (config != null && !config.isEmpty()) {
+						cdataKeys.addAll(config.keySet());
+						tempContext.putAll(config);
+						if (isDesignMode) {
+							tempContext.put("_COMP_DATA_", HtmlEscapers.htmlEscaper().escape(options.fn.text().trim()));
+						}
+					}
+				}
+
+				if (RenderHelpers.this.setting.isClearInjectNestedContext()) {
+					tempContext.put("_CDATA_KEYS_", cdataKeys);
+				}
+
+				cn.blmdz.hunt.engine.config.model.Component component = new cn.blmdz.hunt.engine.config.model.Component();
+				component.setPath(compPath);
+				Object firstParam = options.param(0, Boolean.valueOf(true));
+				if (firstParam.equals(Boolean.valueOf(true))) {
+					cn.blmdz.hunt.engine.config.model.Component result = RenderHelpers.this.configManager
+							.findComponent(ThreadVars.getAppKey(), compPath);
+					if (result == null) {
+						RenderHelpers.log.debug("can\'t find component config for path:{}", compPath);
+					} else {
+						component = result;
+					}
+				} else if (firstParam instanceof String) {
+					component.setService((String) firstParam);
+				}
+
+				if (isDesignMode) {
+					String[] paths = compPath.split("/");
+					tempContext.put("_COMP_NAME_", Objects.firstNonNull(component.getName(), paths[paths.length - 1]));
+				}
+
+				return new SafeString(RenderHelpers.this.handlebarsEngine.execComponent(component, tempContext));
+			}
+		});
+		helpers.put("component", new Helper<String>() {
+			public CharSequence apply(String className, Options options) throws IOException {
+				boolean isDesignMode = options.get("_DESIGN_MODE_") != null;
+				className = className + " eve-component";
+				Object customClassName = options.context.get("_CLASS_");
+				StringBuilder compOpenTag = (new StringBuilder("<div class=\"")).append(className);
+				if (customClassName != null) {
+					compOpenTag.append(" ").append(customClassName);
+				}
+
+				compOpenTag.append("\"");
+				Object style = options.context.get("_STYLE_");
+				if (style != null) {
+					compOpenTag.append(" style=\"").append(style).append("\"");
+				}
+
+				Object compName = options.context.get("_COMP_NAME_");
+				if (compName != null) {
+					compOpenTag.append(" data-comp-name=\"").append(compName).append("\"");
+				}
+
+				Object compData = options.context.get("_COMP_DATA_");
+				if (compData != null) {
+					compOpenTag.append(" data-comp-data=\"").append(compData).append("\"");
+				}
+
+				Object compPath = options.context.get("_COMP_PATH_");
+				if (compPath != null) {
+					compOpenTag.append(" data-comp-path=\"").append(compPath).append("\"");
+				}
+
+				if (isDesignMode) {
+					compOpenTag.append(" data-comp-class=\"").append(className).append("\"");
+				}
+
+				compOpenTag.append(" >");
+				return new SafeString(compOpenTag.toString() + options.fn() + "</div>");
+			}
+		});
+	}
 }

@@ -11,184 +11,168 @@ import java.util.Map;
 
 import org.springframework.core.convert.support.DefaultConversionService;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Optional;
 
 import cn.blmdz.hunt.protocol.Export;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
-/**
- * Created by IntelliJ IDEA.
- * User: AnsonChan
- * Date: 14-5-7
- */
-@Slf4j
 public class ParamUtil {
-    private static ObjectMapper mapper;
-    private static JavaType mapType;
-    private static Map<String, Class<?>> primitiveClassMap = new HashMap<String, Class<?>>();
-    private static DefaultConversionService conversionService = new DefaultConversionService();
+	private static ObjectMapper mapper = new ObjectMapper();
+	private static JavaType mapType = mapper.getTypeFactory().constructParametrizedType(HashMap.class, HashMap.class,
+			new Class[] { String.class, Object.class });
+	private static Map<String, Class<?>> primitiveClassMap = new HashMap<String, Class<?>>();
+	private static DefaultConversionService conversionService = new DefaultConversionService();
 
-    static {
-        mapper = new ObjectMapper();
-        //设置输出时包含属性的风格
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        //设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapType = mapper.getTypeFactory().constructParametricType(HashMap.class, String.class, Object.class);
+	public static Class<?> getPrimitiveClass(String className) {
+		return primitiveClassMap.get(className);
+	}
 
-        primitiveClassMap.put("int", int.class);
-        primitiveClassMap.put("long", long.class);
-        primitiveClassMap.put("short", short.class);
-        primitiveClassMap.put("byte", byte.class);
-        primitiveClassMap.put("char", char.class);
-        primitiveClassMap.put("boolean", boolean.class);
-        primitiveClassMap.put("float", float.class);
-        primitiveClassMap.put("double", double.class);
-    }
+	public static boolean isBaseClass(Object obj) {
+		return obj instanceof Class
+				? ((Class<?>) obj).isPrimitive() || obj == String.class || obj == Integer.class || obj == Long.class
+						|| obj == Short.class || obj == Byte.class || obj == Character.class || obj == Boolean.class
+						|| obj == Float.class || obj == Double.class
+				: obj instanceof String || obj instanceof Integer || obj instanceof Long || obj instanceof Short
+						|| obj instanceof Byte || obj instanceof Character || obj instanceof Boolean
+						|| obj instanceof Float || obj instanceof Double;
+	}
 
-    public static Class<?> getPrimitiveClass(String className) {
-        return primitiveClassMap.get(className);
-    }
+	public static Object convert(Object param, ParamUtil.ParamInfo paramInfo, Map<String, Object> context) {
+		if (param == null && paramInfo.isOptional()) {
+			return Optional.absent();
+		} else {
+			Object result = _convert(param, paramInfo.getClazz(), paramInfo.getJavaType(), context);
+			return paramInfo.isOptional() ? Optional.fromNullable(result) : result;
+		}
+	}
 
-    public static boolean isPrimitive(Object obj) {
-        if (obj instanceof Class) {
-            return (((Class) obj).isPrimitive()
-                    || obj == String.class
-                    || obj == Integer.class
-                    || obj == Long.class
-                    || obj == Short.class
-                    || obj == Byte.class
-                    || obj == Character.class
-                    || obj == Boolean.class
-                    || obj == Float.class
-                    || obj == Double.class);
-        } else {
-            return (obj instanceof String
-                    || obj instanceof Integer
-                    || obj instanceof Long
-                    || obj instanceof Short
-                    || obj instanceof Byte
-                    || obj instanceof Character
-                    || obj instanceof Boolean
-                    || obj instanceof Float
-                    || obj instanceof Double);
-        }
-    }
+	private static Object _convert(Object param, Class<?> clazz, JavaType javaType, Map<String, Object> context) {
+		if (isBaseClass(clazz)) {
+			return conversionService.convert(param, clazz);
+		} else if (param != null && clazz.isAssignableFrom(param.getClass())) {
+			return param;
+		} else if (param != null && param instanceof String) {
+			try {
+				return javaType != null ? mapper.readValue(param.toString(), javaType)
+						: mapper.readValue(param.toString(), clazz);
+			} catch (IOException var5) {
+				throw new RuntimeException("json 2 obj mapping error: " + param, var5);
+			}
+		} else {
+			return context != null && !context.isEmpty() ? mapper.convertValue(context, clazz) : null;
+		}
+	}
 
-    public static Object convert(Object param, Class clazz, JavaType javaType, Map<String, Object> context) {
-        // 基本类型就转一下
-        if (isPrimitive(clazz)) {
-            return conversionService.convert(param, clazz);
-        }
-        // 非空且类型可访问就直接返回
-        //noinspection unchecked
-        if (param != null && clazz.isAssignableFrom(param.getClass())){
-            return param;
-        }
-        // 有值并是 String ，则认为是 json 转一把
-        if (param != null && param instanceof String) {
-            try {
-                if (javaType != null) { // 带范型的类型转换需要 javaType
-                    return mapper.readValue(param.toString(), javaType);
-                }
-                return mapper.readValue(param.toString(), clazz);
-            } catch (IOException e) {
-                throw new RuntimeException("json 2 obj mapping error: " + param, e);
-            }
-        }
-        // 否则就把整个 map 转一把
-        if (context == null || context.isEmpty()) {
-            return null;
-        }
-        return mapper.convertValue(context, clazz);
-    }
+	public static Object convertResult(Object result) {
+		if (result == null) {
+			return null;
+		} else if (isBaseClass(result)) {
+			return result;
+		} else {
+			Map<String, Object> convertedResult = mapper.convertValue(new ParamUtil.ConvertWrap(result), mapType);
+			return convertedResult.get("obj");
+		}
+	}
 
-    public static Object convertResult(Object result) {
-        if (isPrimitive(result)) {
-            return result;
-        }
-        Map convertedResult = mapper.convertValue(new ConvertWrap(result), mapType);
-        return convertedResult.get("obj");
-    }
+	public static ParamUtil.MethodInfo getMethodInfo(Object bean, Method method) {
+		Export methodExport = (Export) method.getAnnotation(Export.class);
+		if (methodExport == null) {
+			return null;
+		} else {
+			ParamUtil.MethodInfo methodInfo = new ParamUtil.MethodInfo();
+			methodInfo.bean = bean;
+			methodInfo.method = method;
+			Class<?>[] paramClasses = method.getParameterTypes();
+			Type[] paramTypes = method.getGenericParameterTypes();
+			String[] paramNames = methodExport.value().length > 0 ? methodExport.value() : methodExport.paramNames();
+			if (paramClasses.length != paramNames.length) {
+				throw new IllegalArgumentException("param count not same: " + method.toString());
+			} else {
+				for (int i = 0; i < paramClasses.length; ++i) {
+					Class<?> paramClass = paramClasses[i];
+					Type paramType = paramTypes[i];
+					boolean isOptional = false;
+					if (paramClass.isAssignableFrom(Optional.class)) {
+						ParameterizedType tType = (ParameterizedType) paramType;
+						paramType = tType.getActualTypeArguments()[0];
+						paramClass = (Class<?>) paramType;
+						isOptional = true;
+					}
 
-    public static MethodInfo getMethodInfo(Object bean, Method method) {
-        Export methodExport = method.getAnnotation(Export.class);
-        if (methodExport == null) {
-            return null;
-        }
-        MethodInfo methodInfo = new MethodInfo();
-        methodInfo.bean = bean;
-        methodInfo.method = method;
-        Class<?>[] paramClasses = method.getParameterTypes();
-        Type[] paramTypes = method.getGenericParameterTypes();
-        String[] paramNames = methodExport.paramNames();
-        if (paramClasses.length != paramNames.length) {
-            throw new IllegalArgumentException("param count not same: " + method.toString());
-        }
-        for (int i = 0; i < paramClasses.length; i++) {
-            JavaType javaType = constructJavaType(paramTypes[i]);
-            methodInfo.params.put(paramNames[i], new ParamInfo(paramClasses[i], javaType));
-        }
-        return methodInfo;
-    }
+					JavaType javaType = constructJavaType(paramType);
+					methodInfo.params.put(paramNames[i], new ParamUtil.ParamInfo(paramClass, javaType, isOptional));
+				}
 
-    private static JavaType constructJavaType(Type type) {
-        if (type instanceof ParameterizedType) {
-            ParameterizedType ptype = (ParameterizedType) type;
-            Type[] typeArgs = ptype.getActualTypeArguments();
-            JavaType[] javaTypes = new JavaType[typeArgs.length];
-            for (int i = 0; i < typeArgs.length; i++) {
-                javaTypes[i] = constructJavaType(typeArgs[i]);
-            }
-            return mapper.getTypeFactory().constructParametricType((Class<?>) ptype.getRawType(), javaTypes);
-        } else {
-            return mapper.getTypeFactory().constructType(type);
-        }
-    }
+				return methodInfo;
+			}
+		}
+	}
 
-    public static class MethodInfo {
-        @Getter
-        @Setter
-        private Object bean;
-        @Getter
-        @Setter
-        private Method method;
-        @Getter
-        @Setter
-        private LinkedHashMap<String, ParamInfo> params = new LinkedHashMap<String, ParamInfo>();
-    }
+	private static JavaType constructJavaType(Type type) {
+		if (!(type instanceof ParameterizedType)) {
+			return mapper.getTypeFactory().constructType(type);
+		} else {
+			ParameterizedType ptype = (ParameterizedType) type;
+			Type[] typeArgs = ptype.getActualTypeArguments();
+			JavaType[] javaTypes = new JavaType[typeArgs.length];
+
+			for (int i = 0; i < typeArgs.length; ++i) {
+				javaTypes[i] = constructJavaType(typeArgs[i]);
+			}
+
+			return mapper.getTypeFactory().constructParametrizedType((Class<?>)ptype.getRawType(), (Class<?>)ptype.getRawType(), javaTypes);
+		}
+	}
+
+	static {
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		primitiveClassMap.put("int", Integer.TYPE);
+		primitiveClassMap.put("long", Long.TYPE);
+		primitiveClassMap.put("short", Short.TYPE);
+		primitiveClassMap.put("byte", Byte.TYPE);
+		primitiveClassMap.put("char", Character.TYPE);
+		primitiveClassMap.put("boolean", Boolean.TYPE);
+		primitiveClassMap.put("float", Float.TYPE);
+		primitiveClassMap.put("double", Double.TYPE);
+	}
 
     @Getter
-    public static class ParamInfo {
-    	private boolean isOptional;
-        private Class<?> clazz;
-        private JavaType javaType;
+    @Setter
+    @AllArgsConstructor
+	private static class ConvertWrap implements Serializable {
+		private static final long serialVersionUID = -4890673040481403994L;
+		private Object obj;
+	}
 
-        public ParamInfo(Class<?> clazz, JavaType javaType) {
-            this(clazz, javaType, false);
-        }
+    @Getter
+    @Setter
+	public static class MethodInfo {
+        private Object bean;
+        private Method method;
+        private LinkedHashMap<String, ParamInfo> params = new LinkedHashMap<String, ParamInfo>();
+	}
 
-        public ParamInfo(Class<?> clazz, JavaType javaType, boolean isOptional) {
-            this.clazz = clazz;
-            this.javaType = javaType;
-            this.isOptional = isOptional;
-        }
-    }
+    @Getter
+	public static class ParamInfo {
+		private boolean isOptional;
+		private Class<?> clazz;
+		private JavaType javaType;
 
-    private static class ConvertWrap implements Serializable {
-        private static final long serialVersionUID = -4890673040481403994L;
+		public ParamInfo(Class<?> clazz, JavaType javaType) {
+			this(clazz, javaType, false);
+		}
 
-        @Getter
-        @Setter
-        private Object obj;
-
-        private ConvertWrap(Object obj) {
-            this.obj = obj;
-        }
-    }
+		public ParamInfo(Class<?> clazz, JavaType javaType, boolean isOptional) {
+			this.clazz = clazz;
+			this.javaType = javaType;
+			this.isOptional = isOptional;
+		}
+	}
 }

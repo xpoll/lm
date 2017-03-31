@@ -23,7 +23,7 @@
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<guava.version>19.0</guava.version>
-		<reflections.version>0.9.11-SNAPSHOT</reflections.version>
+		<reflections.version>0.9.11</reflections.version>
 		<lm.home.version>0.0.1-SNAPSHOT</lm.home.version>
 		<mybatis.version>3.3.1</mybatis.version>
 		<mybatis-spring.version>1.2.4</mybatis-spring.version>
