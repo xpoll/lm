@@ -2,6 +2,8 @@ package cn.blmdz.hunt.engine.config.model;
 
 import java.util.Map;
 
+import org.springframework.util.CollectionUtils;
+
 import com.google.common.collect.Maps;
 
 import lombok.Getter;
@@ -24,7 +26,7 @@ public class BackConfig extends BaseConfig {
 			throw new IllegalArgumentException("merged config is not BackConfig");
 		}
 		BackConfig mergedConfig = (BackConfig) config;
-		if ((mergedConfig.getServices() != null) && (!mergedConfig.getServices().isEmpty())) {
+		if (!CollectionUtils.isEmpty(mergedConfig.getServices())) {
 			if (this.services == null) {
 				this.services = Maps.newHashMap();
 			}

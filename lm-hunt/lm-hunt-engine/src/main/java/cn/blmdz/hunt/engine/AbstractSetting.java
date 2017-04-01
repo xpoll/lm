@@ -3,13 +3,9 @@ package cn.blmdz.hunt.engine;
 import java.util.List;
 
 import cn.blmdz.hunt.engine.model.App;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public abstract class AbstractSetting {
 	private String rootPath;
 	private List<App> apps;

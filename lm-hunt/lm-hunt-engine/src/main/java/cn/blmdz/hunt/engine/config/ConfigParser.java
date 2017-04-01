@@ -31,6 +31,7 @@ import cn.blmdz.hunt.engine.utils.FileLoader;
 import cn.blmdz.hunt.engine.utils.FileLoaderHelper;
 import cn.blmdz.hunt.engine.utils.Yamls;
 
+@SuppressWarnings("unchecked")
 @org.springframework.stereotype.Component
 public class ConfigParser {
    private static final Logger log = LoggerFactory.getLogger(ConfigParser.class);
@@ -38,9 +39,9 @@ public class ConfigParser {
    private static final Pattern IMPORT_PATTERN = Pattern.compile("^#\\s*import\\s+(.+)$");
    @Autowired
    private FileLoaderHelper fileLoaderHelper;
-   private final Map atomConfigCache = Maps.newHashMap();
+   private final Map<String, BaseConfig> atomConfigCache = Maps.newHashMap();
 
-   public BaseConfig parseConfig(App app, Class configClass) throws IOException, InstantiationException, IllegalAccessException {
+   public <T extends BaseConfig> T parseConfig(App app, Class<T> configClass) throws IOException, InstantiationException, IllegalAccessException {
       String configFilePath;
       if(configClass == FrontConfig.class) {
          if(Strings.isNullOrEmpty(app.getAssetsHome())) {
@@ -66,7 +67,7 @@ public class ConfigParser {
             this.postBackConfig(app, (BackConfig)config);
          }
 
-         return config;
+         return (T) config;
       } else {
          return null;
       }
@@ -89,7 +90,8 @@ public class ConfigParser {
       }
    }
 
-   private BaseConfig parseConfig0(App app, String path, Class configClass) throws IOException, IllegalAccessException, InstantiationException {
+   
+private <T extends BaseConfig> T parseConfig0(App app, String path, Class<T> configClass) throws IOException, IllegalAccessException, InstantiationException {
       BaseConfig config = (BaseConfig)this.atomConfigCache.get(path);
       FileLoader.Resp resp;
       if(config == null) {
@@ -100,7 +102,7 @@ public class ConfigParser {
 
       if(resp.isNotFound()) {
          log.warn("config not found for app [{}] and path [{}]", app.getKey(), path);
-         return config;
+         return (T) config;
       } else {
          if(!resp.isNotModified()) {
             String configStr = resp.asString();
@@ -138,7 +140,7 @@ public class ConfigParser {
             }
          }
 
-         return config;
+         return (T) config;
       }
    }
 
@@ -167,7 +169,7 @@ public class ConfigParser {
          for(String path : frontConfig.getComponents().keySet()) {
             Component component = (Component)frontConfig.getComponents().get(path);
             component.setPath(path);
-            List<Component> componentList = (List)frontConfig.getComponentCategoryListMap().get(component.getCategory());
+            List<Component> componentList = frontConfig.getComponentCategoryListMap().get(component.getCategory());
             if(componentList == null) {
                componentList = Lists.newArrayList();
                frontConfig.getComponentCategoryListMap().put(component.getCategory(), componentList);

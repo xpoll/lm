@@ -12,12 +12,11 @@ public interface Agent {
 
 	WrapResp call(String key, Map<String, Object> params, Map<String, Object> context);
 
+	@Getter
 	@AllArgsConstructor
 	public static class ParamInfo implements Serializable {
 		private static final long serialVersionUID = -3755000483102791609L;
-		@Getter
 		private boolean isOptional;
-		@Getter
 		private String className;
 	}
 }

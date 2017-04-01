@@ -24,11 +24,11 @@ public class PageRender {
 	}
 
 	public String naiveRender(String path, Map<String, Object> context) throws NotFound404Exception {
-		return this.naiveRender(path, (String) null, context);
+		return this.naiveRender(path, null, context);
 	}
 
 	public String naiveRender(String templatePath, String shownPath, Map<String, Object> context) throws NotFound404Exception {
-		context.put("_PATH_", Objects.firstNonNull(Strings.emptyToNull(shownPath), templatePath));
+		context.put(RenderConstants.PATH, Objects.firstNonNull(Strings.emptyToNull(shownPath), templatePath));
 
 		try {
 			return this.handlebarsEngine.execPath(templatePath, context, false);

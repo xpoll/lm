@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +21,11 @@ import cn.blmdz.home.common.util.JsonMapper;
 import cn.blmdz.hunt.engine.Setting;
 import cn.blmdz.hunt.engine.ThreadVars;
 import cn.blmdz.hunt.engine.config.ConfigManager;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class RenderHelpers extends AbstractHelpers {
-	private static final Logger log = LoggerFactory.getLogger(RenderHelpers.class);
 	@Autowired
 	private HandlebarsEngine handlebarsEngine;
 	@Autowired
@@ -36,13 +35,15 @@ public class RenderHelpers extends AbstractHelpers {
 
 	protected void fillHelpers(Map<String, Helper<?>> helpers) {
 		helpers.put("inject", new Helper<String>() {
+			@Override
+			@SuppressWarnings("unchecked")
 			public CharSequence apply(String compPath, Options options) throws IOException {
 				boolean isDesignMode = options.get("_DESIGN_MODE_") != null;
 				Map<String, Object> tempContext = Maps.newHashMap();
 				if (options.context.model() instanceof Map) {
-					tempContext.putAll((Map) options.context.model());
+					tempContext.putAll((Map<String, Object>) options.context.model());
 					if (RenderHelpers.this.setting.isClearInjectNestedContext()) {
-						Set<String> cdataKeys = (Set) tempContext.remove("_CDATA_KEYS_");
+						Set<String> cdataKeys = (Set<String>) tempContext.remove("_CDATA_KEYS_");
 						if (cdataKeys != null) {
 							for (String key : cdataKeys) {
 								tempContext.remove(key);
@@ -100,6 +101,7 @@ public class RenderHelpers extends AbstractHelpers {
 			}
 		});
 		helpers.put("component", new Helper<String>() {
+			@Override
 			public CharSequence apply(String className, Options options) throws IOException {
 				boolean isDesignMode = options.get("_DESIGN_MODE_") != null;
 				className = className + " eve-component";

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.util.CollectionUtils;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -11,25 +13,19 @@ import lombok.Getter;
 import lombok.ToString;
 
 @ToString
+@Getter
 public class FrontConfig extends BaseConfig {
 	private static final long serialVersionUID = 7453802881470194536L;
 	public static final String HREF_BASE = "base";
 	public static final String HREF_MAIN = "main";
 	public static final String HREF_LOGIN = "login";
 
-	@Getter
 	private Map<String, Component> components;
-	@Getter
 	private Map<String, List<Component>> componentCategoryListMap = Maps.newHashMap();
-	@Getter
 	private Set<Mapping> mappings;
-	@Getter
 	private Auths auths;
-	@Getter
 	private Render render;
-	@Getter
 	private Map<String, String> hrefs = Maps.newHashMap();
-	@Getter
 	private Map<String, String> vars = Maps.newHashMap();
 
 	public void merge(BaseConfig config) {
@@ -40,15 +36,15 @@ public class FrontConfig extends BaseConfig {
 			throw new IllegalArgumentException("merged config is not FrontConfig");
 		}
 		FrontConfig mergedConfig = (FrontConfig) config;
-
-		if ((mergedConfig.getComponents() != null) && (!mergedConfig.getComponents().isEmpty())) {
+		
+		if (!CollectionUtils.isEmpty(mergedConfig.getComponents())) {
 			if (this.components == null) {
 				this.components = Maps.newHashMap();
 			}
 			this.components.putAll(mergedConfig.getComponents());
 		}
-
-		if ((mergedConfig.getMappings() != null) && (!mergedConfig.getMappings().isEmpty())) {
+		
+		if (!CollectionUtils.isEmpty(mergedConfig.getMappings())) {
 			if (this.mappings == null) {
 				this.mappings = Sets.newHashSet();
 			}
@@ -68,15 +64,15 @@ public class FrontConfig extends BaseConfig {
 			}
 			this.render.merge(mergedConfig.getRender());
 		}
-
-		if ((mergedConfig.getHrefs() != null) && (!mergedConfig.getHrefs().isEmpty())) {
+		
+		if (!CollectionUtils.isEmpty(mergedConfig.getHrefs())) {
 			if (this.hrefs == null) {
 				this.hrefs = Maps.newHashMap();
 			}
 			this.hrefs.putAll(mergedConfig.getHrefs());
 		}
-
-		if ((mergedConfig.getVars() != null) && (!mergedConfig.getVars().isEmpty())) {
+		
+		if (!CollectionUtils.isEmpty(mergedConfig.getVars())) {
 			if (this.vars == null) {
 				this.vars = Maps.newHashMap();
 			}

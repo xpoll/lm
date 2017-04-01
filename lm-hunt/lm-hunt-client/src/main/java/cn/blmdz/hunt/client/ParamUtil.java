@@ -160,19 +160,14 @@ public class ParamUtil {
 	}
 
     @Getter
+    @AllArgsConstructor
 	public static class ParamInfo {
+    	private Class<?> clazz;
+    	private JavaType javaType;
 		private boolean isOptional;
-		private Class<?> clazz;
-		private JavaType javaType;
 
 		public ParamInfo(Class<?> clazz, JavaType javaType) {
 			this(clazz, javaType, false);
-		}
-
-		public ParamInfo(Class<?> clazz, JavaType javaType, boolean isOptional) {
-			this.clazz = clazz;
-			this.javaType = javaType;
-			this.isOptional = isOptional;
 		}
 	}
 }

@@ -4,11 +4,12 @@ import java.util.List;
 
 import cn.blmdz.hunt.engine.config.model.BackConfig;
 import cn.blmdz.hunt.engine.config.model.FrontConfig;
-import cn.blmdz.hunt.engine.config.model.Render;
+import cn.blmdz.hunt.engine.config.model.Render.Layout;
 import cn.blmdz.hunt.engine.model.App;
 import cn.blmdz.hunt.engine.model.AppWithConfigInfo;
 
 public interface ConfigService {
+	
 	List<AppWithConfigInfo> listAllAppWithConfigInfo();
 
 	App getApp(String appKey);
@@ -21,11 +22,11 @@ public interface ConfigService {
 
 	BackConfig getDefaultBackConfig();
 
-	List<Render.Layout> listAllLayouts();
+	List<Layout> listAllLayouts();
 
-	List<Render.Layout> listLayouts(String paramString);
+	List<Layout> listLayouts(String type);
 
-	List<Render.Layout> listLayouts(String paramString1, String paramString2);
+	List<Layout> listLayouts(String app, String type);
 
-	Render.Layout findLayout(String paramString1, String paramString2);
+	Layout findLayout(String app, String key);
 }

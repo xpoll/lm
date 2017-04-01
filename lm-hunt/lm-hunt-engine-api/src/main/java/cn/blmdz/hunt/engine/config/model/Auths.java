@@ -3,6 +3,8 @@ package cn.blmdz.hunt.engine.config.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import org.springframework.util.CollectionUtils;
+
 import com.google.common.collect.Sets;
 
 import lombok.Data;
@@ -15,14 +17,15 @@ public class Auths implements Serializable {
 	private Set<WhiteAuth> whiteList;
 
 	public void merge(Auths mergedAuths) {
-		if ((mergedAuths.getProtectedList() != null) && (!mergedAuths.getProtectedList().isEmpty())) {
+		
+		if (!CollectionUtils.isEmpty(mergedAuths.getProtectedList())) {
 			if (this.protectedList == null) {
 				this.protectedList = Sets.newHashSet();
 			}
 			this.protectedList.addAll(mergedAuths.getProtectedList());
 		}
-
-		if ((mergedAuths.getWhiteList() != null) && (!mergedAuths.getWhiteList().isEmpty())) {
+		
+		if (!CollectionUtils.isEmpty(mergedAuths.getWhiteList())) {
 			if (this.whiteList == null) {
 				this.whiteList = Sets.newHashSet();
 			}

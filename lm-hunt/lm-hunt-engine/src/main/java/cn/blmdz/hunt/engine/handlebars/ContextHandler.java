@@ -5,5 +5,5 @@ import java.util.Map;
 import cn.blmdz.hunt.engine.config.model.Component;
 
 public interface ContextHandler {
-	void handle(Component var1, Map var2);
+	void handle(Component component, Map<String, Object> context);
 }

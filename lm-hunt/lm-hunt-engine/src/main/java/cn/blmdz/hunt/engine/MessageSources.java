@@ -12,9 +12,7 @@ import java.util.Locale;
 public class MessageSources implements MessageSource {
    private final MessageSource messageSource;
 
-   @Autowired(
-      required = false
-   )
+   @Autowired(required = false)
    public MessageSources(MessageSource messageSource) {
       this.messageSource = messageSource;
    }
