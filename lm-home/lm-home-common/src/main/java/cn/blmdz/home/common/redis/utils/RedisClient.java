@@ -11,10 +11,6 @@ import redis.clients.jedis.Pipeline;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/3.
- */
 public abstract class RedisClient {
 
     /**
@@ -35,7 +31,8 @@ public abstract class RedisClient {
     }
 
     public static List<Long> listAll2Long(JedisTemplate jedisTemplate, final String key) {
-        return (List<Long>) jedisTemplate.execute(new JedisAction() {
+        return jedisTemplate.execute(new JedisAction<List<Long>>() {
+            @Override
             public List<Long> action(Jedis jedis) {
                 List<String> strVals = jedis.lrange(key, 0L, -1L);
                 List<Long> longVals = Lists.transform(strVals, new Function<String, Long>() {
@@ -59,7 +56,7 @@ public abstract class RedisClient {
 
 
     private static Long listRem(JedisTemplate jedisTemplate, final String key, final Object val, final Long count) {
-        return (Long) jedisTemplate.execute(new JedisAction() {
+        return jedisTemplate.execute(new JedisAction<Long>() {
             public Long action(Jedis jedis) {
                 return jedis.lrem(key, count, String.valueOf(val));
             }

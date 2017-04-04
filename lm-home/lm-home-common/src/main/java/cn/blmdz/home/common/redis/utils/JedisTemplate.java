@@ -7,10 +7,6 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.util.Pool;
 
-/**
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/3.
- */
 public class JedisTemplate {
     private static Logger logger = LoggerFactory.getLogger(JedisTemplate.class);
     private Pool<Jedis> jedisPool;

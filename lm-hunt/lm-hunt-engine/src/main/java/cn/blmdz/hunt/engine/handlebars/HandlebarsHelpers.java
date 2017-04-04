@@ -40,7 +40,7 @@ public class HandlebarsHelpers extends AbstractHelpers {
 		helpers.put("ifCond", new Helper<Object>() {
 			@Override
 			public CharSequence apply(Object p1, Options options) throws IOException {
-				String operator = (String) options.param(0);
+				String operator = options.param(0);
 				Object p2 = options.param(1);
 				boolean isTrue = false;
 				byte var7 = -1;

@@ -3,19 +3,12 @@ package cn.blmdz.home.common.exception;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/2.
- */
+@Getter
+@Setter
 public class JsonResponseException extends RuntimeException {
 	private static final long serialVersionUID = -1147565039381879163L;
 
-	@Getter
-	@Setter
 	private int status = 500;
-	
-	@Getter
-	@Setter
 	private String message = "unknown exception";
 
 	public JsonResponseException() {

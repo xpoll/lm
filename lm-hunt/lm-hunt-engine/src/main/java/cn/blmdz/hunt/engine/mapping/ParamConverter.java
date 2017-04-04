@@ -16,28 +16,29 @@ import cn.blmdz.hunt.common.UserUtil;
 import cn.blmdz.hunt.engine.common.WebUtil;
 
 public class ParamConverter {
-	public static Object convertParam(String paramName, Class paramClass, Map params, boolean isOptional) {
+	public static Object convertParam(String paramName, Class<?> paramClass, Map<String, Object> params,
+			boolean isOptional) {
 		if (BaseUser.class.isAssignableFrom(paramClass)) {
 			Object user = UserUtil.getCurrentUser();
-			if (user == null && !isOptional) {
+			if (user == null && !isOptional)
 				throw new UserNotLoginException("user not login.");
-			} else {
+			else
 				return user;
-			}
+
 		} else if (HttpServletRequest.class.isAssignableFrom(paramClass)) {
 			Object request = WebUtil.getRequest();
-			if (request == null && !isOptional) {
+			if (request == null && !isOptional)
 				throw new IllegalStateException("request not inject");
-			} else {
+			else
 				return request;
-			}
+
 		} else if (HttpServletResponse.class.isAssignableFrom(paramClass)) {
 			Object response = WebUtil.getResponse();
-			if (response == null && !isOptional) {
+			if (response == null && !isOptional)
 				throw new IllegalStateException("response not inject");
-			} else {
+			else
 				return response;
-			}
+
 		} else if (paramClass == InnerCookie.class) {
 			return UserUtil.getInnerCookie();
 		} else {
@@ -52,9 +53,8 @@ public class ParamConverter {
 
 		for (String key : params.keySet()) {
 			Object value = params.get(key);
-			if (value != null && ParamUtil.isBaseClass(value)) {
+			if (value != null && ParamUtil.isBaseClass(value))
 				targetParam.put(key, String.valueOf(value));
-			}
 		}
 
 		return targetParam;

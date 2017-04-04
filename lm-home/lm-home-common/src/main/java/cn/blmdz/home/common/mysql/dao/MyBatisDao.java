@@ -13,8 +13,6 @@ import java.util.*;
 
 /**
  * mybatis 基础dao类  mysql版本
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/2.
  */
 public abstract class MyBatisDao<T> {
     @Autowired

@@ -12,11 +12,12 @@ import cn.blmdz.hunt.engine.handlebars.AbstractHelpers;
 
 @Component
 public class SecurityHelpers extends AbstractHelpers {
-   protected void fillHelpers(Map helpers) {
-      helpers.put("csrfToken", new Helper() {
-         public CharSequence apply(Object s, Options options) throws IOException {
-            return CSRFUtil.genToken();
-         }
-      });
-   }
+	protected void fillHelpers(Map<String, Helper<?>> helpers) {
+		helpers.put("csrfToken", new Helper<Object>() {
+			public CharSequence apply(Object s, Options options)
+					throws IOException {
+				return CSRFUtil.genToken();
+			}
+		});
+	}
 }

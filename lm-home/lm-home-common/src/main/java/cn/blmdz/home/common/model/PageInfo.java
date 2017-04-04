@@ -10,10 +10,6 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/2.
- */
 public class PageInfo {
     public static final String LIMIT = "limit";
     public static final String OFFSET = "offset";
@@ -48,8 +44,8 @@ public class PageInfo {
      */
     public Map<String, Object> toMap(String limit, String offset) {
         HashMap<String, Object> paraMap = Maps.newHashMapWithExpectedSize(2);
-        paraMap.put(Strings.isNullOrEmpty(limit) ? "limit" : limit, this.limit);
-        paraMap.put(Strings.isNullOrEmpty(offset) ? "offset" : offset, this.offset);
+        paraMap.put(Strings.isNullOrEmpty(limit) ? LIMIT : limit, this.limit);
+        paraMap.put(Strings.isNullOrEmpty(offset) ? OFFSET : offset, this.offset);
         return paraMap;
     }
 

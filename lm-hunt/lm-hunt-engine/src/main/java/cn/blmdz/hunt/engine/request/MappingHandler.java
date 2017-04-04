@@ -67,12 +67,12 @@ public class MappingHandler {
 	}
 
 	public boolean handle(String path, HttpServletRequest request, HttpServletResponse response,
-			Map<String, String> context) {
+			Map<String, Object> context) {
 		return this.handle(ThreadVars.getAppKey(), path, request, response, context);
 	}
 
 	protected boolean handle(String app, String path, HttpServletRequest request, HttpServletResponse response,
-			Map<String, String> context) {
+			Map<String, Object> context) {
 		String method = request.getMethod().toUpperCase();
 		Mapping mapping = this.invoker.mappingMatch(app, Joiners.COLON.join(method, path, new Object[0]));
 		if (mapping == null) {

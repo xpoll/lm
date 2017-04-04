@@ -12,22 +12,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.DateFormat;
 
-/**
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/3.
- */
 public class JsonMapper {
 
     private static Logger logger = LoggerFactory.getLogger(JsonMapper.class);
-    public static final JsonMapper JSON_NON_EMPTY_MAPPER;
-    public static final JsonMapper JSON_NON_DEFAULT_MAPPER;
+    public static final JsonMapper JSON_NON_EMPTY_MAPPER = new JsonMapper(Include.NON_EMPTY);
+    public static final JsonMapper JSON_NON_DEFAULT_MAPPER = new JsonMapper(Include.NON_DEFAULT);
 
     private ObjectMapper mapper = new ObjectMapper();
-
-    static {
-        JSON_NON_EMPTY_MAPPER = new JsonMapper(Include.NON_EMPTY);
-        JSON_NON_DEFAULT_MAPPER = new JsonMapper(Include.NON_DEFAULT);
-    }
 
     public JsonMapper(Include include) {
         this.mapper.setSerializationInclusion(include);
@@ -86,7 +77,7 @@ public class JsonMapper {
         return this.mapper.treeToValue(node, clazz);
     }
 
-    public JavaType createCollectionType(Class<?> collectionClass, Class... elementClasses) {
+    public JavaType createCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         return this.mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 

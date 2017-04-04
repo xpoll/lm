@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -18,42 +16,39 @@ import cn.blmdz.hunt.engine.Setting;
 import cn.blmdz.hunt.engine.utils.FileLoader;
 import cn.blmdz.hunt.engine.utils.FileLoaderHelper;
 import cn.blmdz.hunt.engine.utils.MimeTypes;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class AssetsHandler {
-   private static final Logger log = LoggerFactory.getLogger(AssetsHandler.class);
-   @Autowired
-   private Setting setting;
-   @Autowired
-   private FileLoaderHelper fileLoaderHelper;
+	@Autowired
+	private Setting setting;
+	@Autowired
+	private FileLoaderHelper fileLoaderHelper;
 
-   public boolean handle(String path, HttpServletResponse response) {
-      String lastPath = (String)Iterables.getLast(Splitters.SLASH.split(path));
-      List<String> fileInfo = Splitters.DOT.splitToList(lastPath);
-      if(fileInfo.size() == 1) {
-         return false;
-      } else {
-         response.setContentType(MimeTypes.getType((String)Iterables.getLast(fileInfo)));
-         String realPath = this.setting.getRootPath() + path;
-         FileLoader.Resp resp = this.fileLoaderHelper.load(realPath);
-         if(resp.isNotFound()) {
-            if(log.isDebugEnabled()) {
-               log.debug("Assets not found, path: [{}]", path);
-            }
+	public boolean handle(String path, HttpServletResponse response) {
+		String lastPath = Iterables.getLast(Splitters.SLASH.split(path));
+		List<String> fileInfo = Splitters.DOT.splitToList(lastPath);
+		if (fileInfo.size() == 1)
+			return false;
 
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return true;
-         } else {
-            response.setContentLength(resp.getContext().length);
+		response.setContentType(MimeTypes.getType(Iterables.getLast(fileInfo)));
 
-            try {
-               response.getOutputStream().write(resp.getContext());
-            } catch (IOException var8) {
-               ;
-            }
+		String realPath = setting.getRootPath() + path;
+		FileLoader.Resp resp = fileLoaderHelper.load(realPath);
+		if (resp.isNotFound()) {
+			if (log.isDebugEnabled())
+				log.debug("Assets not found, path: [{}]", path);
+			response.setStatus(HttpStatus.NOT_FOUND.value());
+			return true;
+		}
+		response.setContentLength(resp.getContext().length);
 
-            return true;
-         }
-      }
-   }
+		try {
+			response.getOutputStream().write(resp.getContext());
+		} catch (IOException e) {
+		}
+
+		return true;
+	}
 }

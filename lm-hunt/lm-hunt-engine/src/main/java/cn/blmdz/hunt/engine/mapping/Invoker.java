@@ -34,46 +34,46 @@ public class Invoker {
 	private HttpExecutor httpExecutor;
 	@Autowired(required = false)
 	private DubboExecutor dubboExecutor;
-	private Map<ServiceType, Executor> executorMap = Maps.newLinkedHashMap();
+	private Map<ServiceType, Executor<?>> executorMap = Maps.newLinkedHashMap();
 
 	@PostConstruct
 	public void init() {
-		this.executorMap.put(ServiceType.HTTP, this.httpExecutor);
-		this.executorMap.put(ServiceType.SPRING, this.springExecutor);
-		this.executorMap.put(ServiceType.DUBBO, this.dubboExecutor);
+		executorMap.put(ServiceType.HTTP, httpExecutor);
+		executorMap.put(ServiceType.SPRING, springExecutor);
+		executorMap.put(ServiceType.DUBBO, dubboExecutor);
 	}
 
-	public Object invoke(String serviceUri, Map params) {
+	public Object invoke(String serviceUri, Map<String, Object> params) {
 		List<String> serviceInfo = Splitters.COLON.splitToList(serviceUri);
-		return serviceInfo.size() == 1 ? this.invoke(ThreadVars.getAppKey(), serviceInfo.get(0), params)
-				: this.invoke(serviceInfo.get(0), serviceInfo.get(1), params);
+		return serviceInfo.size() == 1 ? invoke(ThreadVars.getAppKey(), serviceInfo.get(0), params)
+				: invoke(serviceInfo.get(0), serviceInfo.get(1), params);
 	}
 
-	public Object invoke(String app, String key, Map params) {
+	public Object invoke(String app, String key, Map<String, Object> params) {
 		Preconditions.checkNotNull(key, "Service key should not be null");
-		Service service = this.configManager.findService(app, key);
+		Service service = configManager.findService(app, key);
 		if (service == null) {
 			log.error("Service not found: app {}, key {}", app, key);
 			throw new NullPointerException("Service not found: " + app + ":" + key);
 		} else {
-			Executor executor = this.detectExecutor(service);
+			Executor<?> executor = detectExecutor(service);
 			return executor.exec(service, params);
 		}
 	}
 
 	public Mapping mappingMatch(String app, String urlWithMethod) {
 		Preconditions.checkNotNull(urlWithMethod, "url should not be null");
-		urlWithMethod = this.normalize(urlWithMethod);
-		Set<Mapping> mappings = this.configManager.findMappings(app);
+		urlWithMethod = normalize(urlWithMethod);
+		Set<Mapping> mappings = configManager.findMappings(app);
 		if (mappings != null && !mappings.isEmpty()) {
 			List<String> urls = Splitters.COLON.splitToList(urlWithMethod);
 			HttpMethod method = HttpMethod.valueOf((String) urls.get(0));
-			String url = (String) urls.get(1);
+			String url = urls.get(1);
 			Mapping targetMapping = null;
 			int targetMatchCount = Integer.MAX_VALUE;
 
 			for (Mapping mapping : mappings) {
-				int matchCount = this.match(method, url, mapping);
+				int matchCount = match(method, url, mapping);
 				if (matchCount != -1) {
 					if (matchCount == 0) {
 						targetMapping = mapping;
@@ -101,17 +101,17 @@ public class Invoker {
 		}
 	}
 
-	public Object mappingInvoke(Mapping mapping, String url, Map<String, String> params) {
+	public Object mappingInvoke(Mapping mapping, String url, Map<String, Object> params) {
 		Preconditions.checkNotNull(url, "url should not be null");
 		Preconditions.checkNotNull(mapping, "mapping should not be null");
-		params.putAll(this.parse(url, mapping.getPattern()));
-		return this.invoke(mapping.getService(), params);
+		params.putAll(parse(url, mapping.getPattern()));
+		return invoke(mapping.getService(), params);
 	}
 
-	private Executor detectExecutor(Service service) {
+	private Executor<?> detectExecutor(Service service) {
 		if (service.getType() == ServiceType.NOT_SET) {
-			for (ServiceType type : this.executorMap.keySet()) {
-				Executor executor = this.executorMap.get(type);
+			for (ServiceType type : executorMap.keySet()) {
+				Executor<?> executor = executorMap.get(type);
 				if (executor.detectType(service)) {
 					service.setAutoDetectedType(type);
 					break;
@@ -127,7 +127,7 @@ public class Invoker {
 			log.error("Service type can not be detected: {}", service);
 			throw new IllegalStateException("Service type can not be detected, can not find a executor for it.");
 		} else {
-			return (Executor) this.executorMap.get(service.getType());
+			return executorMap.get(service.getType());
 		}
 	}
 

@@ -1,18 +1,15 @@
 package cn.blmdz.home.common.model;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 /**
  * 模型模板类
- * email:dong_peiji@huateng.com
- * Created by 董培基 on 2016/3/2.
  */
 public class ModelHelper {
 
@@ -43,15 +40,16 @@ public class ModelHelper {
      */
     public static <T> List<T> extractField(List<? extends Serializable> models, String fieldName) {
         if (null != models && !models.isEmpty() && !Strings.isNullOrEmpty(fieldName)) {
-            Class sourceClass = ((Serializable) models.get(0)).getClass();
-            ArrayList fields = Lists.newArrayList();
+            Class<? extends Serializable> sourceClass = ((Serializable) models.get(0)).getClass();
+            List<T> fields = Lists.newArrayList();
 
             try {
                 Field field = sourceClass.getDeclaredField(fieldName);
                 boolean accessible = field.isAccessible();
                 field.setAccessible(true);
                 for (Object model : models) {
-                    Object value = field.get(model);
+                    @SuppressWarnings("unchecked")
+					T value = (T) field.get(model);
                     fields.add(value);
                 }
                 field.setAccessible(accessible);
