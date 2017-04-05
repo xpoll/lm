@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="CartItem">
+    <resultMap id="CartItemMap" type="CartItem">
+        <id property="id" column="id"/>
+        <result property="buyerId" column="buyer_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="snapshotPrice" column="snapshot_price"/>
+        <result property="extraJson" column="extra_json"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="table">
+        parana_cart_items
+    </sql>
+
+    <sql id="columns">
+        `buyer_id`,`shop_id`,`sku_id`,`quantity`,`snapshot_price`,`extra_json`,`created_at`,`updated_at`
+    </sql>
+
+    <sql id="values">
+        #{buyerId},#{shopId},#{skuId},#{quantity},#{snapshotPrice},#{extraJson},now(),now()
+    </sql>
+
+    <sql id="order">
+        order by updated_at desc
+    </sql>
+
+    <sql id="updateCondition">
+        <set>
+            <if test="buyerId!=null">buyer_id = #{buyerId},</if>
+            <if test="shopId!=null">shop_id = #{shopId},</if>
+            <if test="skuId!=null">sku_id = #{skuId},</if>
+            <if test="quantity!=null">quantity = #{quantity},</if>
+            <if test="extraJson!=null">extra_json = #{extraJson},</if>
+            <if test="snapshotPrice!=null">snapshot_price = #{snapshotPrice},</if>
+            updated_at = now()
+        </set>
+    </sql>
+
+    <sql id="queryCondition">
+        <where>
+            <if test="id!=null">AND id = #{id}</if>
+            <if test="buyerId!=null">AND buyer_id = #{buyerId}</if>
+            <if test="shopId!=null">AND shop_id = #{shopId}</if>
+            <if test="skuId!=null">AND sku_id = #{skuId}</if>
+            <if test="quantity!=null">AND quantity = #{quantity}</if>
+            <if test="snapshotPrice!=null">AND snapshot_price = #{snapshotPrice}</if>
+            <if test="createdAt!=null">AND created_at = #{createdAt}</if>
+            <if test="updatedAt!=null">AND updated_at = #{updatedAt}</if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="CartItem" keyProperty="id" useGeneratedKeys="true">
+        insert into
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        values (<include refid="values"/>)
+    </insert>
+
+    <update id="update" parameterType="CartItem">
+        update
+        <include refid="table"/>
+        <include refid="updateCondition"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="CartItemMap">
+        select id,
+        <include refid="columns"/>
+        from
+        <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <select id="list" parameterType="CartItem" resultMap="CartItemMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        <include refid="queryCondition"/>
+        <include refid="order"/>
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        select SUM(quantity) from
+        <include refid="table"/>
+        <include refid="queryCondition"/>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="CartItemMap">
+        select id,
+        <include refid="columns"/>
+        from
+        <include refid="table"/>
+        <include refid="queryCondition"/>
+        order by `buyer_id`, `shop_id`
+        limit #{offset}, #{limit}
+    </select>
+
+    <delete id="delete" parameterType="long">
+        delete from
+        <include refid="table"/>
+        where id = #{id}
+    </delete>
+
+    <delete id="deletes">
+        DELETE FROM <include refid="table"/>
+        WHERE id IN
+        <foreach collection="list" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteBy" parameterType="CartItem">
+        DELETE FROM
+        <include refid="table"/>
+        <include refid="queryCondition"/>
+    </delete>
+
+    <delete id="batchDeleteBySkuIds">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE buyer_id=#{buyerId} AND sku_id IN
+        <foreach collection="skuIds" open="(" separator="," close=")" item="skuId">
+            #{skuId}
+        </foreach>
+    </delete>
+
+    <select id="countCartQuantity" parameterType="long" resultType="int">
+        SELECT sum(quantity)
+        FROM
+        <include refid="table"/>
+        WHERE buyer_id=#{id}
+    </select>
+
+    <select id="listAllSkuId" resultType="long">
+        SELECT sku_id
+        FROM
+        <include refid="table"/>
+        WHERE buyer_id=#{buyerId}
+    </select>
+
+    <select id="loadsByBuyer" resultMap="CartItemMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        WHERE buyer_id=#{buyerId}
+        AND sku_id IN
+        <foreach collection="skuIds" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

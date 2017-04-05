@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Message">
+    <resultMap id="MessageMap" type="Message">
+        <id column="id" property="id" />
+        <result column="category" property="category"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="template" property="template"/>
+        <result column="data" property="data"/>
+        <result column="attaches" property="attaches"/>
+        <result column="remark" property="remark"/>
+        <result column="sender_id" property="senderId"/>
+        <result column="sender" property="sender"/>
+        <result column="send_at" property="sendAt"/>
+        <result column="start_at" property="startAt"/>
+        <result column="end_at" property="endAt"/>
+        <result column="receivers" property="receivers"/>
+        <result column="group_message_type" property="groupMessageType"/>
+        <result column="check_subscribe" property="checkSubscribe"/>
+        <result column="status" property="status"/>
+        <result column="fail_reason" property="failReason"/>
+        <result column="channel" property="channel"/>
+        <result column="channel_output" property="channelOutput"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="table_name">
+        parana_messages
+    </sql>
+
+    <sql id="columns_exclude_id">
+        category,title,content,template,data,
+        attaches,remark,sender_id,sender,send_at,
+        start_at,end_at,receivers,group_message_type,check_subscribe,
+        status,fail_reason,channel,channel_output,
+        created_at, updated_at
+    </sql>
+
+    <sql id="columns">
+        id,
+        <include refid="columns_exclude_id"/>
+    </sql>
+
+    <sql id="values">
+        #{category},#{title},#{content},#{template},#{data},
+        #{attaches},#{remark},#{senderId},#{sender},#{sendAt},
+        #{startAt},#{endAt},#{receivers},#{groupMessageType},#{checkSubscribe},
+        #{status},#{failReason},#{channel},#{channelOutput},
+        now(),now()
+    </sql>
+
+    <sql id="criteria">
+        1 = 1
+        <if test="category != null"> and `category` = #{category}</if>
+        <if test="title != null"> and `title` = #{title}</if>
+        <if test="content != null"> and `content` = #{content}</if>
+        <if test="template != null"> and `template` = #{template}</if>
+        <if test="remark != null"> and `remark` = #{remark}</if>
+        <if test="senderId != null"> and `sender_id` = #{senderId}</if>
+        <if test="sender != null"> and `sender` = #{sender}</if>
+
+        <if test="sendAtBefore != null"> and `send_at` &gt;= #{sendAtBefore}</if>
+        <if test="sendAtAfter != null"> and `send_at` &lt;= #{sendAtAfter}</if>
+        <if test="startAtBefore != null"> and `start_at` &gt;= #{startAtBefore}</if>
+        <if test="startAtAfter != null"> and `start_at` &lt;= #{startAtAfter}</if>
+        <if test="endAtBefore != null"> and `end_at` &gt;= #{endAtBefore}</if>
+        <if test="endAtAfter != null"> and `end_at` &lt;= #{endAtAfter}</if>
+
+        <if test="receivers != null"> and `receivers` = #{receivers}</if>
+        <if test="groupMessageType != null"> and `group_message_type` = #{groupMessageType}</if>
+        <if test="checkSubscribe != null"> and `check_subscribe` = #{checkSubscribe}</if>
+        <if test="status != null"> and `status` = #{status}</if>
+        <if test="channel != null"> and `channel` = #{channel}</if>
+
+        <if test="needSend != null">
+            and `status` = 0  <!--消息初始化成功,在排队中-->
+            and `start_at` &lt;= now()
+        </if>
+
+        <if test="needClosed != null">
+            and `status` in (0,1) <!--消息发送成功或在排队中-->
+            and `end_at` &lt;= now()
+        </if>
+
+    </sql>
+
+    <insert id="create" parameterType="Message" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES (<include refid="values"/>)
+    </insert>
+
+    <update id="update" parameterType="Message">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <if test="category != null"> `category` = #{category}, </if>
+            <if test="title != null"> `title` = #{title}, </if>
+            <if test="content != null"> `content` = #{content}, </if>
+            <if test="template != null"> `template` = #{template}, </if>
+            <if test="data != null"> `data` = #{data}, </if>
+            <if test="attaches != null"> `attaches` = #{attaches}, </if>
+            <if test="remark != null"> `remark` = #{remark}, </if>
+            <if test="senderId != null"> `sender_id` = #{senderId}, </if>
+            <if test="sender != null"> `sender` = #{sender}, </if>
+            <if test="sendAt != null"> `send_at` = #{sendAt}, </if>
+            <if test="startAt != null"> `start_at` = #{startAt}, </if>
+            <if test="endAt != null"> `end_at` = #{endAt}, </if>
+            <if test="receivers != null"> `receivers` = #{receivers}, </if>
+            <if test="groupMessageType != null"> `group_message_type` = #{groupMessageType}, </if>
+            <if test="checkSubscribe != null"> `check_subscribe` = #{checkSubscribe}, </if>
+            <if test="status != null"> `status` = #{status}, </if>
+            <if test="failReason != null"> `fail_reason` = #{failReason}, </if>
+            <if test="channel != null"> `channel` = #{channel}, </if>
+            <if test="channelOutput != null"> `channel_output` = #{channelOutput}, </if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="MessageMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="MessageMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id IN
+        <foreach collection="list" separator="," open="("
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="MessageMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+        <if test="limit != null">
+            LIMIT
+            <if test="offset != null">#{offset},</if>
+            #{limit}
+        </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="MessageMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from <include refid="table_name"/>
+        where id=#{id}
+    </delete>
+
+</mapper>

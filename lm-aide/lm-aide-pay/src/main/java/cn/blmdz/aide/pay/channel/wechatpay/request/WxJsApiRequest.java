@@ -1,11 +1,11 @@
-package io.terminus.lib.pay.channel.wechatpay.request;
+package cn.blmdz.aide.pay.channel.wechatpay.request;
+
+import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
-import io.terminus.common.utils.Arguments;
-import io.terminus.common.utils.JsonMapper;
-import io.terminus.lib.pay.channel.wechatpay.request.WxRequest;
-import io.terminus.lib.pay.channel.wechatpay.request.WxToken;
-import org.joda.time.DateTime;
+
+import cn.blmdz.home.common.util.Arguments;
+import cn.blmdz.home.common.util.JsonMapper;
 
 public class WxJsApiRequest extends WxRequest {
    protected WxJsApiRequest(WxToken config) {

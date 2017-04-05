@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Notification">
+    <resultMap id="NotificationMap" type="Notification">
+        <id column="id" property="id" />
+        <result column="audience_id" property="audienceId"/>
+        <result column="audience_group1" property="audienceGroup1"/>
+        <result column="audience_group2" property="audienceGroup2"/>
+        <result column="audience_group3" property="audienceGroup3"/>
+        <result column="audience_group4" property="audienceGroup4"/>
+        <result column="subject" property="subject"/>
+        <result column="content" property="content"/>
+        <result column="checked" property="checked"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="table_name">
+        parana_notifications
+    </sql>
+
+    <sql id="columns_exclude_id">
+        audience_id,audience_group1,audience_group2,audience_group3,audience_group4,
+        subject,content,checked,
+        created_at, updated_at
+    </sql>
+
+    <sql id="columns">
+        id,
+        <include refid="columns_exclude_id"/>
+    </sql>
+
+    <sql id="values">
+        #{audienceId},#{audienceGroup1},#{audienceGroup2},#{audienceGroup3},#{audienceGroup4},
+        #{subject},#{content},#{checked},
+        now(),now()
+    </sql>
+
+    <sql id="criteria">
+        1 = 1
+        <if test="checked != null">
+            and checked=#{checked}
+        </if>
+        <if test="audienceId != null">
+            and audience_id=#{audienceId}
+        </if>
+        <if test="audienceId == null">
+            <if test="excludedIds != null">
+                AND id not in
+                <foreach collection="excludedIds" separator="," open="("
+                         close=")" item="id">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="groupMessageType == 1">
+                AND
+                (
+                1=1
+                <if test="group1 != null">
+                    and audience_group1=#{group1}
+                </if>
+                <if test="group2 != null">
+                    and audience_group2=#{group2}
+                </if>
+                <if test="group3 != null">
+                    and audience_group3=#{group3}
+                </if>
+                <if test="group4 != null">
+                    and audience_group4=#{group4}
+                </if>
+                )
+            </if>
+            <if test="groupMessageType == 2">
+                AND
+                (
+                1=2
+                <if test="group1 != null">
+                    or audience_group1=#{group1}
+                </if>
+                <if test="group2 != null">
+                    or audience_group2=#{group2}
+                </if>
+                <if test="group3 != null">
+                    or audience_group3=#{group3}
+                </if>
+                <if test="group4 != null">
+                    or audience_group4=#{group4}
+                </if>
+                )
+            </if>
+        </if>
+    </sql>
+
+    <insert id="create" parameterType="Notification" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES (<include refid="values"/>)
+    </insert>
+
+    <insert id="creates" parameterType="list">
+        INSERT INTO <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES
+        <foreach collection="list" item="i" index="index" separator=",">
+            (
+            #{i.audienceId},#{i.audienceGroup1},#{i.audienceGroup2},#{i.audienceGroup3},#{i.audienceGroup4},
+            #{i.subject},#{i.content},#{i.checked},
+            now(),now()
+            )
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="Notification">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <if test="checked !=null"> checked = #{checked},</if>
+            <if test="subject !=null"> subject = #{subject},</if>
+            <if test="content !=null"> content = #{content},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="NotificationMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="NotificationMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id IN
+        <foreach collection="list" separator="," open="("
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="NotificationMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="list" parameterType="map" resultMap="NotificationMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from <include refid="table_name"/>
+        where id=#{id}
+    </delete>
+</mapper>

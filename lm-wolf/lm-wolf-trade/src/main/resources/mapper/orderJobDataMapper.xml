@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="OrderJobData">
+    <resultMap id="OrderJobDataMap" type="OrderJobData">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="order_type" property="orderType"/>
+        <result column="action_instance_id" property="actionInstanceId"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_order_job_data
+    </sql>
+    
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+    
+    <sql id="cols_exclude_id">
+        order_id, order_type, action_instance_id, status, created_at, updated_at
+    </sql>
+    
+    <sql id="vals">
+        #{orderId}, #{orderType}, #{actionInstanceId}, #{status}, now(), now()
+    </sql>
+
+    <sql id="criteria">
+        <if test="startAt != null">AND <![CDATA[created_at >= #{startAt}]]> </if>
+        <if test="endAt != null">AND <![CDATA[created_at < #{endAt}]]> </if>
+    </sql>
+
+    <insert id="create" parameterType="OrderJobData" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="OrderJobDataMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="OrderJobDataMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--  更新  -->
+    <update id="update" parameterType="OrderJobData">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="status != null">status = #{status},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateBy" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status},
+        updated_at = now()
+        WHERE
+        order_id = #{orderId}
+        AND order_type = #{orderType}
+        AND action_instance_id = #{actionInstanceId}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!--  查询记录数  -->
+    <select id="count" parameterType="map" resultType="long">
+        select count(1) from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <!--  get the last ID  -->
+    <select id="lastId" resultType="long">
+        select MAX(id)
+        from <include refid="tb"/>
+    </select>
+
+    <select id="listTo" parameterType="map" resultMap="OrderJobDataMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        WHERE <![CDATA[
+            id < #{lastId}
+        ]]>
+        AND status=1
+        ORDER BY id DESC LIMIT #{limit}
+    </select>
+
+
+    <!--  分页  -->
+    <select id="paging" parameterType="map" resultMap="OrderJobDataMap">
+        select id,<include refid="cols_exclude_id"/>
+        from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        order by `id` desc
+        limit #{offset}, #{limit}
+    </select>
+
+</mapper>

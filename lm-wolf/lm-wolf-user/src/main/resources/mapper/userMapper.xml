@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="User">
+    <resultMap id="UserMap" type="User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="password" property="password"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="roles_json" property="rolesJson"/>
+        <result column="extra_json" property="extraJson"/>
+        <result column="tags_json" property="tagsJson"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_users
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+       name, email, mobile, password, type, status, roles_json, extra_json, tags_json, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{name}, #{email}, #{mobile}, #{password}, #{type}, #{status}, #{rolesJson},
+        #{extraJson}, #{tagsJson},now(), now()
+    </sql>
+
+    <sql id="custom_sort_type">
+        <if test="sortType != null">
+            <if test="sortType == 1">ASC</if>
+            <if test="sortType == 2">DESC</if>
+        </if>
+    </sql>
+
+    <sql id="custom_sort">
+        <if test="sortBy != null">
+            <if test="sortBy == 'id'">ORDER BY id
+                <include refid="custom_sort_type"/>
+            </if>
+            <if test="sortBy == 'updatedAt'">ORDER BY updated_at
+                <include refid="custom_sort_type"/>
+            </if>
+        </if>
+    </sql>
+
+    <sql id="criteria">
+        <if test="id">and `id` = #{id}</if>
+        <if test="name">and `name` = #{name}</if>
+        <if test="email">and `email` = #{email}</if>
+        <if test="mobile">and `mobile` = #{mobile}</if>
+        <if test="status">and `status` = #{status}</if>
+        <if test="type">and `type` = #{type}</if>
+    </sql>
+
+    <insert id="create" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="UserMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByEmail" parameterType="string" resultMap="UserMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE email = #{email}
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="UserMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE name = #{name}
+    </select>
+
+    <select id="findByMobile" parameterType="string" resultMap="UserMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE mobile = #{mobile}
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="UserMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <update id="update" parameterType="User">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="password != null">password = #{password},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extraJson != null">extra_json = #{extraJson},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateStatus" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="batchUpdateStatus" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE id IN
+        <foreach item="id" collection="ids"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <update id="updateTags" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET
+        tags_json = #{tagsJson},
+        updated_at= now()
+        WHERE id = #{userId}
+    </update>
+
+    <update id="updateRoles" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET
+        roles_json = #{rolesJson},
+        updated_at= now()
+        WHERE id = #{userId}
+    </update>
+
+    <update id="updateType" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET
+        type = #{type},
+        updated_at= now()
+        WHERE id = #{userId}
+    </update>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="UserMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        <include refid="custom_sort"/>
+        LIMIT #{offset}, #{limit}
+    </select>
+</mapper>

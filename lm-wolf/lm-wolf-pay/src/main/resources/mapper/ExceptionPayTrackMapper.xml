@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ExceptionPayTrack">
+
+    <resultMap id="ExceptionPayTrackMap" type="ExceptionPayTrack">
+        <id property="id" column="id"/>
+        <result property="tradeNo" column="trade_no"/>
+        <result property="paymentCode" column="payment_code"/>
+        <result property="channel" column="channel"/>
+        <result property="fee" column="fee"/>
+        <result property="status" column="status"/>
+        <result property="type" column="type"/>
+        <result property="description" column="description"/>
+        <result property="paidAt" column="paid_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+
+    <sql id="table">
+        parana_exception_pay_tracks
+    </sql>
+
+    <sql id="columns">
+        trade_no, payment_code, channel,
+        fee, status,`type`, description, paid_at, created_at, updated_at
+    </sql>
+
+    <insert id="create" parameterType="ExceptionPayTrack" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/> (<include refid="columns"/>)
+        values
+        (
+         #{tradeNo}, #{paymentCode}, #{channel},
+         #{fee},  #{status},#{type},  #{description}, #{paidAt}, now(), now()
+        )
+    </insert>
+
+
+    <select id="load" parameterType="long" resultMap="ExceptionPayTrackMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="map">
+        UPDATE <include refid="table"/>
+        <set>
+            <if test="paidAt != null">
+                paid_at = #{paidAt},
+            </if>
+            <if test="paymentCode != null">
+                payment_code = #{paymentCode},
+            </if>
+            <if test="tradeNo != null">
+                trade_no = #{tradeNo},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            updated_at = now(),
+        </set>
+        WHERE id=#{id}
+    </update>
+
+
+    <select id="findByTradeNo" parameterType="map" resultMap="ExceptionPayTrackMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where trade_no = #{tradeNo}
+    </select>
+
+    <select id="findByPaymentCode" parameterType="string" resultMap="ExceptionPayTrackMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where payment_code = #{paymentCode}
+    </select>
+
+    <sql id="queryCondition">
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="startAt!=null">and created_at &gt; #{startAt}</if>
+            <if test="endAt!=null">and created_at &lt; #{endAt}</if>
+            <if test="tradeNo!=null">and trade_no = #{tradeNo}</if>
+            <if test="paymentCode!=null">and payment_code = #{paymentCode}</if>
+            <if test="status!=null">and status = #{status}</if>
+        </where>
+    </sql>
+    <select id="paging" parameterType="list" resultMap="ExceptionPayTrackMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="count" parameterType="list" resultType="long">
+        select count(1)
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+    </select>
+
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="table"/>
+        WHERE id=#{id}
+    </delete>
+
+    <select id="findById" parameterType="long" resultMap="ExceptionPayTrackMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        WHERE id =#{id}
+    </select>
+
+
+</mapper>

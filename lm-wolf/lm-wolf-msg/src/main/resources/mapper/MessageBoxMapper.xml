@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="MessageBox">
+    <resultMap id="MessageBoxMap" type="MessageBox">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="box_index" property="boxIndex"/>
+        <result column="notification_id" property="notificationId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="table_name">
+        parana_message_boxes
+    </sql>
+
+    <sql id="columns_exclude_id">
+        user_id,box_index,notification_id,
+        created_at, updated_at
+    </sql>
+
+    <sql id="columns">
+        id,
+        <include refid="columns_exclude_id"/>
+    </sql>
+
+    <sql id="values">
+        #{userId},#{boxIndex},#{notificationId},
+        now(),now()
+    </sql>
+
+    <sql id="criteria">
+        1 = 1
+        <if test="userId != null"> and `user_id` = #{userId}</if>
+        <if test="boxIndex != null"> and `box_index` = #{boxIndex}</if>
+        <if test="notificationId != null"> and `notification_id` = #{notificationId}</if>
+        
+    </sql>
+
+    <insert id="create" parameterType="MessageBox" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES (<include refid="values"/>)
+    </insert>
+
+    <update id="update" parameterType="MessageBox">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <if test="userId != null"> `user_id` = #{userId}, </if>
+            <if test="boxIndex != null"> `box_index` = #{boxIndex}, </if>
+            <if test="notificationId != null"> `notification_id` = #{notificationId}, </if>
+            
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="MessageBoxMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="MessageBoxMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id IN
+        <foreach collection="list" separator="," open="("
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="MessageBoxMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+        <if test="limit != null">
+            LIMIT
+            <if test="offset != null">#{offset},</if>
+            #{limit}
+        </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="MessageBoxMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from <include refid="table_name"/>
+        where id=#{id}
+    </delete>
+
+    <select id="findNotificationByUserId" parameterType="long" resultType="long">
+        SELECT
+         notification_id
+        FROM
+        <include refid="table_name"/>
+        where user_id=#{userId}
+        ORDER BY id DESC
+    </select>
+
+</mapper>

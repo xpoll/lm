@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="OrderActionInstance">
+    <resultMap id="OrderActionInstanceMap" type="OrderActionInstance">
+        <id column="id" property="id"/>
+        <result column="node_instance_id" property="nodeInstanceId"/>
+        <result column="action" property="action"/>
+        <result column="display" property="display"/>
+        <result column="type" property="type"/>
+        <result column="belong_user_types" property="belongUserTypes"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_order_action_instances
+    </sql>
+    
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+    
+    <sql id="cols_exclude_id">
+        node_instance_id, `action`, display, `type`, belong_user_types, `name`, `desc`,
+        created_at, updated_at
+    </sql>
+    
+    <sql id="vals">
+        #{nodeInstanceId}, #{action}, #{display}, #{type}, #{belongUserTypes}, #{name},
+        #{desc}, now(), now()
+    </sql>
+
+    <sql id="criteria">
+        <if test="nodeInstanceId != null">AND node_instance_id = #{nodeInstanceId}</if>
+        <if test="startAt != null">AND <![CDATA[created_at >= #{startAt}]]> </if>
+        <if test="endAt != null">AND <![CDATA[created_at < #{endAt}]]> </if>
+    </sql>
+
+    <insert id="create" parameterType="OrderActionInstance" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="OrderActionInstanceMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="OrderActionInstanceMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--  更新  -->
+    <update id="update" parameterType="OrderActionInstance">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="flowId != null">node_instance_id = #{flowId},</if>
+            <if test="action != null">`action` = #{action},</if>
+            <if test="display != null">display = #{display},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="belongUserTypes != null">belong_user_types = #{belongUserTypes},</if>
+            <if test="name != null">`name` = #{name},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!--  查询记录数  -->
+    <select id="count" parameterType="map" resultType="long">
+        select count(1) from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <!--  分页  -->
+    <select id="paging" parameterType="map" resultMap="OrderActionInstanceMap">
+        select id,<include refid="cols_exclude_id"/>
+        from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        order by `id` desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findByNsidAndType" parameterType="map" resultMap="OrderActionInstanceMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE node_instance_id = #{nodeInstanceId} AND `type` = #{actionType}
+    </select>
+
+    <select id="findByNodeInstanceId" parameterType="long" resultMap="OrderActionInstanceMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE node_instance_id = #{id}
+    </select>
+
+</mapper>

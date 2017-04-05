@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2014 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="PayChannelDetail">
+    <resultMap id="PayChannelDetailMap" type="PayChannelDetail">
+        <id column="id" property="id"/>
+        <result column="refund_order_id" property="refundOrderId"/>
+        <result column="fee" property="fee"/>
+        <result column="channel" property="channel"/>
+        <result column="inner_channel" property="innerChannel"/>
+        <result column="system_no" property="systemNo"/>
+        <result column="payment_code" property="paymentCode"/>
+        <result column="trade_no" property="tradeNo"/>
+        <result column="batch_no" property="batchNo"/>
+        <result column="third_party_fee" property="thirdPartyFee"/>
+        <result column="third_party_rate" property="thirdPartyRate"/>
+        <result column="type" property="type"/>
+        <result column="check_status" property="checkStatus"/>
+        <result column="paid_at" property="paidAt"/>
+        <result column="refund_at" property="refundAt"/>
+        <result column="checked_at" property="checkedAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_pay_channel_details
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        refund_order_id, fee, channel, inner_channel, system_no, payment_code, trade_no, batch_no,
+        third_party_fee, third_party_rate, `type`, check_status, paid_at, refund_at, checked_at, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+       #{refundOrderId}, #{fee}, #{channel}, #{innerChannel}, #{systemNo}, #{paymentCode}, #{tradeNo},
+       #{batchNo}, #{thirdPartyFee}, #{thirdPartyRate}, #{type}, #{checkStatus}, #{paidAt}, #{refundAt}, #{checkedAt},
+       now(), now()
+    </sql>
+
+    <sql id="criteria">
+        WHERE 1 = 1
+        <if test="id != null">AND id = #{id}</if>
+        <if test="refundOrderId != null">AND refund_order_id = #{refundOrderId}</if>
+        <if test="systemNo != null">AND system_no = #{systemNo}</if>
+        <if test="paymentCode != null">AND payment_code = #{paymentCode}</if>
+        <if test="tradeNo != null">AND trade_no = #{tradeNo}</if>
+        <if test="batchNo != null">AND batch_no = #{batchNo}</if>
+        <if test="channel != null">AND channel = #{channel}</if>
+        <if test="checkStatus != null">AND check_status = #{checkStatus}</if>
+        <if test="type != null">AND `type` = #{type}</if>
+        <if test="checkedStartAt != null">AND checked_at &gt;= #{checkedStartAt}</if>
+        <if test="checkedEndAt != null">AND checked_at &lt; #{checkedEndAt}</if>
+        <if test="startAt != null">AND created_at &gt;= #{startAt}</if>
+        <if test="endAt != null">AND created_at &lt; #{endAt}</if>
+    </sql>
+
+    <sql id="update_criteria">
+        <set>
+            <if test="checkStatus != null">check_status = #{checkStatus},</if>
+            <if test="checkedAt != null">checked_at = #{checkedAt},</if>
+            <if test="thirdPartyFee != null">third_party_fee = #{thirdPartyFee},</if>
+            <if test="thirdPartyRate != null">third_party_rate = #{thirdPartyRate},</if>
+            updated_at=now()
+        </set>
+    </sql>
+
+
+    <sql id="queryCondition">
+        WHERE check_status != #{status}
+    </sql>
+
+
+    <select id="findById" parameterType="long" resultMap="PayChannelDetailMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="list" parameterType="map" resultMap="PayChannelDetailMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <insert id="create" parameterType="PayChannelDetail" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <update id="update" parameterType="PayChannelDetail">
+        UPDATE
+        <include refid="tb"/>
+        <include refid="update_criteria"/>
+        WHERE id=#{id}
+    </update>
+
+    <!-- 计数 -->
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="paging" parameterType="map" resultMap="PayChannelDetailMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY id DESC LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findByRefundOrderId" parameterType="long" resultMap="PayChannelDetailMap">
+        SELECT id,
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE refund_order_id = #{refundOrderId}
+    </select>
+
+
+    <select id="findPayChannelSumDetailByChannelAndPaymentCodeAndType" parameterType="map" resultMap="PayChannelDetailMap">
+        select <include refid="cols_all"/>
+        from <include refid="tb"/>
+        where channel = #{channel} AND payment_code = #{paymentCode} AND `type` = #{type}
+    </select>
+
+    <select id="findPayChannelSumDetailByChannelAndBatchNo" parameterType="map" resultMap="PayChannelDetailMap">
+        select <include refid="cols_all"/>
+        from <include refid="tb"/>
+        where channel = #{channel} AND batch_no = #{batchNo}
+    </select>
+
+
+    <!-- 查询需要对账的记录 -->
+    <select id="pagingNeedCheck" parameterType="map" resultMap="PayChannelDetailMap">
+        select id, <include refid="cols_all"/>
+        from <include refid="tb"/>
+        <include refid="queryCondition"/>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="countNeedCheck" parameterType="map" resultType="long">
+        select count(1)
+        from <include refid="tb"/>
+        <include refid="queryCondition"/>
+    </select>
+
+
+    <!-- 更新对账状态 -->
+    <update id="updateStatus" parameterType="map">
+        UPDATE <include refid="tb"/>
+        <set>
+            <if test="status != null"> check_status = #{status}, </if>
+            updated_at=now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="getPcsdBySystemNoAndStatusAndType" parameterType="map" resultMap="PayChannelDetailMap">
+        select id, <include refid="cols_all"/>
+        from <include refid="tb"/>
+        where system_no=#{systemNo} AND `type` =#{type} AND check_status in
+        <foreach collection="status" open="(" separator="," close=")" item="status">
+            #{status}
+        </foreach>
+    </select>
+
+
+
+</mapper>

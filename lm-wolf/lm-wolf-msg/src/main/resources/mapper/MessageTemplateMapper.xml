@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="MessageTemplate">
+    <resultMap id="MessageTemplateMap" type="MessageTemplate">
+        <id column="id" property="id" />
+        <result column="creator_id" property="creatorId"/>
+        <result column="creator_name" property="creatorName"/>
+        <result column="name" property="name"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="context" property="context"/>
+        <result column="channel" property="channel"/>
+        <result column="disabled" property="disabled"/>
+        <result column="description" property="description"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="table_name">
+        parana_message_templates
+    </sql>
+
+    <sql id="columns_exclude_id">
+        creator_id,creator_name,name,title,content,
+        context,channel,disabled,description,
+        created_at, updated_at
+    </sql>
+
+    <sql id="columns">
+        id,
+        <include refid="columns_exclude_id"/>
+    </sql>
+
+    <sql id="values">
+        #{creatorId},#{creatorName},#{name},#{title},#{content},
+        #{context},#{channel},#{disabled},#{description},
+        now(),now()
+    </sql>
+
+    <sql id="criteria">
+        1 = 1
+        <if test="creatorId != null"> and `creator_id` = #{creatorId}</if>
+        <if test="creatorName != null"> and `creator_name` = #{creatorName}</if>
+        <if test="name != null"> and `name` = #{name}</if>
+        <if test="title != null"> and `title` = #{title}</if>
+        <if test="channel != null"> and `channel` = #{channel}</if>
+        <if test="disabled != null"> and `disabled` = #{disabled}</if>
+    </sql>
+
+    <insert id="create" parameterType="MessageTemplate" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES (<include refid="values"/>)
+    </insert>
+
+    <update id="update" parameterType="MessageTemplate">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <if test="creatorName !=null"> creator_name = #{creatorName},</if>
+            <if test="name !=null"> `name` = #{name},</if>
+            <if test="title !=null"> title = #{title},</if>
+            <if test="channel !=null"> channel = #{channel},</if>
+            <if test="disabled !=null"> disabled = #{disabled},</if>
+            <if test="content !=null"> content = #{content},</if>
+            <if test="context !=null"> context = #{context},</if>
+            <if test="description !=null"> description = #{description},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="MessageTemplateMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByName" parameterType="map" resultMap="MessageTemplateMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE name=#{name} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="MessageTemplateMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id IN
+        <foreach collection="list" separator="," open="("
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="MessageTemplateMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+        <if test="limit != null">
+            LIMIT
+            <if test="offset != null">#{offset},</if>
+            #{limit}
+        </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="MessageTemplateMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from <include refid="table_name"/>
+        where id=#{id}
+    </delete>
+
+</mapper>

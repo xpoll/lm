@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MockUnionPayTrans">
+    <resultMap id="MockUnionPayTransMap" type="MockUnionPayTrans">
+        <id property="id" column="id"/>
+        <result property="transactionCode" column="transaction_code"/>
+        <result property="acqInsCode" column="acq_ins_code"/>
+        <result property="sendCode" column="send_code"/>
+        <result property="traceNo" column="trace_no"/>
+        <result property="txnTime" column="txn_time"/>
+        <result property="payCardNo" column="pay_card_no"/>
+        <result property="txnAmt" column="txn_amt"/>
+        <result property="merCatCode" column="mer_cat_code"/>
+        <result property="termType" column="term_type"/>
+        <result property="queryId" column="query_id"/>
+        <result property="type" column="type"/>
+        <result property="orderId" column="order_id"/>
+        <result property="payCardType" column="pay_card_type"/>
+        <result property="originalTraceNo" column="original_trace_no"/>
+        <result property="originalTime" column="original_time"/>
+        <result property="thirdPartyFee" column="third_party_fee"/>
+        <result property="settleAmount" column="settle_amount"/>
+        <result property="payType" column="pay_type"/>
+        <result property="companyCode" column="company_code"/>
+        <result property="txnType" column="txn_type"/>
+        <result property="txnSubType" column="txn_sub_type"/>
+        <result property="bizType" column="biz_type"/>
+        <result property="accType" column="acc_type"/>
+        <result property="billType" column="bill_type"/>
+        <result property="billNo" column="bill_no"/>
+        <result property="interactMode" column="interact_mode"/>
+        <result property="origQryId" column="orig_qry_id"/>
+        <result property="merId" column="mer_id"/>
+        <result property="divideType" column="divide_type"/>
+        <result property="subMerId" column="sub_mer_id"/>
+        <result property="subMerAbbr" column="sub_mer_abbr"/>
+        <result property="divideAmount" column="divide_amount"/>
+        <result property="clearing" column="clearing"/>
+        <result property="termId" column="term_id"/>
+        <result property="merReserved" column="mer_reserved"/>
+        <result property="discount" column="discount"/>
+        <result property="invoice" column="invoice"/>
+        <result property="additionThirdPartyFee" column="addition_third_party_fee"/>
+        <result property="stage" column="stage"/>
+        <result property="transactionMedia" column="transaction_media"/>
+        <result property="originalOrderId" column="original_order_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+
+    <sql id="table">
+        parana_mock_unionpay_trans
+    </sql>
+
+
+    <sql id="columns">
+        transaction_code,acq_ins_code, send_code, trace_no, txn_time, pay_card_no,txn_amt,mer_cat_code,term_type,query_id,
+        `type`,order_id,pay_card_type,original_trace_no,original_time,third_party_fee,settle_amount,pay_type,company_code,
+        txn_type,txn_sub_type,biz_type,acc_type,bill_type,bill_no,interact_mode,orig_qry_id,mer_id,divide_type,sub_mer_id,
+        sub_mer_abbr,divide_amount,clearing,term_id,mer_reserved,discount,invoice,addition_third_party_fee,stage,transaction_media,
+        original_order_id,created_at, updated_at
+    </sql>
+
+    <insert id="create" parameterType="MockUnionPayTrans" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/> (<include refid="columns"/>)
+        values
+        (
+        #{transactionCode}, #{acqInsCode},#{sendCode},#{traceNo}, #{txnTime}, #{payCardNo}, #{txnAmt}, #{merCatCode}, #{termType},
+        #{queryId}, #{type},#{orderId},#{payCardType},#{originalTraceNo},#{originalTime},#{thirdPartyFee},#{settleAmount},
+        #{payType},#{companyCode},#{txnType},#{txnSubType},#{bizType},#{accType},#{billType},#{billNo},#{interactMode},#{origQryId},
+        #{merId},#{divideType},#{subMerId},#{subMerAbbr},#{divideAmount},#{clearing},#{termId},#{merReserved},#{discount},#{invoice},
+        #{additionThirdPartyFee},#{stage},#{transactionMedia},#{originalOrderId},now(), now()
+        )
+    </insert>
+
+    <select id="load" parameterType="long" resultMap="MockUnionPayTransMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <select id="findByQueryId" parameterType="string" resultMap="MockUnionPayTransMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where query_id = #{queryId}
+    </select>
+
+    <select id="findByOrderId" parameterType="string" resultMap="MockUnionPayTransMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where order_id = #{orderId}
+    </select>
+
+    <select id="findForwardByQueryId" parameterType="string" resultMap="MockUnionPayTransMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where query_id = #{queryId} AND transaction_code ='S56'
+    </select>
+
+    <select id="findReverseByQueryId" parameterType="string" resultMap="MockUnionPayTransMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where orig_qry_id = #{queryId} AND transaction_code ='S30'
+    </select>
+
+    <select id="list" parameterType="MockUnionPayTrans" resultMap="MockUnionPayTransMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+    </select>
+
+</mapper>

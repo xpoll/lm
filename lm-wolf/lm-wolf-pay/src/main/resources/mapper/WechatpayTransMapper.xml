@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2014 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WechatpayTrans">
+
+	 <!--  行结果列映射到实例属性名称  -->
+    <resultMap id="wechatpayTransResultMap" type="WechatpayTrans">
+        <id property="id" column="id"/>
+        <result property="transactionId"      column="transaction_id"/>
+        <result property="outTradeNo"         column="out_trade_no"/>
+        <result property="tradeStatus"        column="trade_status"/>
+        <result property="tradeTime"          column="trade_time"/>
+        <result property="appid"              column="appid"/>
+        <result property="mchId"              column="mch_id"/>
+        <result property="subMchId"           column="sub_mch_id"/>
+        <result property="deviceInfo"         column="device_info"/>
+        <result property="openId"             column="open_id"/>
+        <result property="tradeType"          column="trade_type"/>
+        <result property="bankType"           column="bank_type"/>
+        <result property="feeType"            column="fee_type"/>
+        <result property="totalFee"           column="total_fee"/>
+        <result property="couponFee"          column="coupon_fee"/>
+        <result property="refundApplyDate"    column="refund_apply_date"/>
+        <result property="refundSuccessDate"  column="refund_success_date"/>
+        <result property="refundId"           column="refund_id"/>
+        <result property="outRefundNo"        column="out_refund_no"/>
+        <result property="refundFee"          column="refund_fee"/>
+        <result property="couponRefundFee"    column="coupon_refund_fee"/>
+        <result property="refundChannel"      column="refund_channel"/>
+        <result property="refundStatus"       column="refund_status"/>
+        <result property="body"               column="body"/>
+        <result property="attach"             column="attach"/>
+        <result property="poundageFee"        column="poundage_fee"/>
+        <result property="rate"               column="rate"/>
+        <result property="bankOrderNo"        column="bank_order_no"/>
+        <result property="tradeInfo"          column="trade_info"/>
+        <result property="tradeAt"            column="trade_at"/>
+    </resultMap>
+
+	 <!--  行结果列名  -->
+    <sql id="columns">
+        transaction_id,out_trade_no,trade_status,trade_time,appid,mch_id,sub_mch_id,
+        device_info,open_id,trade_type,bank_type,fee_type,total_fee,coupon_fee,refund_apply_date,
+        refund_success_date,refund_id,out_refund_no,refund_fee,coupon_refund_fee,
+        refund_channel,refund_status,body,attach,poundage_fee,rate,bank_order_no,trade_info,trade_at
+    </sql>
+
+
+	 <!--  新增 微信支付交易流水  -->
+    <insert id="create" parameterType="WechatpayTrans" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO parana_wechatpay_trans ( <include refid="columns"/>)
+      VALUES(
+       #{transactionId},#{outTradeNo},#{tradeStatus},#{tradeTime},#{appid},#{mchId},#{subMchId},
+        #{deviceInfo},#{openId},#{tradeType},#{bankType},#{feeType},#{totalFee},#{couponFee},
+        #{refundApplyDate},#{refundSuccessDate},#{refundId},#{outRefundNo},#{refundFee},#{couponRefundFee},
+        #{refundChannel},#{refundStatus},#{body},#{attach},#{poundageFee},#{rate},#{bankOrderNo},#{tradeInfo},#{tradeAt}
+      )
+    </insert>
+
+	 <!--  根据自增ID查找 微信支付交易流水  -->
+    <select id="findById" parameterType="long" resultMap="wechatpayTransResultMap">
+      SELECT id, <include refid="columns"/>
+        FROM parana_wechatpay_trans
+      WHERE
+       `id` = #{id}
+    </select>
+
+	 <!--  根据自增ID列表查找 微信支付交易流水 -->
+    <select id="findByIds" parameterType="list" resultMap="wechatpayTransResultMap">
+        SELECT id,<include refid="columns"/>
+            FROM parana_wechatpay_trans
+        WHERE
+            id IN <foreach collection="list" open="(" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+    </select>
+
+
+	 <!--  根据可选查询条件统计总记录数  -->
+    <select id="countByOutTradeNo" parameterType="java.util.Map" resultType="int">
+      SELECT COUNT(1)
+        FROM parana_wechatpay_trans
+      WHERE  out_trade_no = #{outTradeNo}
+            <if test="tradeTime!=null">AND trade_time = #{tradeTime} </if>
+    </select>
+
+
+	 <select id="findByOutTradeNo" parameterType="java.lang.String" resultMap="wechatpayTransResultMap">
+      SELECT id,<include refid="columns"/>
+        FROM  parana_wechatpay_trans
+      WHERE out_trade_no=#{outTradeNo}
+    </select>
+
+
+	 <select id="findByTransactionId" parameterType="java.lang.String" resultMap="wechatpayTransResultMap">
+      SELECT id,<include refid="columns"/>
+        FROM  parana_wechatpay_trans
+      WHERE transaction_id=#{transactionId}
+    </select>
+
+
+    <update id="update" parameterType="WechatpayTrans">
+      UPDATE parana_wechatpay_trans
+      <set>
+          <if test="transactionId!=null">transaction_id = #{transactionId},</if>
+          <if test="outTradeNo!=null">out_trade_no = #{outTradeNo},</if>
+          <if test="tradeStatus!=null">trade_status = #{tradeStatus},</if>
+          <if test="tradeTime!=null">trade_time = #{tradeTime},</if>
+          <if test="appid!=null">appid = #{appid},</if>
+          <if test="mchId!=null">mch_id = #{mchId},</if>
+          <if test="subMchId!=null">sub_mch_id = #{subMchId},</if>
+          <if test="deviceInfo!=null">device_info = #{deviceInfo},</if>
+          <if test="openId!=null">open_id = #{openId},</if>
+          <if test="tradeType!=null">trade_type = #{tradeType},</if>
+          <if test="bankType!=null">bank_type = #{bankType},</if>
+          <if test="feeType!=null">fee_type = #{feeType},</if>
+          <if test="totalFee!=null">total_fee = #{totalFee},</if>
+          <if test="couponFee!=null">coupon_fee = #{couponFee},</if>
+          <if test="refundApplyDate!=null">refund_apply_date = #{refundApplyDate},</if>
+          <if test="refundSuccessDate!=null">refund_success_date = #{refundSuccessDate},</if>
+          <if test="refundId!=null">refund_id = #{refundId},</if>
+          <if test="outRefundNo!=null">out_refund_no = #{outRefundNo},</if>
+          <if test="refundFee!=null">refund_fee = #{refundFee},</if>
+          <if test="couponRefundFee!=null">coupon_refund_fee = #{couponRefundFee},</if>
+          <if test="refundChannel!=null">refund_channel = #{refundChannel},</if>
+          <if test="refundStatus!=null">refund_status = #{refundStatus},</if>
+          <if test="body!=null">body = #{body},</if>
+          <if test="attach!=null">attach = #{attach},</if>
+          <if test="poundageFee!=null">poundage_fee = #{poundageFee},</if>
+          <if test="rate!=null">rate = #{rate},</if>
+        updated_at = now()
+      </set>
+      WHERE
+        id = #{id}
+    </update>
+
+
+    <delete id="deletes" parameterType="list">
+      DELETE
+        FROM parana_wechatpay_trans
+      WHERE
+        id IN <foreach collection="list" open="(" separator="," close=")" item="id">
+          #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="findIncomeFee" parameterType="map" resultMap="wechatpayTransResultMap">
+        select id,
+        <include refid="columns"/>
+        from parana_wechatpay_trans
+        where  <![CDATA[ trade_at >= #{startAt} ]]> AND  <![CDATA[ trade_at < #{endAt} ]]>
+    </select>
+
+</mapper>

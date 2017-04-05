@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2014 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="BalanceSettlement">
+    <resultMap id="BalanceSettlementMap" type="BalanceSettlement">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="seller_id" property="sellerId"/>
+        <result column="seller_name" property="sellerName"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="buyer_name" property="buyerName"/>
+        <result column="business_id" property="businessId"/>
+        <result column="business_name" property="businessName"/>
+        <result column="type" property="type"/>
+        <result column="pay_type" property="payType"/>
+        <result column="order_type" property="orderType"/>
+        <result column="channel" property="channel"/>
+        <result column="system_no" property="systemNo"/>
+        <result column="trade_no" property="tradeNo"/>
+        <result column="payment_code" property="paymentCode"/>
+        <result column="batch_no" property="batchNo"/>
+        <result column="fee" property="fee"/>
+        <result column="memo" property="memo"/>
+        <result column="trade_at" property="tradeAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_balance_settlements
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        order_id, seller_id, seller_name, shop_id, shop_name, buyer_id, buyer_name, business_id, business_name, `type`,
+        pay_type,order_type, channel, system_no, trade_no, payment_code, batch_no, fee, memo,
+        trade_at, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{orderId}, #{sellerId}, #{sellerName}, #{shopId}, #{shopName}, #{buyerId}, #{buyerName}, #{businessId},
+        #{businessName}, #{type}, #{payType}, #{orderType},#{channel}, #{systemNo}, #{tradeNo}, #{paymentCode},
+        #{batchNo}, #{fee}, #{memo},  #{tradeAt}, now(), now()
+    </sql>
+
+    <sql id="criteria">
+        WHERE 1 = 1
+        <if test="id != null">AND id = #{id}</if>
+        <if test="orderId != null">AND order_id = #{orderId}</if>
+        <if test="sellerId != null">AND seller_id = #{sellerId}</if>
+        <if test="shopId != null">AND shop_id = #{shopId}</if>
+        <if test="type != null">AND `type` = #{type}</if>
+        <if test="payType != null">AND pay_type = #{payType}</if>
+        <if test="orderType != null">AND order_type = #{orderType}</if>
+        <if test="channel != null">AND channel = #{channel}</if>
+        <if test="systemNo != null">AND system_no = #{systemNo}</if>
+        <if test="tradeNo != null">AND trade_no = #{tradeNo}</if>
+        <if test="paymentCode != null">AND payment_code = #{paymentCode}</if>
+        <if test="batchNo != null">AND batch_no = #{batchNo}</if>
+        <if test="paidStartAt != null">AND trade_at &gt;= #{tradeStartAt}</if>
+        <if test="paidEndAt != null">AND trade_at &lt; #{tradeEndAt}</if>
+        <if test="startAt != null">AND created_at &gt;= #{startAt}</if>
+        <if test="endAt != null">AND created_at &lt; #{endAt}</if>
+    </sql>
+
+    <sql id="update_criteria">
+        <set>
+            <if test="memo != null">memo = #{memo},</if>
+            updated_at = now()
+        </set>
+    </sql>
+
+    <select id="findById" parameterType="long" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="list" parameterType="map" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <insert id="create" parameterType="BalanceSettlement" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <update id="update" parameterType="BalanceSettlement">
+        UPDATE
+        <include refid="tb"/>
+        <include refid="update_criteria"/>
+        WHERE id = #{id}
+    </update>
+
+
+
+    <select id="findByOrderIdAndType" parameterType="map" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE order_id = #{orderId} and `type` = #{type}
+    </select>
+
+    <select id="findBySellerId" parameterType="long" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE seller_id = #{sellerId}
+    </select>
+
+    <select id="findByShopId" parameterType="long" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE shop_id = #{shopId}
+    </select>
+
+    <select id="findByShopIds" parameterType="long" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE shop_id IN
+        <foreach item="shopId" collection="list"
+                 open="(" separator="," close=")">
+            #{shopId}
+        </foreach>
+    </select>
+
+    <select id="findByOrderId" parameterType="long" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE order_id=#{orderId} LIMIT 1
+    </select>
+
+    <!-- 计数 -->
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="paging" parameterType="map" resultMap="BalanceSettlementMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY id DESC LIMIT #{offset}, #{limit}
+    </select>
+
+</mapper>

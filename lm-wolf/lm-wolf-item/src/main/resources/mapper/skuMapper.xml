@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Sku">
+
+    <resultMap id="SkuMap" type="Sku">
+        <id property="id" column="id"/>
+        <result column="sku_code" property="skuCode"/>
+        <result column="item_id" property="itemId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="status" property="status"/>
+        <result column="specification" property="specification"/>
+        <result column="outer_sku_id" property="outerSkuId"/>
+        <result column="outer_shop_id" property="outerShopId"/>
+        <result column="extra_price_json" property="extraPriceJson"/>
+        <result column="price" property="price"/>
+        <result column="image" property="image"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="name" property="name"/>
+        <result column="attrs_json" property="attrsJson"/>
+        <result column="stock_type" property="stockType"/>
+        <result column="stock_quantity" property="stockQuantity"/>
+        <result column="extra" property="extraJson"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_skus
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        sku_code, item_id, shop_id, status, specification, outer_sku_id, outer_shop_id, extra_price_json, price, image,
+        thumbnail, `name`, attrs_json, stock_type, stock_quantity, extra, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{skuCode}, #{itemId}, #{shopId}, #{status}, #{specification}, #{outerSkuId}, #{outerShopId}, #{extraPriceJson},
+        #{price},
+        #{image}, #{thumbnail}, #{name},#{attrsJson},#{stockType}, #{stockQuantity}, #{extraJson}, now(), now()
+    </sql>
+
+
+    <insert id="create" parameterType="Sku" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <insert id="creates" parameterType="list">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        <foreach collection="list" item="i" index="index" separator=",">
+            (
+            #{i.skuCode}, #{i.itemId}, #{i.shopId}, #{i.status}, #{i.specification}, #{i.outerSkuId}, #{i.outerShopId},
+            #{i.extraPriceJson}, #{i.price}, #{i.image}, #{i.thumbnail}, #{i.name},#{i.attrsJson}, #{i.stockType},
+            #{i.stockQuantity}, #{i.extraJson}, now(), now()
+            )
+        </foreach>
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="SkuMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="SkuMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <select id="findByShopIdAndSkuCode" parameterType="map" resultMap="SkuMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE shop_id=#{shopId} AND sku_code=#{skuCode} AND status!=-3
+    </select>
+
+    <select id="findByItemId" parameterType="long" resultMap="SkuMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE item_id = #{itemId} AND status!=-3
+    </select>
+
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+
+    <update id="update" parameterType="Sku">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="skuCode != null">sku_code = #{skuCode},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="status !=null">status = #{status},</if>
+            <if test="outerSkuId != null">outer_sku_id = #{outerSkuId},</if>
+            <if test="outerShopId != null">outer_shop_id = #{outerShopId},</if>
+            <if test="extraPriceJson != null">extra_price_json = #{extraPriceJson},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="thumbnail != null">thumbnail = #{thumbnail},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="attrsJson != null">attrs_json = #{attrsJson},</if>
+            <if test="stockType != null">stock_type = #{stockType},</if>
+            <if test="stockQuantity != null">stock_quantity = #{stockQuantity},</if>
+            <if test="extraJson != null">extra = #{extraJson},</if>
+            updated_at = now()
+        </set>
+        WHERE id = #{id}  and status!=-2
+    </update>
+
+    <update id="updateByItemIdAndSkuCode" parameterType="Sku">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="outerSkuId != null">outer_sku_id = #{outerSkuId},</if>
+            <if test="outerShopId != null">outer_shop_id = #{outerShopId},</if>
+            <if test="extraPriceJson != null">extra_price_json = #{extraPriceJson},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="thumbnail != null">thumbnail = #{thumbnail},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="attrsJson != null">attrs_json = #{attrsJson},</if>
+            <if test="stockType != null">stock_type = #{stockType},</if>
+            <if test="stockQuantity != null">stock_quantity = #{stockQuantity},</if>
+            <if test="extraJson != null">extra = #{extraJson},</if>
+            updated_at = now()
+        </set>
+        WHERE item_id=#{itemId} and sku_code=#{skuCode} and status!=-2
+    </update>
+
+    <update id="updateStockQuantity" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET stock_quantity = stock_quantity - #{quantity}, updated_at = now()
+        WHERE id = #{skuId}
+    </update>
+
+    <!-- 设置 SKU 状态 -->
+    <update id="updateStatusByItemIds" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE item_id IN
+        <foreach item="itemId" collection="itemIds"
+                 open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </update>
+
+    <update id="updateStatusByItemId" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE item_id = #{itemId}
+    </update>
+
+    <update id="deletes" parameterType="list">
+        UPDATE
+        <include refid="tb"/>
+        SET status=-3
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updateStatusBySkuId" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE id = #{skuId}
+    </update>
+</mapper>

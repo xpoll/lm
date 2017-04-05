@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PayChannel">
+
+    <resultMap id="payChannelMap" type="PayChannel">
+        <id property="id" column="id"/>
+        <result property="stageId" column="stage_id"/>
+        <result property="status" column="status"/>
+        <result property="tradeNo" column="trade_no"/>
+        <result property="paymentCode" column="payment_code"/>
+        <result property="channel" column="channel"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="refundOrderId" column="refund_order_id"/>
+        <result property="orderType" column="order_type"/>
+        <result property="type" column="type"/>
+        <result property="businessType" column="business_type"/>
+        <result property="fee" column="fee"/>
+        <result property="description" column="description"/>
+        <result property="extra" column="extra"/>
+        <result property="is_created_detail" column="isCreatedDetail"/>
+        <result property="refundAt" column="refund_at"/>
+        <result property="paidAt" column="paid_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+
+    <sql id="table">
+        parana_pay_channels
+    </sql>
+
+    <sql id="columns">
+        stage_id, status,trade_no, payment_code, channel,
+        batch_no,refund_order_id, order_type,`type`,business_type, fee,  description, extra,is_created_detail, refund_at,
+        paid_at, created_at, updated_at
+    </sql>
+
+    <insert id="create" parameterType="PayChannel" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/> (<include refid="columns"/>)
+        values
+        (
+        #{stageId}, #{status}, #{tradeNo}, #{paymentCode}, #{channel},
+        #{batchNo}, #{refundOrderId},#{orderType},#{type}, #{businessType}, #{fee},  #{description},#{extra},#{isCreatedDetail}, #{refundAt},
+        #{paidAt}, now(), now()
+        )
+    </insert>
+
+    <sql id="queryCondition2">
+        <where>
+            <if test="status!=null"> status=#{status}</if>
+            <if test="isCreatedDetail!=null">and is_created_detail =#{isCreatedDetail} </if>
+        </where>
+    </sql>
+
+    <select id="load" parameterType="long" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="map">
+        UPDATE <include refid="table"/>
+        <set>
+            <if test="paidAt != null">
+                paid_at = #{paidAt},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="paymentCode != null">
+                payment_code = #{paymentCode},
+            </if>
+            <if test="tradeNo != null">
+                trade_no = #{tradeNo},
+            </if>
+            <if test="isCreatedDetail != null">
+                is_created_detail = #{isCreatedDetail},
+            </if>
+            <if test="refundAt != null">
+                refund_at = #{refundAt},
+            </if>
+            updated_at = now(),
+        </set>
+        WHERE id=#{id}
+    </update>
+
+
+    <select id="findByStageIdAndTypeAndStatus" parameterType="map" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where stage_id = #{stageId} AND status=#{status}  AND `type` = #{type}
+    </select>
+
+    <select id="findPaidPayChannelByStageId" parameterType="map" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where stage_id = #{stageId} AND status = 1 AND `type` = #{type}
+    </select>
+
+
+    <select id="findByTradeNo" parameterType="map" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where trade_no = #{tradeNo} AND `type` = #{type}
+    </select>
+
+    <select id="findByBatchNo" parameterType="string" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where batch_no = #{batchNo}
+    </select>
+
+
+
+    <select id="findByPaymentCode" parameterType="string" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where payment_code = #{paymentCode}  AND `type` = #{type}
+    </select>
+
+    <select id="findByStageIdAndChannel" parameterType="map" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where stage_id = #{stageId} AND channel = #{channel} AND `type` = #{type}
+    </select>
+
+
+    <select id="findByStageIdAndPaid" parameterType="list" resultMap="payChannelMap" >
+        SELECT <include refid="columns" />
+        FROM <include refid="table" />
+        WHERE stage_id IN
+        <foreach item="stageId" collection="list"
+                 open="(" separator="," close=")">
+            #{stageId}
+        </foreach>
+        AND status =1
+    </select>
+
+
+    <sql id="queryCondition">
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="startAt!=null">and created_at &gt; #{startAt}</if>
+            <if test="endAt!=null">and created_at &lt; #{endAt}</if>
+        </where>
+    </sql>
+    <select id="paging" parameterType="list" resultMap="payChannelMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="count" parameterType="list" resultType="long">
+        select count(1)
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+    </select>
+
+
+
+    <select id="pagingNeedNeedSumChannelDetail" parameterType="map" resultMap="payChannelMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        <include refid="queryCondition2"/>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="countNeedNeedSumChannelDetail" parameterType="map" resultType="long">
+        select count(1)
+        from <include refid="table"/>
+        <include refid="queryCondition2"/>
+    </select>
+
+    <select id="findRefundByBatchNoAndStatus" parameterType="map" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where batch_no = #{batchNo} AND status = #{status}
+    </select>
+
+    <select id="findRefundByRefundIdAndChannel" parameterType="map" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where channel =#{channel} AND refund_order_id = #{refundOrderId} limit 1
+    </select>
+
+
+    <update id="setRefundSuccess" parameterType="map">
+        UPDATE <include refid="table"/>
+        SET status = #{to} , updated_at = now(),refund_at =#{refundAt}
+        WHERE batch_no=#{batchNo} AND status = #{from}
+    </update>
+
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="table"/>
+        WHERE id=#{id}
+    </delete>
+
+    <select id="findById" parameterType="long" resultMap="payChannelMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        WHERE id =#{id}
+    </select>
+
+
+</mapper>

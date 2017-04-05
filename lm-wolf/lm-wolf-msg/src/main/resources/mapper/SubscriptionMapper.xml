@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Subscription">
+    <resultMap id="SubscriptionMap" type="Subscription">
+        <id column="id" property="id" />
+        <result column="channel" property="channel"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="account" property="account"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="table_name">
+        parana_subscriptions
+    </sql>
+
+    <sql id="columns_exclude_id">
+        channel,user_id, user_name, account,
+        created_at, updated_at
+    </sql>
+
+    <sql id="columns">
+        id,
+        <include refid="columns_exclude_id"/>
+    </sql>
+
+    <sql id="values">
+        #{channel},#{userId},#{userName},#{account},
+        now(),now()
+    </sql>
+
+    <sql id="criteria">
+        1 = 1
+        <if test="channel != null"> and `channel` = #{channel}</if>
+        <if test="userId != null"> and `user_id` = #{userId}</if>
+        <if test="userName != null"> and user_name = #{userName}</if>
+        <if test="account != null"> and `account` = #{account}</if>
+    </sql>
+
+    <insert id="create" parameterType="Subscription" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES (<include refid="values"/>)
+    </insert>
+
+    <update id="update" parameterType="Subscription">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <if test="channel !=null"> channel = #{channel},</if>
+            <if test="userId !=null"> user_id = #{userId},</if>
+            <if test="account !=null"> account = #{account},</if>
+            <if test="userName != null"> user_name = #{userName},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="SubscriptionMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="SubscriptionMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id IN
+        <foreach collection="list" separator="," open="("
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findByAccount" parameterType="map" resultMap="SubscriptionMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE account = #{account} LIMIT 1
+    </select>
+
+    <select id="findByUserId" parameterType="map" resultMap="SubscriptionMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="SubscriptionMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+        <if test="limit != null">
+            LIMIT
+            <if test="offset != null">#{offset},</if>
+            #{limit}
+        </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="SubscriptionMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from <include refid="table_name"/>
+        where id=#{id}
+    </delete>
+
+</mapper>

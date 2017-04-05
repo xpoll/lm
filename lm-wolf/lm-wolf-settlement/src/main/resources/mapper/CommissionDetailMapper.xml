@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2014 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="CommissionDetail">
+    <resultMap id="CommissionDetailMap" type="CommissionDetail">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="commission_rule_id" property="commissionRuleId"/>
+        <result column="commission" property="commission"/>
+        <result column="price" property="price"/>
+        <result column="lowest_fee" property="lowestFee"/>
+        <result column="rate" property="rate"/>
+        <result column="type" property="type"/>
+        <result column="description" property="description"/>
+        <result column="system_no" property="systemNo"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_commission_details
+    </sql>
+
+    <sql id="cols_all">
+        id, <include refid="cols_exclude_id" />
+    </sql>
+
+    <sql id="cols_exclude_id">
+        order_id,commission_rule_id,commission, price, lowest_fee,rate,`type`, description, system_no, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{orderId}, #{commissionRuleId},#{commission}, #{price}, #{lowestFee},#{rate},#{type}, #{description}, #{systemNo},now(), now()
+    </sql>
+
+    <sql id="criteria">
+        WHERE 1 = 1
+        <if test="orderId != null"> AND order_id = #{orderId}</if>
+        <if test="commissionRuleId != null"> AND commission_rule_id = #{commissionRuleId}</if>
+        <if test="type != null"> AND `type` = #{type}</if>
+    </sql>
+
+    <select id="load" parameterType="long" resultMap="CommissionDetailMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="loadBySystemNo" parameterType="string" resultMap="CommissionDetailMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        WHERE system_no = #{systemNo}
+    </select>
+
+    <select id="loadByOrderId" parameterType="long" resultMap="CommissionDetailMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        WHERE order_id = #{orderId}
+    </select>
+
+    <select id="findBycommissionRuleId" parameterType="long" resultMap="CommissionDetailMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        WHERE commission_rule_id = #{commissionRuleId}
+    </select>
+
+    <insert id="create" parameterType="CommissionDetail" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb" />
+        (<include refid="cols_exclude_id" />)
+        VALUES
+        (<include refid="vals" />)
+    </insert>
+
+    <!-- 计数 -->
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="paging" parameterType="map" resultMap="CommissionDetailMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY id DESC LIMIT #{offset}, #{limit}
+    </select>
+
+    <update id="update" parameterType="CommissionDetail">
+        UPDATE <include refid="tb"/>
+        <set>
+            updated_at = now(),
+            <if test="orderId!=null">order_id = #{orderId},</if>
+            <if test="commissionRuleId!=null">commission_rule_id = #{commissionRuleId},</if>
+            <if test="commission!=null">commission = #{commission},</if>
+            <if test="price!=null">price = #{price},</if>
+            <if test="lowestFee!=null">lowest_fee = #{lowestFee},</if>
+            <if test="rate!=null">rate = #{rate},</if>
+            <if test="type!=null">type = #{type},</if>
+            <if test="description!=null">description = #{description},</if>
+            <if test="systemNo!=null">system_no = #{systemNo},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <delete id="deleteByOrderId" parameterType="long">
+        DELETE FROM <include refid="tb"/>
+        WHERE order_id = #{orderId}
+    </delete>
+
+</mapper>

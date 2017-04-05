@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="SubDomain">
+    <resultMap id="SubDomainMap" type="SubDomain">
+        <id property="id" column="id"/>
+        <result property="desc" column="desc"/>
+        <result property="value" column="value"/>
+        <result property="type" column="type"/>
+        <result property="targetId" column="target_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="table">
+        parana_sub_domains
+    </sql>
+
+    <sql id="columns">
+      `desc`, `value`, `type`, target_id, created_at, updated_at
+    </sql>
+
+    <sql id="values">
+      #{desc}, #{value}, #{type}, #{targetId}, now(), now()
+    </sql>
+
+    <insert id="create" parameterType="SubDomain" keyProperty="id" useGeneratedKeys="true">
+        insert into
+        <include refid="table"/>
+        (<include refid="columns"/>)
+        values (<include refid="values"/>)
+    </insert>
+
+    <delete id="delete" parameterType="long">
+        delete from
+        <include refid="table"/>
+        where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="SubDomain">
+        update
+        <include refid="table"/>
+        <set>
+            <if test="desc != null">`desc` = #{desc},</if>
+            <if test="value != null">`value` = #{value},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="targetId != null">target_id = #{targetId},</if>
+            updated_at = now()
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="SubDomainMap">
+        select id,
+        <include refid="columns"/>
+        from
+        <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="SubDomainMap">
+        select id,
+        <include refid="columns"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="type != null">AND `type` = #{type}</if>
+            <if test="targetId != null">AND target_id = #{targetId}</if>
+            <if test="value != null">AND `value` = #{value}</if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        select count(1)
+        from
+        <include refid="table"/>
+        <where>
+            <if test="type != null">AND `type` = #{type}</if>
+            <if test="targetId != null">AND target_id = #{targetId}</if>
+            <if test="value != null">AND `value` = #{value}</if>
+        </where>
+    </select>
+
+    <select id="findBy" parameterType="map" resultMap="SubDomainMap">
+        SELECT id,
+        <include refid="columns"/>
+        FROM
+        <include refid="table"/>
+        <where>
+            <if test="type != null">AND `type` = #{type}</if>
+            <if test="targetId != null">AND target_id = #{targetId}</if>
+            <if test="value != null">AND `value` = #{value}</if>
+        </where>
+    </select>
+</mapper>

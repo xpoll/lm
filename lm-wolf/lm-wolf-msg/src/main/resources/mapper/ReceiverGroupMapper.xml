@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="ReceiverGroup">
+    <resultMap id="ReceiverGroupMap" type="ReceiverGroup">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="android" property="android"/>
+        <result column="ios" property="ios"/>
+        <result column="wp" property="wp"/>
+        <result column="group1" property="group1"/>
+        <result column="group2" property="group2"/>
+        <result column="group3" property="group3"/>
+        <result column="group4" property="group4"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="table_name">
+        parana_receiver_groups
+    </sql>
+
+    <sql id="columns_exclude_id">
+        user_id,user_name, email,mobile,android,ios,
+        wp,group1,group2,group3,group4,
+        created_at, updated_at
+    </sql>
+
+    <sql id="columns">
+        id,
+        <include refid="columns_exclude_id"/>
+    </sql>
+
+    <sql id="values">
+        #{userId},#{userName},#{email},#{mobile},#{android},#{ios},
+        #{wp},#{group1},#{group2},#{group3},#{group4},
+        now(),now()
+    </sql>
+
+    <sql id="criteria">
+        1 = 1
+        <if test="userId != null"> and `user_id` = #{userId}</if>
+        <if test="userName != null"> and `user_name` = #{userName}</if>
+        <if test="email != null"> and `email` = #{email}</if>
+        <if test="mobile != null"> and `mobile` = #{mobile}</if>
+        <if test="android != null"> and `android` = #{android}</if>
+        <if test="ios != null"> and `ios` = #{ios}</if>
+        <if test="wp != null"> and `wp` = #{wp}</if>
+        <if test="group1 != null"> and `group1` = #{group1}</if>
+        <if test="group2 != null"> and `group2` = #{group2}</if>
+        <if test="group3 != null"> and `group3` = #{group3}</if>
+        <if test="group4 != null"> and `group4` = #{group4}</if>
+    </sql>
+
+    <insert id="create" parameterType="ReceiverGroup" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table_name"/>
+        (<include refid="columns_exclude_id"/>)
+        VALUES (<include refid="values"/>)
+    </insert>
+
+    <update id="update" parameterType="ReceiverGroup">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <if test="userName !=null"> user_name = #{userName},</if>
+            <if test="email !=null"> email = #{email},</if>
+            <if test="mobile !=null"> mobile = #{mobile},</if>
+            <if test="android !=null"> android = #{android},</if>
+            <if test="ios !=null"> ios = #{ios},</if>
+            <if test="wp !=null"> wp = #{wp},</if>
+            <if test="group1 !=null"> group1 = #{group1},</if>
+            <if test="group2 !=null"> group2 = #{group2},</if>
+            <if test="group3 !=null"> group3 = #{group3},</if>
+            <if test="group4 !=null"> group4 = #{group4},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="ReceiverGroupMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="ReceiverGroupMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE id IN
+        <foreach collection="list" separator="," open="("
+                 close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findByUserId" parameterType="map" resultMap="ReceiverGroupMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE user_id = #{userId} LIMIT 1
+    </select>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="ReceiverGroupMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+        <if test="limit != null">
+            LIMIT
+            <if test="offset != null">#{offset},</if>
+            #{limit}
+        </if>
+    </select>
+
+    <select id="list" parameterType="map" resultMap="ReceiverGroupMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        <include refid="table_name"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from <include refid="table_name"/>
+        where id=#{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="MergeOrder">
+    <resultMap id="MergeOrderMap" type="MergeOrder">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_type" property="parentType"/>
+        <result column="flow_id" property="flowId"/>
+        <result column="node_instance_id" property="nodeInstanceId"/>
+        <result column="next_action_instance_ids" property="nextActionInstanceIds"/>
+        <result column="type" property="type"/>
+        <result column="out_id" property="outId"/>
+        <result column="out_from" property="outFrom"/>
+        <result column="extra_json" property="extraJson"/>
+        <result column="tags_json" property="tagsJson"/>
+        <result column="origin_fee" property="originFee"/>
+        <result column="fee" property="fee"/>
+        <result column="discount" property="discount"/>
+        <result column="ship_fee" property="shipFee"/>
+        <result column="ship_fee_discount" property="shipFeeDiscount"/>
+        <result column="integral" property="integral"/>
+        <result column="balance" property="balance"/>
+        <result column="sale_tax" property="saleTax"/>
+        <result column="ship_fee_sale_tax" property="shipFeeSaleTax"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="buyer_name" property="buyerName"/>
+        <result column="out_buyer_id" property="outBuyerId"/>
+        <result column="company_id" property="companyId"/>
+        <result column="pay_type" property="payType"/>
+        <result column="channel" property="channel"/>
+        <result column="has_refund" property="hasRefund"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_merge_orders
+    </sql>
+    
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+    
+    <sql id="cols_exclude_id">
+        parent_id, parent_type, flow_id, node_instance_id, next_action_instance_ids, `type`, out_id, out_from,
+        extra_json, tags_json, origin_fee, fee, discount, ship_fee, ship_fee_discount, integral, balance, sale_tax,
+        ship_fee_sale_tax, buyer_id, buyer_name, out_buyer_id, company_id, pay_type, channel, has_refund,
+        created_at, updated_at
+    </sql>
+    
+    <sql id="vals">
+        #{parentId}, #{parentType}, #{flowId}, #{nodeInstanceId}, #{nextActionInstanceIds}, #{type}, #{outId},
+        #{outFrom}, #{extraJson}, #{tagsJson}, #{originFee}, #{fee}, #{discount}, #{shipFee}, #{shipFeeDiscount},
+        #{integral}, #{balance}, #{saleTax}, #{shipFeeSaleTax}, #{buyerId}, #{buyerName},
+        #{outBuyerId}, #{companyId}, #{payType}, #{channel}, #{hasRefund},now(), now()
+    </sql>
+
+    <sql id="criteria">
+        <if test="parentId != null">AND parent_id = #{parentId}</if>
+        <if test="buyerId != null">AND buyer_id = #{buyerId}</if>
+        <if test="companyId != null">AND company_id = #{companyId}</if>
+        <if test="outId != null">AND out_id = #{outId}</if>
+        <if test="outBuyerId != null">AND out_buyer_id = #{outBuyerId}</if>
+        <if test="hasRefund != null">AND  has_refund = #{hasRefund}</if>
+        <if test="startAt != null">AND <![CDATA[created_at >= #{startAt}]]> </if>
+        <if test="endAt != null">AND <![CDATA[created_at < #{endAt}]]> </if>
+    </sql>
+
+    <insert id="create" parameterType="MergeOrder" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="MergeOrderMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="MergeOrderMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--  更新  -->
+    <update id="update" parameterType="MergeOrder">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="flowId != null">flow_id = #{flowId},</if>
+            <if test="nodeInstanceId != null">node_instance_id = #{nodeInstanceId},</if>
+            <if test="nextActionInstanceIds != null">next_action_instance_ids = #{nextActionInstanceIds},</if>
+            <if test="extraJson != null">extra_json = #{extraJson},</if>
+            <if test="tagsJson != null">tags_json = #{tagsJson},</if>
+            <if test="hasRefund != null">has_refund = #{hasRefund},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!--  查询记录数  -->
+    <select id="count" parameterType="map" resultType="long">
+        select count(1) from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <!--  分页  -->
+    <select id="paging" parameterType="map" resultMap="MergeOrderMap">
+        select id,<include refid="cols_exclude_id"/>
+        from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        order by `id` desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findByParentId" parameterType="long" resultMap="MergeOrderMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE parent_id = #{parentId} LIMIT 1
+    </select>
+
+    <select id="findByParentIds" parameterType="list" resultMap="MergeOrderMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE parent_id IN
+        <foreach item="parentId" collection="list" open="(" separator="," close=")">
+            #{parentId}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Shop">
+    <resultMap id="ShopMap" type="Shop">
+        <id column="id" property="id"/>
+        <result column="outer_id" property="outerId"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <result column="phone" property="phone"/>
+        <result column="business_id" property="businessId"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="address" property="address"/>
+        <result column="extra_json" property="extraJson"/>
+        <result column="tags_json" property="tagsJson"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_shops
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        outer_id, user_id, user_name, name, status, type, phone, business_id,
+        image_url, address, extra_json, tags_json, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{outerId}, #{userId}, #{userName}, #{name}, #{status}, #{type}, #{phone},
+        #{businessId}, #{imageUrl},#{address}, #{extraJson},#{tagsJson}, now(), now()
+    </sql>
+
+
+
+    <insert id="create" parameterType="Shop" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="ShopMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByUserId" parameterType="long" resultMap="ShopMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="ShopMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE name = #{name}
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="ShopMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <update id="update" parameterType="Shop">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="outerId != null">outer_id = #{outerId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="businessId != null">business_id = #{businessId},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="extraJson != null">extra_json = #{extraJson},</if>
+            updated_at=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateStatus" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="batchUpdateStatus" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET status = #{status}, updated_at = now()
+        WHERE id IN
+        <foreach item="id" collection="ids"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- for search -->
+    <select id="lastId" resultType="long">
+        SELECT MAX(id) FROM
+        <include refid="tb"/>
+    </select>
+
+
+    <select id="listTo" resultMap="ShopMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE <![CDATA[
+          id < #{lastId}
+        ]]>
+        ORDER BY id DESC LIMIT #{limit}
+    </select>
+
+
+    <select id="listSince" resultMap="ShopMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE  <![CDATA[
+          id < #{lastId} AND updated_at > #{since}
+        ]]>
+        ORDER BY id DESC LIMIT #{limit}
+    </select>
+
+    <select id="findByOuterId" parameterType="string" resultMap="ShopMap">
+        SELECT * FROM
+        <include refid="tb"/>
+        WHERE outer_id=#{outerId}
+    </select>
+
+    <update id="updateTags" parameterType="map">
+        UPDATE
+        <include refid="tb"/>
+        SET
+        tags_json = #{tagsJson},
+        updated_at= now()
+        WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PayStage">
+
+    <resultMap id="payStageMap" type="PayStage">
+        <id property="id" column="id"/>
+        <result property="payId" column="pay_id"/>
+        <result property="currentStage" column="current_stage"/>
+        <result property="paidStatus" column="paid_status"/>
+        <result property="paymentCode" column="payment_code"/>
+        <result property="channel" column="channel"/>
+        <result property="fee" column="fee"/>
+        <result property="content" column="content"/>
+        <result property="systemNo" column="system_no"/>
+        <result property="paidAt" column="paid_at"/>
+        <result property="expiredAt" column="expired_at"/>
+        <result property="repayAt" column="repay_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+
+    <sql id="table">
+        parana_pay_stages
+    </sql>
+
+    <sql id="columns">
+        pay_id, current_stage,paid_status, payment_code, channel, fee, content,system_no,
+        paid_at, expired_at,  repay_at, created_at, updated_at
+    </sql>
+
+    <insert id="create" parameterType="PayStage" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/> (<include refid="columns"/>)
+        values
+        (
+            #{payId}, #{currentStage}, #{paidStatus}, #{paymentCode}, #{channel}, #{fee},
+            #{content},#{systemNo}, #{paidAt},  #{expiredAt},  #{repayAt},now(), now()
+        )
+    </insert>
+
+    <select id="load" parameterType="long" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="map">
+        UPDATE <include refid="table"/>
+        <set>
+            <if test="repayAt != null">
+                repay_at = #{repayAt},
+            </if>
+            <if test="paidAt != null">
+                paid_at = #{paidAt},
+            </if>
+            <if test="paidStatus != null">
+                paid_status = #{paidStatus},
+            </if>
+            <if test="channel != null">
+                channel = #{channel},
+            </if>
+            <if test="paymentCode != null">
+                payment_code = #{paymentCode},
+            </if>
+            <if test="fee != null">
+                fee = #{fee},
+            </if>
+
+
+            updated_at = now(),
+        </set>
+        WHERE id=#{id}
+    </update>
+
+
+    <select id="findByPayId" parameterType="long" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where pay_id = #{payId}
+    </select>
+
+
+    <select id="findByPayIdAndStage" parameterType="map" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where pay_id = #{payId} and current_stage = #{currentStage}
+    </select>
+
+    <select id="sumFeeByPayId" parameterType="long" resultType="Integer">
+        select sum(fee)
+        from <include refid="table"/> where pay_id = #{payId}
+    </select>
+
+
+    <select id="findRecentStageByPaySystemNo" parameterType="string" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where system_no = #{systemNo} and paid_status = 0 order by current_stage asc limit 1;
+    </select>
+
+
+    <select id="findByPayPaymentCode" parameterType="string" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where payment_code = #{paymentCode};
+    </select>
+
+    <sql id="queryCondition">
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="startAt!=null">and created_at &gt; #{startAt}</if>
+            <if test="endAt!=null">and created_at &lt; #{endAt}</if>
+        </where>
+    </sql>
+    <select id="paging" parameterType="list" resultMap="payStageMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="count" parameterType="list" resultType="long">
+        select count(1)
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+    </select>
+
+    <select id="countNoPay" parameterType="map" resultType="int">
+        select count(1)
+        from <include refid="table"/>
+        WHERE pay_id = #{payId} AND paid_status = #{paidStatus}
+    </select>
+
+    <select id="loadBySystemNo" parameterType="string" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where system_no = #{systemNo}
+    </select>
+
+    <select id="checkIsPaid" parameterType="map" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where pay_id = #{payId} and paid_status=1 and current_stage in
+        <foreach collection="stages" separator="," open="("
+                 close=")" item="stage">
+            #{stage}
+        </foreach>
+    </select>
+
+    <select id="findById" parameterType="long" resultMap="payStageMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        WHERE id =#{id}
+    </select>
+
+</mapper>

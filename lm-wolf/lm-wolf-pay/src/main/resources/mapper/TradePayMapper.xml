@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TradePay">
+
+    <resultMap id="tradePayMap" type="TradePay">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderIds" column="order_ids"/>
+        <result property="buyerId" column="buyer_id"/>
+        <result property="systemNo" column="system_no"/>
+        <result property="orderType" column="order_type"/>
+        <result property="subject" column="subject"/>
+        <result property="paidType" column="paid_type"/>
+        <result property="paidStatus" column="paid_status"/>
+        <result property="mergePaid" column="merge_paid"/>
+        <result property="expiredAt" column="expired_at"/>
+        <result property="paidAt" column="paid_at"/>
+        <result property="stage" column="stage"/>
+        <result property="currentStage" column="current_stage"/>
+        <result property="shouldFee" column="should_fee"/>
+        <result property="alreadyFee" column="already_fee"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+
+    <sql id="table">
+        parana_pays
+    </sql>
+
+    <sql id="columns">
+        order_id, order_ids,buyer_id,system_no, order_type, subject, paid_type, paid_status, merge_paid,
+        expired_at, paid_at, stage,current_stage, should_fee, already_fee, created_at, updated_at
+    </sql>
+
+    <insert id="create" parameterType="TradePay" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table"/> (<include refid="columns"/>)
+        values
+        (
+            #{orderId}, #{orderIds}, #{buyerId}, #{systemNo}, #{orderType}, #{subject}, #{paidType}, #{paidStatus}, #{mergePaid},
+            #{expiredAt}, #{paidAt},  #{stage}, #{currentStage},  #{shouldFee},  #{alreadyFee},now(), now()
+        )
+    </insert>
+
+    <select id="load" parameterType="long" resultMap="tradePayMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="map">
+        UPDATE <include refid="table"/>
+        <set>
+            <if test="alreadyFee != null">
+                already_fee = #{alreadyFee},
+            </if>
+            <if test="paidAt != null">
+                paid_at = #{paidAt},
+            </if>
+            <if test="paidStatus != null">
+                paid_status = #{paidStatus},
+            </if>
+            <if test="shouldFee != null">
+                should_fee = #{shouldFee},
+            </if>
+            <if test="currentStage != null">
+                current_stage = #{currentStage},
+            </if>
+            updated_at = now(),
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="loadBySystemNo" parameterType="string" resultMap="tradePayMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where system_no = #{systemNo}
+    </select>
+
+    <select id="findByOrderId" parameterType="long" resultMap="tradePayMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where order_id = #{orderId}
+    </select>
+
+    <select id="loadByOrderIdsAndOrderType" parameterType="map" resultMap="tradePayMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where order_ids = #{orderIds} and order_type =#{orderType}
+    </select>
+
+    <select id="loadByOrderIdAndOrderType" parameterType="map" resultMap="tradePayMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/> where order_id = #{orderId} and order_type =#{orderType}
+    </select>
+
+
+    <sql id="queryCondition">
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="startAt!=null">and created_at &gt; #{startAt}</if>
+            <if test="endAt!=null">and created_at &lt; #{endAt}</if>
+        </where>
+    </sql>
+    <select id="paging" parameterType="list" resultMap="tradePayMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+        order by id desc limit #{offset},#{limit}
+    </select>
+
+    <select id="count" parameterType="list" resultType="long">
+        select count(1)
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+    </select>
+
+    <update id="updateStatus" parameterType="map">
+        UPDATE <include refid="table"/>
+        SET paid_status = #{status} , updated_at = now()
+        WHERE system_no=#{systemNo}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="tradePayMap">
+        select id,
+        <include refid="columns"/>
+        from <include refid="table"/>
+        WHERE id =#{id}
+    </select>
+
+</mapper>

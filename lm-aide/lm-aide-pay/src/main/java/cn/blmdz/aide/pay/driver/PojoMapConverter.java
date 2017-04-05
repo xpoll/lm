@@ -14,89 +14,95 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class PojoMapConverter implements Converter {
-   public boolean canConvert(Class clazz) {
-      String classname = clazz.getName();
-      return classname.indexOf("Map") >= 0 || classname.indexOf("List") >= 0 || classname.indexOf("Bean") >= 0;
-   }
 
-   public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-      this.map2xml(value, writer, context);
-   }
+	@Override
+	public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {
+		String classname = clazz.getName();
+		return classname.indexOf("Map") >= 0 || classname.indexOf("List") >= 0 || classname.indexOf("Bean") >= 0;
+	}
 
-   protected void map2xml(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-      boolean bMap = true;
-      String classname = value.getClass().getName();
-      bMap = classname.indexOf("List") < 0;
-      if(bMap) {
-         Map<String, Object> map = (Map)value;
+	@Override
+	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+		this.map2xml(value, writer, context);
+	}
 
-         for(Entry<String, Object> entry : map.entrySet()) {
-            String key = (String)entry.getKey();
-            Object subvalue = entry.getValue();
-            writer.startNode(key);
-            if(subvalue instanceof Map) {
-               this.map2xml(subvalue, writer, context);
-            } else {
-               writer.setValue(subvalue.toString());
-            }
+	@SuppressWarnings("unchecked")
+	protected void map2xml(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+		boolean bMap = true;
+		String classname = value.getClass().getName();
+		bMap = classname.indexOf("List") < 0;
+		if (bMap) {
+			Map<String, Object> map = (Map<String, Object>) value;
 
-            writer.endNode();
-         }
-      } else {
-         for(Object subval : (List)value) {
-            writer.startNode("child");
-            if(subval.getClass().getName().indexOf("String") >= 0) {
-               writer.setValue((String)subval);
-            } else {
-               this.map2xml(subval, writer, context);
-            }
+			for (Entry<String, Object> entry : map.entrySet()) {
+				String key = (String) entry.getKey();
+				Object subvalue = entry.getValue();
+				writer.startNode(key);
+				if (subvalue instanceof Map) {
+					this.map2xml(subvalue, writer, context);
+				} else {
+					writer.setValue(subvalue.toString());
+				}
 
-            writer.endNode();
-         }
-      }
+				writer.endNode();
+			}
+		} else {
+			for (Object subval : (List<Object>) value) {
+				writer.startNode("child");
+				if (subval.getClass().getName().indexOf("String") >= 0) {
+					writer.setValue((String) subval);
+				} else {
+					this.map2xml(subval, writer, context);
+				}
 
-   }
+				writer.endNode();
+			}
+		}
 
-   public Map unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-      Map<String, Object> map = (Map)this.populateMap(reader, context);
-      return map;
-   }
+	}
 
-   protected Object populateMap(HierarchicalStreamReader reader, UnmarshallingContext context) {
-      boolean bMap = true;
-      Map<String, Object> map = Maps.newTreeMap();
+	@Override
+	public Map<String, Object> unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>) this.populateMap(reader, context);
+		return map;
+	}
 
-      List<Object> list;
-      for(list = Lists.newArrayList(); reader.hasMoreChildren(); reader.moveUp()) {
-         reader.moveDown();
-         String key = reader.getNodeName();
-         Object value = null;
-         if(reader.hasMoreChildren()) {
-            value = this.populateMap(reader, context);
-         } else {
-            value = reader.getValue();
-         }
+	protected Object populateMap(HierarchicalStreamReader reader, UnmarshallingContext context) {
+		boolean bMap = true;
+		Map<String, Object> map = Maps.newTreeMap();
 
-         if(!bMap) {
-            list.add(value);
-         } else if(!map.containsKey(key)) {
-            map.put(key, value);
-         } else {
-            bMap = false;
-            Iterator<Entry<String, Object>> iter = map.entrySet().iterator();
+		List<Object> list;
+		for (list = Lists.newArrayList(); reader.hasMoreChildren(); reader.moveUp()) {
+			reader.moveDown();
+			String key = reader.getNodeName();
+			Object value = null;
+			if (reader.hasMoreChildren()) {
+				value = this.populateMap(reader, context);
+			} else {
+				value = reader.getValue();
+			}
 
-            while(iter.hasNext()) {
-               list.add(((Entry)iter.next()).getValue());
-            }
+			if (!bMap) {
+				list.add(value);
+			} else if (!map.containsKey(key)) {
+				map.put(key, value);
+			} else {
+				bMap = false;
+				Iterator<Entry<String, Object>> iter = map.entrySet().iterator();
 
-            list.add(value);
-         }
-      }
+				while (iter.hasNext()) {
+					list.add(iter.next().getValue());
+				}
 
-      if(bMap) {
-         return map;
-      } else {
-         return list;
-      }
-   }
+				list.add(value);
+			}
+		}
+
+		if (bMap) {
+			return map;
+		} else {
+			return list;
+		}
+	}
 }
