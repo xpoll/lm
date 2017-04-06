@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016. 杭州端点网络科技有限公司.  All rights reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="OrderExtra">
+    <resultMap id="OrderExtraMap" type="OrderExtra">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="order_type" property="orderType"/>
+        <result column="channel" property="channel"/>
+        <result column="trade_no" property="tradeNo"/>
+        <result column="batch_no" property="batchNo"/>
+        <result column="payment_code" property="paymentCode"/>
+        <result column="system_no" property="systemNo"/>
+        <result column="trade_info" property="tradeInfo"/>
+        <result column="buyer_notes" property="buyerNotes"/>
+        <result column="seller_notes" property="sellerNotes"/>
+        <result column="invoice" property="invoice"/>
+        <result column="paid_at" property="paidAt"/>
+        <result column="buyer_cancel_at" property="buyerCancelAt"/>
+        <result column="seller_cancel_at" property="sellerCancelAt"/>
+        <result column="deliver_at" property="deliverAt"/>
+        <result column="done_at" property="doneAt"/>
+        <result column="apply_at" property="applyAt"/>
+        <result column="check_at" property="checkAt"/>
+        <result column="buyer_deliver_at" property="buyerDeliverAt"/>
+        <result column="seller_deliver_at" property="sellerDeliverAt"/>
+        <result column="refund_at" property="refundAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="tb">
+        parana_order_extra
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        order_id, order_type, channel, trade_no, batch_no,payment_code,system_no, trade_info, buyer_notes, seller_notes,
+        invoice, paid_at, buyer_cancel_at, seller_cancel_at, deliver_at, done_at, apply_at, check_at,
+        buyer_deliver_at, seller_deliver_at, refund_at, created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{orderId}, #{orderType}, #{channel}, #{tradeNo}, #{batchNo},#{paymentCode},#{systemNo}, #{tradeInfo}, #{buyerNotes}, #{sellerNotes},
+        #{invoice}, #{paidAt}, #{buyerCancelAt}, #{sellerCancelAt}, #{deliverAt}, #{doneAt}, #{applyAt}, #{checkAt},
+        #{buyerDeliverAt}, #{sellerDeliverAt}, #{refundAt}, now(), now()
+    </sql>
+
+    <!-- TODO 时间判断需要修改 -->
+    <sql id="criteria">
+        <if test="orderId != null">AND order_id = #{orderId}</if>
+        <if test="orderType != null">AND order_type = #{orderType}</if>
+        <if test="channel != null">AND channel = #{channel}</if>
+        <if test="tradeNo != null">AND trade_no = #{tradeNo}</if>
+        <if test="batchNo != null">AND batch_no = #{batchNo}</if>
+        <if test="tradeInfo != null">AND trade_info = #{tradeInfo}</if>
+        <if test="buyerNotes != null">AND buyer_notes = #{buyerNotes}</if>
+        <if test="sellerNotes != null">AND seller_notes = #{sellerNotes}</if>
+        <if test="invoice != null">AND invoice = #{invoice}</if>
+        <if test="paidAt != null">AND paid_at = #{paidAt}</if>
+        <if test="buyerCancelAt != null">AND buyer_cancel_at = #{buyerCancelAt}</if>
+        <if test="sellerCancelAt != null">AND seller_cancel_at = #{sellerCancelAt}</if>
+        <if test="deliverAt != null">AND deliver_at = #{deliverAt}</if>
+        <if test="doneAt != null">AND done_at = #{doneAt}</if>
+        <if test="applyAt != null">AND apply_at = #{applyAt}</if>
+        <if test="checkAt != null">AND check_at = #{checkAt}</if>
+        <if test="buyerDeliverAt != null">AND buyer_deliver_at = #{buyerDeliverAt}</if>
+        <if test="sellerDeliverAt != null">AND seller_deliver_at = #{sellerDeliverAt}</if>
+        <if test="refundAt != null">AND refund_at = #{refundAt}</if>
+        <if test="startAt != null">AND <![CDATA[created_at >= #{startAt}]]> </if>
+        <if test="endAt != null">AND <![CDATA[created_at < #{endAt}]]> </if>
+    </sql>
+
+    <insert id="create" parameterType="OrderExtra" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="OrderExtraMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="OrderExtraMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--  更新 TODO 时间更新需要修改 -->
+    <update id="update" parameterType="OrderExtra">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="orderType != null"> order_type = #{orderType},</if>
+            <if test="channel != null"> channel = #{channel},</if>
+            <if test="tradeNo != null"> trade_no = #{tradeNo},</if>
+            <if test="systemNo != null"> system_no = #{systemNo},</if>
+            <if test="paymentCode != null"> payment_code = #{paymentCode},</if>
+            <if test="batchNo != null"> batch_no = #{batchNo},</if>
+            <if test="tradeInfo != null"> trade_info = #{tradeInfo},</if>
+            <if test="buyerNotes != null"> buyer_notes = #{buyerNotes},</if>
+            <if test="sellerNotes != null"> seller_notes = #{sellerNotes},</if>
+            <if test="invoice != null"> invoice = #{invoice},</if>
+            <if test="paidAt != null"> paid_at = #{paidAt},</if>
+            <if test="buyerCancelAt != null"> buyer_cancel_at = #{buyerCancelAt},</if>
+            <if test="sellerCancelAt != null"> seller_cancel_at = #{sellerCancelAt},</if>
+            <if test="deliverAt != null"> deliver_at = #{deliverAt},</if>
+            <if test="doneAt != null"> done_at = #{doneAt},</if>
+            <if test="applyAt != null"> apply_at = #{applyAt},</if>
+            <if test="checkAt != null"> check_at = #{checkAt},</if>
+            <if test="buyerDeliverAt != null"> buyer_deliver_at = #{buyerDeliverAt},</if>
+            <if test="sellerDeliverAt != null"> seller_deliver_at = #{sellerDeliverAt},</if>
+            <if test="refundAt != null"> refund_at = #{refundAt},</if>
+            updated_at = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <!--  查询记录数  -->
+    <select id="count" parameterType="map" resultType="long">
+        select count(1) from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+    </select>
+
+    <!--  分页  -->
+    <select id="paging" parameterType="map" resultMap="OrderExtraMap">
+        select id, <include refid="cols_exclude_id"/>
+        from
+        <include refid="tb"/>
+        <where>
+            <include refid="criteria"/>
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findByOrderIdAndType" parameterType="map" resultMap="OrderExtraMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE order_id = #{orderId} AND order_type = #{type}
+    </select>
+
+</mapper>

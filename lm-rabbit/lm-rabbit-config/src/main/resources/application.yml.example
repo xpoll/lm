@@ -1,0 +1,26 @@
+logging:
+  file: ${user.home}/logs/galaxy/config.log
+  level.*: INFO
+  level.io.terminus: DEBUG
+
+mybatis:
+  mapperLocations: classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: io.terminus.parana.config.model
+
+datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/b2b2c?useUnicode=true&characterEncoding=UTF8
+  username: b2b2c
+  password: anywhere
+
+zookeeper:
+  host: 127.0.0.1
+  port: 2181
+
+dubbo:
+  name: galaxy-config
+  registry: zookeeper://127.0.0.1:2181
+  port: -1
+  timeout: 10000
+  threads: 100
+  heartBeats: 10000

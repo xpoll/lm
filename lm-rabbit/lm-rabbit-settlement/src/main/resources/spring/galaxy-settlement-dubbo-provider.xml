@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2015 杭州端点网络科技有限公司
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- settlement services -->
+    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.settlement.service.SettlementReadService" ref="settlementReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.settlement.service.SettlementWriteService" ref="settlementWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.settlement.service.GalaxySettlementReadService" ref="galaxySettlementReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.settlement.service.GalaxySettlementWriteService" ref="galaxySettlementWriteServiceImpl"/>
+
+
+
+
+</beans>

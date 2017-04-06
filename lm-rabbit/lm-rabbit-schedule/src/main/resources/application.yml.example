@@ -1,0 +1,21 @@
+logging:
+  file: ${user.home}/logs/galaxy/schedule.log
+  level.*: INFO
+  level.io.terminus: DEBUG
+
+server:
+  context-path: /
+  port: 8083
+
+zookeeper:
+  host: 127.0.0.1
+  port: 2181
+
+dubbo:
+  name: galaxy-schedule
+  registry: zookeeper://127.0.0.1:2181
+  port: -1
+  timeout: 10000
+  threads: 100
+  heartBeats: 10000
+  mode: consumer

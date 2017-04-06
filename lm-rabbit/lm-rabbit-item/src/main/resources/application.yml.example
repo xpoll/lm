@@ -1,0 +1,53 @@
+logging:
+  file: ${user.home}/logs/galaxy/item.log
+  level.*: INFO
+  level.io.terminus: DEBUG
+
+mybatis:
+  mapperLocations: classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: io.terminus.parana.(item|shop|category|spu|brand|user).model
+
+datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/b2b2c?useUnicode=true&characterEncoding=UTF8
+  username: b2b2c
+  password: anywhere
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  max-total: 10
+  max-idle: 2
+  test-on-borrow: true
+
+zookeeper:
+  host: 127.0.0.1
+  port: 2181
+
+dubbo:
+  name: galaxy-item
+  registry: zookeeper://127.0.0.1:2181
+  port: -1
+  timeout: 10000
+  threads: 100
+  heartBeats: 10000
+
+item:
+  search:
+    index-name: items
+    index-type: item
+    mapping-path: item_mapping.json
+    full-dump-range: 3
+    batch-size: 100
+
+shop:
+  search:
+    index-name: shops
+    index-type: shop
+    mapping-path: shop_mapping.json
+    full-dump-range: 3
+    batch-size: 100
+
+search:
+  host: 127.0.0.1
+  port: 9200

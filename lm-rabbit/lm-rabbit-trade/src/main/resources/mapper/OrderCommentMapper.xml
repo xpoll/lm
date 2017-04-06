@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2016 杭州端点网络科技有限公司
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="OrderComment">
+    <resultMap id="orderCommentMap" type="OrderComment">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="orderItemId" column="order_item_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="sellerId" column="seller_id"/>
+        <result property="quality" column="quality"/>
+        <result property="describe" column="describe"/>
+        <result property="service" column="service"/>
+        <result property="express" column="express"/>
+        <result property="context" column="context"/>
+        <result property="reply" column="reply"/>
+        <result property="isReply" column="is_reply"/>
+        <result property="companyId" column="company_id"/>
+        <result property="status" column="status"/>
+        <result property="reference" column="reference"/>
+        <result property="referenceId" column="reference_id"/>
+        <result property="avatar" column="avatar"/>
+        <result property="image1" column="image1"/>
+        <result property="image2" column="image2"/>
+        <result property="image3" column="image3"/>
+        <result property="image4" column="image4"/>
+        <result property="image5" column="image5"/>
+        <result property="isPublish" column="is_publish"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="table">
+        parana_order_comments
+    </sql>
+
+    <sql id="columns">
+        user_id, user_name, order_item_id, item_id, item_name, shop_id, shop_name, seller_id,
+        quality, `describe`, service, express, context, reply, is_reply, company_id, status,
+        reference, reference_id, avatar, image1, image2, image3, image4, image5, is_publish, created_at, updated_at
+    </sql>
+
+    <sql id="values">
+        #{userId}, #{userName}, #{orderItemId}, #{itemId}, #{itemName}, #{shopId}, #{shopName},
+        #{sellerId}, #{quality}, #{describe}, #{service}, #{express}, #{context}, #{reply}, #{isReply},
+        #{companyId}, #{status}, #{reference}, #{referenceId}, #{avatar}, #{image1}, #{image2}, #{image3},
+        #{image4}, #{image5}, #{isPublish}, now(), now()
+    </sql>
+
+    <sql id="updateCondition">
+        <set>
+            updated_at = now(),
+            <if test="quality!=null">quality = #{quality},</if>
+            <if test="describe!=null">`describe` = #{describe},</if>
+            <if test="service!=null">service = #{service},</if>
+            <if test="express!=null">express = #{express},</if>
+            <if test="context!=null">context = #{context},</if>
+            <if test="reply!=null">reply = #{reply},</if>
+            <if test="isReply!=null">is_reply = #{isReply},</if>
+            <if test="image1!=null">image1 = #{image1},</if>
+            <if test="image2!=null">image2 = #{image2},</if>
+            <if test="image3!=null">image3 = #{image3},</if>
+            <if test="image4!=null">image4 = #{image4},</if>
+            <if test="image5!=null">image5 = #{image5},</if>
+        </set>
+    </sql>
+
+    <sql id="queryCondition">
+        <where>
+            <if test="userId!=null">user_id = #{userId}</if>
+            <if test="userName!=null">and user_name = #{userName}</if>
+            <if test="sellerId!=null">and seller_id = #{sellerId}</if>
+            <if test="orderItemId!=null">and order_item_id = #{orderItemId}</if>
+            <if test="itemId!=null">and item_id = #{itemId}</if>
+            <if test="shopId!=null">and shop_id = #{shopId}</if>
+            <if test="itemName!=null">and item_name = #{itemName}</if>
+            <if test="shopName!=null">and shop_name = #{shopName}</if>
+            <if test="companyId!=null">and company_id = #{companyId}</if>
+            <if test="status!=null">and status = #{status}</if>
+            <if test="isReply!=null">AND is_reply = #{isReply}</if>
+            <if test="reference!=null">AND reference = #{reference}</if>
+            <if test="quality!=null">
+                AND quality IN
+                <foreach collection="quality" open="(" separator="," close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startAt!=null">AND created_at &gt; #{startAt}</if>
+            <if test="endAt!=null">AND created_at &lt; #{endAt}</if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="OrderComment" keyProperty="id" useGeneratedKeys="true">
+        insert into <include refid="table"/>
+        (<include refid="columns"/>)
+        values
+        (
+        #{userId}, #{userName}, #{orderItemId}, #{itemId}, #{itemName}, #{shopId}, #{shopName},
+        #{sellerId}, #{quality}, #{describe}, #{service}, #{express}, #{context}, #{reply}, #{isReply},
+        #{companyId}, #{status}, #{reference}, #{referenceId}, #{avatar}, #{image1}, #{image2}, #{image3},
+        #{image4}, #{image5}, #{isPublish},
+        <if test="createdAt!=null and updatedAt!=null">
+            #{createdAt},#{updatedAt}
+        </if>
+        <if test="createdAt==null or updatedAt==null">
+            now(),now()
+        </if>
+        )
+    </insert>
+
+    <insert id="creates" parameterType="list">
+        INSERT INTO <include refid="table"/>
+        (<include refid="columns"/>)
+        VALUES
+        <foreach collection="list" separator="," item="i">
+            (
+            #{i.userId}, #{i.userName}, #{i.orderItemId}, #{i.itemId}, #{i.itemName}, #{i.shopId}, #{i.shopName},
+            #{i.sellerId}, #{i.quality}, #{i.describe}, #{i.service}, #{i.express}, #{i.context}, #{i.reply}, #{i.isReply},
+            #{i.companyId}, #{i.status}, #{i.reference}, #{i.referenceId}, #{i.avatar}, #{i.image1}, #{i.image2}, #{i.image3},
+            #{i.image4}, #{i.image5}, #{i.isPublish}, now(), now()
+            )
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="OrderComment">
+        update <include refid="table"/>
+        <include refid="updateCondition"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" parameterType="long" resultMap="orderCommentMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        where id = #{id}
+    </select>
+
+    <select id="countBy" parameterType="map" resultType="long">
+        select count(1)
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+    </select>
+
+    <select id="findBy" parameterType="map" resultMap="orderCommentMap">
+        select id, <include refid="columns"/>
+        from <include refid="table"/>
+        <include refid="queryCondition"/>
+        order by created_at desc limit #{offset},#{limit}
+    </select>
+
+    <update id="batchUpdateStatus" parameterType="map">
+        UPDATE <include refid="table"/>
+        SET status = #{status}
+        WHERE
+        id IN
+        <foreach collection="ids" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="maxId" resultType="long">
+        select
+        max(id)
+        from <include refid="table"/>
+    </select>
+
+    <select id="findByOrderItemIds" resultMap="orderCommentMap">
+        SELECT id, <include refid="columns"/>
+        FROM <include refid="table"/>
+        WHERE order_item_id IN
+        <foreach collection="array" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="countDistinctItemIdBySellerId" parameterType="long" resultType="long">
+        SELECT COUNT(DISTINCT(item_id))
+        FROM <include refid="table"/>
+        WHERE seller_id = #{sellerId}
+    </select>
+
+    <select id="findDistinctItemIdBySellerId" parameterType="map" resultType="long">
+        SELECT DISTINCT(item_id)
+        FROM <include refid="table"/>
+        WHERE seller_id = #{sellerId}
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="table"/>
+        WHERE id = #{id}
+    </delete>
+</mapper>

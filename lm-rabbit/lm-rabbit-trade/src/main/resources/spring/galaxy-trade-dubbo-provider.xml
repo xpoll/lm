@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--order service -->
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderReadService" ref="orderReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderWriteService" ref="orderWriteServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderActionReadService" ref="orderActionReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderNodeReadService" ref="orderNodeReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderJobDataWriteService" ref="orderJobDataWriteServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderJobDataReadService" ref="orderJobDataReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderExtraReadService" ref="orderExtraReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.UserVatInvoiceReadService" ref="userVatInvoiceReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.UserVatInvoiceWriteService" ref="userVatInvoiceWriteServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderSettlementReadService" ref="orderSettlementReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderSettlementWriteService" ref="orderSettlementWriteServiceImpl"/>
+    <dubbo:service timeout="10000" version="1.0.0" retries="0" interface="io.terminus.parana.cart.service.CartReadService" ref="cartReadServiceImpl"/>
+    <dubbo:service timeout="10000" version="1.0.0" retries="0" interface="io.terminus.parana.cart.service.CartWriteService" ref="cartWriteServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderCommentReadService" ref="orderCommentReadServiceImpl"/>
+    <dubbo:service timeout="10000"  version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderCommentWriteService" ref="orderCommentWriteServiceImpl"/>
+
+</beans>

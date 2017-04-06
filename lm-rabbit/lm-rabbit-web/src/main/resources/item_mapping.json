@@ -1,0 +1,82 @@
+{
+  "item": {
+    "_all": {
+      "enabled": false
+    },
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "name": {
+        "type": "string",
+        "analyzer": "jieba",
+        "search_analyzer": "jieba_search",
+        "fields": {
+          "suggest": {
+            "type": "completion"
+          }
+        }
+      },
+      "itemCode": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "shopId": {
+        "type": "long"
+      },
+      "spuId": {
+        "type": "long"
+      },
+      "shopName": {
+        "type": "string",
+        "index": "no"
+      },
+      "brandId": {
+        "type": "long"
+      },
+      "brandName": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "mainImage": {
+        "type": "string",
+        "index": "no"
+      },
+      "price": {
+        "type": "integer"
+      },
+      "stockQuantity": {
+        "type": "integer"
+      },
+      "saleQuantity": {
+        "type": "integer"
+      },
+      "status": {
+        "type": "integer"
+      },
+      "specification": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "type": {
+        "type": "integer"
+      },
+      "categoryIds": {
+        "type": "integer"
+      },
+      "attributes": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "shopCategoryIds": {
+        "type": "integer"
+      },
+      "regionIds": {
+        "type": "integer"
+      },
+      "updatedAt": {
+        "type": "date"
+      }
+    }
+  }
+}

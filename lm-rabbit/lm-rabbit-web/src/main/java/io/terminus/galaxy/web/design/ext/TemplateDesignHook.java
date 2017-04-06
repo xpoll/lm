@@ -1,0 +1,13 @@
+package io.terminus.galaxy.web.design.ext;
+
+import io.terminus.pampas.design.model.Page;
+
+import java.util.List;
+
+/**
+ * Author:Guo Chaopeng
+ * Created on 3/23/15.
+ */
+public interface TemplateDesignHook {
+    List<Page> getPages();
+}

@@ -1,0 +1,67 @@
+logging:
+  file: /var/log/galaxy/admin.log
+  level.*: INFO
+  level.io.terminus: DEBUG
+
+server:
+  context-path: /
+  port: 8081
+
+pampas:
+  rootPath: /var/lib/galaxy/assets/spinda
+  apps:
+    - key: PC
+  mvc:
+    ignoreInterceptors:
+      - Login
+      - Auth
+    customInterceptors:
+      - loginInterceptor
+      - authInterceptor
+  redis:
+    host: 127.0.0.1
+    port: 8888
+  design:
+    enable: false
+  locale: zh_CN
+  devMode: false
+
+session:
+  cookie-domain: galaxy-admin.dithub.com
+  cookie-context-path: /
+  cookie-name: msid
+  cookie-max-age: 1800
+  source: redis
+  serialize-type: json
+  redis-host: 127.0.0.1
+  redis-port: 8888
+  redis-index: 1
+  redis-cluster: false
+  redis-test-on-borrow: true
+  redis-max-total: 10
+  redis-max-idle: 0
+  redis-prefix: afsession
+
+zookeeper:
+  host: 127.0.0.1
+  port: 2181
+
+dubbo:
+  name: galaxy-admin
+  registry: zookeeper://127.0.0.1:2181
+  host: b2b2c-dubbo-dev.dithub.com
+  port: -1
+  timeout: 10000
+  threads: 100
+  heartBeats: 10000
+  mode: consumer
+
+image:
+  base:
+    url: http://terminus.oss-cn-hangzhou.aliyuncs.com
+
+oss:
+  endpoint: oss-cn-hangzhou.aliyuncs.com
+  appKey: ~~removed~~
+  appSecret: ~~removed~~
+  bucketName: terminus
