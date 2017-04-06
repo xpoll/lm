@@ -1,25 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.blmdz.wolf</groupId>
-    <artifactId>lm-wolf</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>lm-wolf-config-client</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.blmdz.wolf</groupId>
+		<artifactId>lm-wolf</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>lm-wolf-config-client</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.terminus.parana</groupId>
-            <artifactId>parana-config-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.terminus.zookeeper</groupId>
-            <artifactId>terminus-zookeeper</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-config-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.home</groupId>
+			<artifactId>lm-home-zookeeper</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+	</dependencies>
 </project>

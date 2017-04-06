@@ -7,18 +7,18 @@
   </parent>
   <artifactId>lm-wolf-extra-user-api</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.terminus.parana</groupId>
-            <artifactId>parana-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.terminus.pampas</groupId>
-            <artifactId>pampas-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.terminus.parana</groupId>
-            <artifactId>parana-user-api</artifactId>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>cn.blmdz.hunt</groupId>
+			<artifactId>lm-hunt-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-user-api</artifactId>
+		</dependency>
+	</dependencies>
 </project>

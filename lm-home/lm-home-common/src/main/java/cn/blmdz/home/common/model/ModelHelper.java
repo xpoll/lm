@@ -22,7 +22,7 @@ public class ModelHelper {
      * @param indexables 需要索引的集合
      * @return 主键id集合
      */
-    public static List<Long> extraIds(List<? extends Indexable> indexables) {
+    public static List<Long> extradIds(List<? extends Indexable> indexables) {
         List<Long> longList = Lists.newArrayList();
         for (Indexable indexable : indexables) {
             longList.add(indexable.getId());
@@ -38,7 +38,7 @@ public class ModelHelper {
      * @param <T>       返回的结果类型
      * @return 返回的结果集合
      */
-    public static <T> List<T> extractField(List<? extends Serializable> models, String fieldName) {
+    public static <T> List<T> extractFiled(List<? extends Serializable> models, String fieldName) {
         if (null != models && !models.isEmpty() && !Strings.isNullOrEmpty(fieldName)) {
             Class<? extends Serializable> sourceClass = ((Serializable) models.get(0)).getClass();
             List<T> fields = Lists.newArrayList();

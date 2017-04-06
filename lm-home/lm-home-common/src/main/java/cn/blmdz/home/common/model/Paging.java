@@ -22,11 +22,11 @@ public class Paging<T> implements Serializable {
     private static final long serialVersionUID = -1809752222912021528L;
     
     private Long total;
-    private List<T> datas;
+    private List<T> data;
 
 
     public Boolean isEmpty() {
-        return Objects.equals(0L, total) || null == datas || datas.isEmpty();
+        return Objects.equals(0L, total) || null == data || data.isEmpty();
     }
 
     public static <T> Paging<T> empty() {

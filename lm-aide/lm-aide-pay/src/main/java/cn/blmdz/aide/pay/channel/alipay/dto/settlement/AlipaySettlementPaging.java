@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class AlipaySettlementPaging {
 	@XStreamAlias("account_log_list")
-	private List<?> accountLogList;
+	private List<AlipaySettlementDto> accountLogList;
 	@XStreamAlias("has_next_page")
 	private String hasNextPage = "F";
 	@XStreamAlias("page_no")

@@ -1,0 +1,102 @@
+package cn.blmdz.wolf.auth.model;
+
+import java.io.Serializable;
+import java.util.List;
+
+import cn.blmdz.wolf.auth.model.Resource;
+
+public class RequestResource implements Resource, Serializable {
+   private static final long serialVersionUID = 0L;
+   private String name;
+   private String description;
+   private List<Request> requests;
+
+   public String getName() {
+      return this.name;
+   }
+
+   public String getDescription() {
+      return this.description;
+   }
+
+   public List<Request> getRequests() {
+      return this.requests;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
+
+   public void setRequests(List requests) {
+      this.requests = requests;
+   }
+
+   public boolean equals(Object o) {
+      if(o == this) {
+         return true;
+      } else if(!(o instanceof RequestResource)) {
+         return false;
+      } else {
+         RequestResource other = (RequestResource)o;
+         if(!other.canEqual(this)) {
+            return false;
+         } else {
+            Object this$name = this.getName();
+            Object other$name = other.getName();
+            if(this$name == null) {
+               if(other$name != null) {
+                  return false;
+               }
+            } else if(!this$name.equals(other$name)) {
+               return false;
+            }
+
+            Object this$description = this.getDescription();
+            Object other$description = other.getDescription();
+            if(this$description == null) {
+               if(other$description != null) {
+                  return false;
+               }
+            } else if(!this$description.equals(other$description)) {
+               return false;
+            }
+
+            Object this$requests = this.getRequests();
+            Object other$requests = other.getRequests();
+            if(this$requests == null) {
+               if(other$requests != null) {
+                  return false;
+               }
+            } else if(!this$requests.equals(other$requests)) {
+               return false;
+            }
+
+            return true;
+         }
+      }
+   }
+
+   public boolean canEqual(Object other) {
+      return other instanceof RequestResource;
+   }
+
+   public int hashCode() {
+      int PRIME = 31;
+      int result = 1;
+      Object $name = this.getName();
+      result = result * 31 + ($name == null?0:$name.hashCode());
+      Object $description = this.getDescription();
+      result = result * 31 + ($description == null?0:$description.hashCode());
+      Object $requests = this.getRequests();
+      result = result * 31 + ($requests == null?0:$requests.hashCode());
+      return result;
+   }
+
+   public String toString() {
+      return "RequestResource(name=" + this.getName() + ", description=" + this.getDescription() + ", requests=" + this.getRequests() + ")";
+   }
+}
