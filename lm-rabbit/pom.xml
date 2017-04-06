@@ -1,7 +1,59 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>cn.blmdz.rabbit</groupId>
-  <artifactId>lm-rabbit</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.blmdz.rabbit</groupId>
+	<artifactId>lm-rabbit</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>lm-rabbit-admin</module>
+		<module>lm-rabbit-common</module>
+		<module>lm-rabbit-config</module>
+		<module>lm-rabbit-item</module>
+		<module>lm-rabbit-item-api</module>
+		<module>lm-rabbit-msg</module>
+		<module>lm-rabbit-msg-api</module>
+		<module>lm-rabbit-open</module>
+		<module>lm-rabbit-pay</module>
+		<module>lm-rabbit-pay-api</module>
+		<module>lm-rabbit-pay-mock</module>
+		<module>lm-rabbit-pay-mock-api</module>
+		<module>lm-rabbit-schedule</module>
+		<module>lm-rabbit-settlement</module>
+		<module>lm-rabbit-settlement-api</module>
+		<module>lm-rabbit-standalone-web</module>
+		<module>lm-rabbit-trade</module>
+		<module>lm-rabbit-trade-api</module>
+		<module>lm-rabbit-user</module>
+		<module>lm-rabbit-user-api</module>
+		<module>lm-rabbit-web</module>
+		<module>lm-rabbit-web-core</module>
+		<module>lm-rabbit-web-mock</module>
+		<module>lm-rabbit-integration-tests</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
