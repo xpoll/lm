@@ -315,4 +315,11 @@
         <if test="shopId!=null">and shop_id=#{shopId}</if>
     </select>
 
+    <select id="countOnShelfByShopId" parameterType="long" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="tb"/>
+        where shop_id=#{shopId} and `status`=1
+    </select>
+
 </mapper>

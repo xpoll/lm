@@ -15,38 +15,51 @@ import cn.blmdz.home.search.api.query.Term;
 import cn.blmdz.home.search.api.query.Terms;
 
 public abstract class BaseItemQueryBuilder {
-   public Criterias makeCriterias(Integer pageNo, Integer size, Map params) {
-      CriteriasBuilder criteriasBuilder = new CriteriasBuilder();
-      PageInfo pageInfo = new PageInfo(pageNo, size);
-      criteriasBuilder.withPageInfo(pageInfo.getOffset().intValue(), pageInfo.getLimit().intValue());
-      Keyword keyword = this.buildKeyword(params);
-      criteriasBuilder.withKeyword(keyword);
-      List<Term> termList = this.buildTerm(params);
-      criteriasBuilder.withTerm(termList);
-      List<Terms> termsList = this.buildTerms(params);
-      criteriasBuilder.withTerms(termsList);
-      List<Range> ranges = this.buildRanges(params);
-      criteriasBuilder.withRanges(ranges);
-      List<Sort> sorts = this.buildSort(params);
-      criteriasBuilder.withSorts(sorts);
-      List<Aggs> aggsList = this.buildAggs(params);
-      List<Highlight> highlightList = this.buildHighlight(params);
-      criteriasBuilder.withHighlights(highlightList);
-      criteriasBuilder.withAggs(aggsList);
-      return criteriasBuilder.build();
-   }
+	public Criterias makeCriterias(Integer pageNo, Integer size, Map<String, String> params) {
+		CriteriasBuilder criteriasBuilder = new CriteriasBuilder();
 
-   public abstract Keyword buildKeyword(Map var1);
+		PageInfo pageInfo = new PageInfo(pageNo, size);
+		criteriasBuilder.withPageInfo(pageInfo.getOffset().intValue(), pageInfo.getLimit().intValue());
 
-   public abstract List buildTerm(Map var1);
+		Keyword keyword = buildKeyword(params);
 
-   public abstract List buildTerms(Map var1);
+		criteriasBuilder.withKeyword(keyword);
 
-   public abstract List buildRanges(Map var1);
+		List termList = buildTerm(params);
 
-   public abstract List buildAggs(Map var1);
+		criteriasBuilder.withTerm(termList);
 
-   public abstract List buildSort(Map var1);
+		List termsList = buildTerms(params);
+		criteriasBuilder.withTerms(termsList);
 
-   public abstract List buildHighlight(Map var1);
+		List ranges = buildRanges(params);
+		criteriasBuilder.withRanges(ranges);
+
+		List sorts = buildSort(params);
+
+		criteriasBuilder.withSorts(sorts);
+
+		List aggsList = buildAggs(params);
+
+		List highlightList = buildHighlight(params);
+
+		criteriasBuilder.withHighlights(highlightList);
+
+		criteriasBuilder.withAggs(aggsList);
+		return criteriasBuilder.build();
+	}
+
+	public abstract Keyword buildKeyword(Map<String, String> paramMap);
+
+	public abstract List<Term> buildTerm(Map<String, String> paramMap);
+
+	public abstract List<Terms> buildTerms(Map<String, String> paramMap);
+
+	public abstract List<Range> buildRanges(Map<String, String> paramMap);
+
+	public abstract List<Aggs> buildAggs(Map<String, String> paramMap);
+
+	public abstract List<Sort> buildSort(Map<String, String> paramMap);
+
+	public abstract List<Highlight> buildHighlight(Map<String, String> paramMap);
 }

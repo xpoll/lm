@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>cn.blmdz.boot</groupId>
-			<artifactId>lm-spring-boot-starter-mybatis</artifactId>
+			<artifactId>lm-boot-mybatis</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>cn.blmdz.wolf</groupId>

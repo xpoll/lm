@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface CustomRole {
-   Long getId();
+	Long getId();
 
-   String getAppKey();
+	String getAppKey();
 
-   String getBaseRole();
+	String getBaseRole();
 
-   boolean isActive();
+	boolean isActive();
 
-   List getAllow();
+	List<String> getAllow();
 
-   Map getContext();
+	Map<String, String> getContext();
 }

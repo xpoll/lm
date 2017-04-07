@@ -194,6 +194,11 @@
 			</dependency>
 			<dependency>
 				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-hunt</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
 				<artifactId>lm-boot-mybatis</artifactId>
 				<version>${lm-boot.version}</version>
 			</dependency>
@@ -210,6 +215,11 @@
 			<dependency>
 				<groupId>cn.blmdz.boot</groupId>
 				<artifactId>lm-boot-session</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-wolf</artifactId>
 				<version>${lm-boot.version}</version>
 			</dependency>
 			<dependency>

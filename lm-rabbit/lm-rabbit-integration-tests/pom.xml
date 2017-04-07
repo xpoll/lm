@@ -1,9 +1,109 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.blmdz.rabbit</groupId>
-    <artifactId>lm-rabbit</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>lm-rabbit-integration-tests</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.blmdz.rabbit</groupId>
+		<artifactId>lm-rabbit</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>lm-rabbit-integration-tests</artifactId>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-item</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-web-admin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-web-front</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-item</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-user</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-trade</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-web-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>cn.blmdz.hunt</groupId>
+					<artifactId>lm-hunt-design</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cn.blmdz.home</groupId>
+					<artifactId>lm-home-session</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cn.blmdz.wolf</groupId>
+					<artifactId>lm-wolf-config-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cn.blmdz.boot</groupId>
+					<artifactId>lm-boot-datasource</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-trade</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>cn.blmdz.boot</groupId>
+					<artifactId>lm-boot-dubbo</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cn.blmdz.boot</groupId>
+					<artifactId>lm-boot-datasource</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cn.blmdz.boot</groupId>
+					<artifactId>lm-boot-mybatis</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>dubbo</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.sgroschupf</groupId>
+					<artifactId>zkclient</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-trade-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

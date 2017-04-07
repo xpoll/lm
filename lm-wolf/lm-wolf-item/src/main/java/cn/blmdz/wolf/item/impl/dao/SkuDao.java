@@ -10,7 +10,7 @@ import cn.blmdz.home.common.mysql.dao.MyBatisDao;
 import cn.blmdz.wolf.parana.item.model.Sku;
 
 @Repository
-public class SkuDao extends MyBatisDao {
+public class SkuDao extends MyBatisDao<Sku> {
    public List findByItemId(Long itemId) {
       return this.getSqlSession().selectList(this.sqlId("findByItemId"), itemId);
    }

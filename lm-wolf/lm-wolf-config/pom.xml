@@ -15,11 +15,11 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.blmdz.boot</groupId>
-			<artifactId>lm-spring-boot-starter-mybatis</artifactId>
+			<artifactId>lm-boot-mybatis</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>cn.blmdz.boot</groupId>
-			<artifactId>lm-spring-boot-starter-zookeeper</artifactId>
+			<artifactId>lm-boot-zookeeper</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

@@ -23,7 +23,7 @@ public class User implements Serializable {
    private String password;
    private Integer type;
    private Integer status;
-   private List roles;
+   private List<String> roles;
    @JsonIgnore
    private String rolesJson;
    private Map extra;
@@ -234,7 +234,7 @@ public class User implements Serializable {
       this.status = status;
    }
 
-   public List getRoles() {
+   public List<String> getRoles() {
       return this.roles;
    }
 

@@ -4,6 +4,6 @@ import java.util.List;
 
 import cn.blmdz.home.common.model.Response;
 
-public interface CustomRoleReadService {
-   Response findByIds(List var1);
+public interface CustomRoleReadService<R extends CustomRole> {
+	Response<List<R>> findByIds(List<Long> paramList);
 }

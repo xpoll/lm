@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
+import cn.blmdz.wolf.order.model.SkuOrder;
 
 @Repository
-public class SkuOrderDao extends MyBatisDao {
+public class SkuOrderDao extends MyBatisDao<SkuOrder> {
    public List findByParentId(Long parentId) {
       return this.getSqlSession().selectList(this.sqlId("findByParentId"), parentId);
    }

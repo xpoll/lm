@@ -1,11 +1,14 @@
 package cn.blmdz.wolf.user.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.blmdz.home.common.model.Response;
 
 public interface AdminUserService {
-   Response updateTags(Long var1, Map var2);
+	Response<Boolean> updateTags(Long paramLong, Map<String, String> paramMap);
 
-   Response updateStatus(Long var1, Integer var2);
+	Response<Boolean> updateStatus(Long paramLong, Integer paramInteger);
+
+	Response<Boolean> updateRoles(Long paramLong, List<String> paramList);
 }

@@ -2,9 +2,10 @@ package cn.blmdz.wolf.parana.category.service;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
+import cn.blmdz.wolf.parana.category.model.ShopCategory;
 
 public interface ShopCategoryReadService {
-   Response findById(Long var1);
+   Response<ShopCategory> findById(Long var1);
 
    @Export(
       paramNames = {"shopId"}

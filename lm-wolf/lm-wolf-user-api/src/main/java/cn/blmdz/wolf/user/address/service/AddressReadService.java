@@ -1,7 +1,10 @@
 package cn.blmdz.wolf.user.address.service;
 
+import java.util.List;
+
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
+import cn.blmdz.wolf.user.address.model.Address;
 
 public interface AddressReadService {
    @Export
@@ -25,7 +28,7 @@ public interface AddressReadService {
    @Export(
       paramNames = {"id"}
    )
-   Response childAddressOf(Integer var1);
+   Response<List<Address>> childAddressOf(Integer var1);
 
    @Export(
       paramNames = {"id"}

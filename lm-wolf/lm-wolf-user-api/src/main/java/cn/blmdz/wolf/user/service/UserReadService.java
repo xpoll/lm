@@ -5,9 +5,10 @@ import java.util.List;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
 import cn.blmdz.wolf.user.model.LoginType;
+import cn.blmdz.wolf.user.model.User;
 
-public interface UserReadService {
-   Response findById(Long var1);
+public interface UserReadService<T extends User> {
+   Response<User> findById(Long var1);
 
    Response findByIds(List var1);
 

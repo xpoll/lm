@@ -101,7 +101,7 @@ public abstract class MyBatisDao<T> {
     public Paging<T> paging(Integer offset, Integer limit, T criteria) {
         HashMap<String, Integer> params = Maps.newHashMap();
         if (criteria != null) {
-            Map<String, Integer> total = (Map<String, Integer>) JsonMapper.nonDefaultMapper().getMapper().convertValue(criteria, Map.class);
+            Map<String, Integer> total = JsonMapper.nonDefaultMapper().getMapper().convertValue(criteria, Map.class);
             params.putAll(total);
         }
 
@@ -132,17 +132,17 @@ public abstract class MyBatisDao<T> {
         }
     }
 
-    public Paging<Object> paging(Map<String, Object> criteria) {
+    public Paging<T> paging(Map<String, Object> criteria) {
         if (criteria == null) {
             criteria = Maps.newHashMap();
         }
 
         Long total = (Long) this.sqlSession.selectOne(this.sqlId("count"), criteria);
         if (total <= 0L) {
-            return new Paging<Object>(0L, Collections.emptyList());
+            return new Paging<T>(0L, Collections.<T>emptyList());
         } else {
-            List<Object> datas = this.sqlSession.selectList(this.sqlId("paging"), criteria);
-            return new Paging<Object>(total, datas);
+            List<T> datas = this.sqlSession.selectList(this.sqlId("paging"), criteria);
+            return new Paging<T>(total, datas);
         }
     }
 

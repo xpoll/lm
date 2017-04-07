@@ -5,6 +5,8 @@ import java.util.List;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
 import cn.blmdz.wolf.common.model.ParanaUser;
+import cn.blmdz.wolf.parana.item.dto.FullItem;
+import cn.blmdz.wolf.parana.item.dto.ItemWithAttribute;
 
 public interface ItemReadService {
    Response findById(Long var1);
@@ -29,7 +31,7 @@ public interface ItemReadService {
    @Export(
       paramNames = {"itemId"}
    )
-   Response findItemWithAttributeById(Long var1);
+   Response<ItemWithAttribute> findItemWithAttributeById(Long var1);
 
    @Export(
       paramNames = {"itemId"}
@@ -44,7 +46,7 @@ public interface ItemReadService {
    @Export(
       paramNames = {"itemId"}
    )
-   Response findFullInfoByItemId(Long var1);
+   Response<FullItem> findFullInfoByItemId(Long var1);
 
    @Export(
       paramNames = {"itemId"}

@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
+import cn.blmdz.wolf.order.model.MergeOrder;
 
 @Repository
-public class MergeOrderDao extends MyBatisDao {
-   public List findByParentId(Long parentId) {
+public class MergeOrderDao extends MyBatisDao<MergeOrder> {
+   public List<MergeOrder> findByParentId(Long parentId) {
       return this.getSqlSession().selectList(this.sqlId("findByParentId"), parentId);
    }
 

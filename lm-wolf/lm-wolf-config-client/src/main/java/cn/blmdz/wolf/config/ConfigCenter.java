@@ -64,11 +64,11 @@ public class ConfigCenter {
       return Joiner.on(":").join(key, Integer.valueOf(bizType), new Object[0]);
    }
 
-   public Optional get(String key) {
+   public Optional<String> get(String key) {
       return this.get(key, 0);
    }
 
-   public Optional get(String key, int bizType) {
+   public Optional<String> get(String key, int bizType) {
       String configKey = this.getConfigKey(key, bizType);
 
       try {

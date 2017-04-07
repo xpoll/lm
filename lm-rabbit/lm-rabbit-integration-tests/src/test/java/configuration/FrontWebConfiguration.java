@@ -1,17 +1,17 @@
 package configuration;
 
-import io.terminus.galaxy.interceptor.MockLoginInterceptor;
-import io.terminus.galaxy.order.GalaxyTradeConfiguration;
-import io.terminus.parana.ItemApiConfiguration;
-import io.terminus.parana.ItemAutoConfig;
-import io.terminus.parana.TradeAutoConfig;
-import io.terminus.parana.user.UserAutoConfig;
-import io.terminus.parana.web.front.FrontConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import cn.blmdz.rabbit.interceptor.MockLoginInterceptor;
+import cn.blmdz.rabbit.order.GalaxyTradeConfiguration;
+import cn.blmdz.wolf.ItemAutoConfig;
+import cn.blmdz.wolf.parana.ItemApiConfiguration;
+import cn.blmdz.wolf.user.UserAutoConfig;
+import cn.blmdz.wolf.web.front.FrontConfiguration;
 
 /**
  * Mail: xiao@terminus.io <br>

@@ -1,17 +1,18 @@
 package cn.blmdz.wolf.order.component;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import cn.blmdz.wolf.order.model.Order;
 
 public interface OrderComponent {
-   void detectOrderTypeAndCreate(Order var1);
+   void detectOrderTypeAndCreate(Order order);
 
-   void createOrderExtra(Map var1, Order var2);
+   void createOrderExtra(Map<String, Serializable> context, Order order);
 
-   void detectOrderTypeAndUpdate(Order var1);
+   void detectOrderTypeAndUpdate(Order order);
 
-   void updateOrderExtra(Map var1);
+   void updateOrderExtra(Map<String, Serializable> context);
 
-   Order detectOrderTypeAndQuery(Order var1);
+   Order detectOrderTypeAndQuery(Order order);
 }

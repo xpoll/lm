@@ -75,7 +75,7 @@ public class FullItem extends BaseInput {
       this.itemDetail = itemDetail;
    }
 
-   public List getSkus() {
+   public List<Sku> getSkus() {
       return this.skus;
    }
 

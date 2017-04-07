@@ -1,9 +1,94 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.blmdz.rabbit</groupId>
-    <artifactId>lm-rabbit</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>lm-rabbit-open</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.blmdz.rabbit</groupId>
+		<artifactId>lm-rabbit</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>lm-rabbit-open</artifactId>
+
+	<dependencies>
+	<!-- 
+		<dependency>
+			<groupId>io.terminus.pampas.openplatform</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+ -->
+		<dependency>
+			<groupId>cn.blmdz.home</groupId>
+			<artifactId>lm-home-search</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.boot</groupId>
+			<artifactId>lm-boot-zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.boot</groupId>
+			<artifactId>lm-boot-dubbo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.boot</groupId>
+			<artifactId>lm-boot-session</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.boot</groupId>
+			<artifactId>lm-boot-wolf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-config-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-item-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-user-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-file-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-extra-user-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-user-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-web-core</artifactId>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.cage</groupId>
+			<artifactId>cage</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
 </project>

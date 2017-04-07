@@ -141,7 +141,7 @@ public class ItemReadServiceImpl implements ItemReadService {
       criteria.put("sortType", Integer.valueOf(2));
    }
 
-   public Response findItemWithAttributeById(Long itemId) {
+   public Response<ItemWithAttribute> findItemWithAttributeById(Long itemId) {
       try {
          ItemWithAttribute itemWithAttribute = new ItemWithAttribute();
          ItemAttribute itemAttribute = this.itemAttributeDao.findByItemId(itemId);
@@ -256,7 +256,7 @@ public class ItemReadServiceImpl implements ItemReadService {
       }
    }
 
-   public Response findFullInfoByItemId(Long itemId) {
+   public Response<FullItem> findFullInfoByItemId(Long itemId) {
       try {
          Item item = (Item)this.itemDao.findById(itemId);
          if(item == null) {

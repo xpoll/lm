@@ -154,104 +154,141 @@
 				<artifactId>qrgen</artifactId>
 				<version>1.3</version>
 			</dependency>
-            
-            <!-- spring-boot-starter -->
-            <dependency>
+			
+			<!-- home -->
+			<dependency>
+				<groupId>cn.blmdz.home</groupId>
+				<artifactId>lm-home-common</artifactId>
+				<version>${lm-home.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.home</groupId>
+				<artifactId>lm-home-search</artifactId>
+				<version>${lm-home.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.home</groupId>
+				<artifactId>lm-home-session</artifactId>
+				<version>${lm-home.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.home</groupId>
+				<artifactId>lm-home-zookeeper</artifactId>
+				<version>${lm-home.version}</version>
+			</dependency>
+			<!-- boot -->
+			<dependency>
 				<groupId>cn.blmdz.boot</groupId>
-                <artifactId>lm-spring-boot-starter-dubbo</artifactId>
-                <version>${lm-boot.version}</version>
-            </dependency>
-            <dependency>
+				<artifactId>lm-boot-datasource</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>cn.blmdz.boot</groupId>
-                <artifactId>lm-spring-boot-starter-mybatis</artifactId>
-                <version>${lm-boot.version}</version>
-            </dependency>
-            <dependency>
+				<artifactId>lm-boot-dubbo</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>cn.blmdz.boot</groupId>
-				<artifactId>lm-spring-boot-starter-search</artifactId>
-                <version>${lm-boot.version}</version>
-            </dependency>
-            <dependency>
+				<artifactId>lm-boot-hunt</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>cn.blmdz.boot</groupId>
-                <artifactId>lm-spring-boot-starter-zookeeper</artifactId>
-                <version>${lm-boot.version}</version>
-            </dependency>
-            
-            <!-- home -->
-            <dependency>
-                <groupId>cn.blmdz.home</groupId>
-                <artifactId>lm-home-common</artifactId>
-                <version>${lm-home.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.home</groupId>
-                <artifactId>lm-home-search</artifactId>
-                <version>${lm-home.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.home</groupId>
-                <artifactId>lm-home-zookeeper</artifactId>
-                <version>${lm-home.version}</version>
-            </dependency>
-            
-            <!-- aide -->
-            <dependency>
-                <groupId>cn.blmdz.aide</groupId>
-                <artifactId>lm-aide-apppush</artifactId>
-                <version>${lm-aide.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.aide</groupId>
-                <artifactId>lm-aide-email</artifactId>
-                <version>${lm-aide.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.aide</groupId>
-                <artifactId>lm-aide-file</artifactId>
-                <version>${lm-aide.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.aide</groupId>
-                <artifactId>lm-aide-pay</artifactId>
-                <version>${lm-aide.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.aide</groupId>
-                <artifactId>lm-aide-sms</artifactId>
-                <version>${lm-aide.version}</version>
-            </dependency>
-            
-            <!-- hunt -->
-            <dependency>
-                <groupId>cn.blmdz.hunt</groupId>
-                <artifactId>lm-hunt-common</artifactId>
-                <version>${lm-hunt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.hunt</groupId>
-                <artifactId>lm-hunt-design</artifactId>
-                <version>${lm-hunt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.hunt</groupId>
-                <artifactId>lm-hunt-design-api</artifactId>
-                <version>${lm-hunt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.hunt</groupId>
-                <artifactId>lm-hunt-engine</artifactId>
-                <version>${lm-hunt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.hunt</groupId>
-                <artifactId>lm-hunt-engine-api</artifactId>
-                <version>${lm-hunt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.blmdz.hunt</groupId>
-                <artifactId>lm-hunt-protocol</artifactId>
-                <version>${lm-hunt.version}</version>
-            </dependency>
+				<artifactId>lm-boot-mybatis</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-redis</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-search</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-session</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-wolf</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.boot</groupId>
+				<artifactId>lm-boot-zookeeper</artifactId>
+				<version>${lm-boot.version}</version>
+			</dependency>
+			<!-- hunt -->
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-client</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-common</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-design</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-design-api</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-engine</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-engine-api</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-protocol</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-wec</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<!-- aide -->
+			<dependency>
+				<groupId>cn.blmdz.aide</groupId>
+				<artifactId>lm-aide-apppush</artifactId>
+				<version>${lm-aide.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.aide</groupId>
+				<artifactId>lm-aide-email</artifactId>
+				<version>${lm-aide.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.aide</groupId>
+				<artifactId>lm-aide-file</artifactId>
+				<version>${lm-aide.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.aide</groupId>
+				<artifactId>lm-aide-pay</artifactId>
+				<version>${lm-aide.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.aide</groupId>
+				<artifactId>lm-aide-sms</artifactId>
+				<version>${lm-aide.version}</version>
+			</dependency>
             
             <!-- wolf -->
             <dependency>

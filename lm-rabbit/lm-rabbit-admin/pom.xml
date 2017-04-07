@@ -45,7 +45,10 @@
 			<groupId>cn.blmdz.home</groupId>
 			<artifactId>lm-home-session</artifactId>
 		</dependency>
-		<!-- hunt-boot -->
+		<dependency>
+			<groupId>cn.blmdz.boot</groupId>
+			<artifactId>lm-boot-hunt</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>cn.blmdz.boot</groupId>
 			<artifactId>lm-boot-datasource</artifactId>

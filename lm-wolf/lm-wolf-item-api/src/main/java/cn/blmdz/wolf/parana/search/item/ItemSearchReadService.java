@@ -3,7 +3,13 @@ package cn.blmdz.wolf.parana.search.item;
 import java.util.Map;
 
 import cn.blmdz.home.common.model.Response;
+import cn.blmdz.wolf.parana.search.dto.SearchedItemInShopWithAggs;
+import cn.blmdz.wolf.parana.search.dto.SearchedItemWithAggs;
 
 public interface ItemSearchReadService {
-   Response searchWithAggs(Integer var1, Integer var2, String var3, Map var4);
+	public abstract Response<SearchedItemWithAggs> searchWithAggs(Integer paramInteger1, Integer paramInteger2,
+			String paramString, Map<String, String> paramMap);
+
+	public abstract Response<SearchedItemInShopWithAggs> searchInShopWithAggs(Integer paramInteger1,
+			Integer paramInteger2, String paramString, Map<String, String> paramMap);
 }

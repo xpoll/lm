@@ -1,0 +1,58 @@
+{
+  "shop": {
+    "_all": {
+      "enabled": false
+    },
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "name": {
+        "type": "string",
+        "analyzer": "jieba",
+        "search_analyzer": "jieba_search",
+        "fields": {
+          "suggest": {
+            "type": "completion"
+          }
+        }
+      },
+      "phone": {
+        "type": "string",
+        "index": "no"
+      },
+      "imageUrl": {
+        "type": "string",
+        "index": "no"
+      },
+      "provinceId": {
+        "type": "integer"
+      },
+      "province": {
+        "type": "string",
+        "index": "no"
+      },
+      "cityId": {
+        "type": "integer"
+      },
+      "city": {
+        "type": "string",
+        "index": "no"
+      },
+      "regionId": {
+        "type": "integer"
+      },
+      "region": {
+        "type": "string",
+        "index": "no"
+      },
+      "street": {
+        "type": "string",
+        "index": "no"
+      },
+      "itemCount": {
+        "type": "integer"
+      }
+    }
+  }
+}

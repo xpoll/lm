@@ -1,9 +1,46 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>cn.blmdz.rabbit</groupId>
-    <artifactId>lm-rabbit</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>lm-rabbit-web-mock</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.blmdz.rabbit</groupId>
+		<artifactId>lm-rabbit</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>lm-rabbit-web-mock</artifactId>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>cn.blmdz.aide</groupId>
+			<artifactId>lm-aide-pay</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.wolf</groupId>
+			<artifactId>lm-wolf-config-client</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-web-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.blmdz.rabbit</groupId>
+			<artifactId>lm-rabbit-pay-mock-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
+	</dependencies>
 </project>
