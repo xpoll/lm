@@ -18,8 +18,8 @@ import com.google.common.collect.Maps;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryDao;
 import cn.blmdz.wolf.category.impl.manager.ShopCategoryManager;
-import cn.blmdz.wolf.parana.category.model.ShopCategory;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryWriteService;
+import cn.blmdz.wolf.category.model.ShopCategory;
+import cn.blmdz.wolf.category.service.ShopCategoryWriteService;
 
 @Service
 public class ShopCategoryWriteServiceImpl implements ShopCategoryWriteService {

@@ -9,13 +9,13 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.home.common.util.BeanMapper;
+import cn.blmdz.wolf.item.common.Digestors;
 import cn.blmdz.wolf.item.impl.dao.ItemSnapshotDao;
-import cn.blmdz.wolf.parana.item.common.Digestors;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
-import cn.blmdz.wolf.parana.item.model.ItemDetail;
-import cn.blmdz.wolf.parana.item.model.ItemSnapshot;
-import cn.blmdz.wolf.parana.item.service.ItemSnapshotWriteService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemAttribute;
+import cn.blmdz.wolf.item.model.ItemDetail;
+import cn.blmdz.wolf.item.model.ItemSnapshot;
+import cn.blmdz.wolf.item.service.ItemSnapshotWriteService;
 
 @Service
 public class ItemSnapshotWriteServiceImpl implements ItemSnapshotWriteService {

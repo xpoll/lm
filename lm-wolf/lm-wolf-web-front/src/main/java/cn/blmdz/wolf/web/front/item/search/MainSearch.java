@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
-import cn.blmdz.wolf.parana.search.item.ItemSearchReadService;
+import cn.blmdz.wolf.search.item.ItemSearchReadService;
 
 @Component
 public class MainSearch {

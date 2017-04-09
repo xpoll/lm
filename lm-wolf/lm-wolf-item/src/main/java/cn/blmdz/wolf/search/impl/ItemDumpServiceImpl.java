@@ -25,11 +25,11 @@ import cn.blmdz.home.search.api.IndexTaskBuilder;
 import cn.blmdz.home.search.api.model.IndexTask;
 import cn.blmdz.wolf.item.impl.dao.ItemAttributeDao;
 import cn.blmdz.wolf.item.impl.dao.ItemDao;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
-import cn.blmdz.wolf.parana.search.dto.IndexedItem;
-import cn.blmdz.wolf.parana.search.item.ItemDumpService;
-import cn.blmdz.wolf.parana.search.item.SearchItemProperties;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemAttribute;
+import cn.blmdz.wolf.search.dto.IndexedItem;
+import cn.blmdz.wolf.search.item.ItemDumpService;
+import cn.blmdz.wolf.search.item.SearchItemProperties;
 
 @Component
 public class ItemDumpServiceImpl

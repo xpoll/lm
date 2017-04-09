@@ -1,6 +1,5 @@
 package cn.blmdz.boot.hunt.autoconfigure;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -34,6 +33,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import cn.blmdz.hunt.engine.handlebars.HandlebarsEngine;
 import cn.blmdz.hunt.webc.converter.JsonMessageConverter;
@@ -44,7 +44,7 @@ import cn.blmdz.hunt.webc.resolver.HandlebarsViewResolver;
 @ConditionalOnProperty(prefix = "pampas", name = { "autoConfigureMVC" }, matchIfMissing = true)
 @EnableConfigurationProperties({ PampasMVCProperties.class })
 @EnableWebMvc
-@ComponentScan({ "io.terminus.pampas.webc" })
+@ComponentScan({ "cn.blmdz.hunt.webc" })
 @AutoConfigureAfter({ PampasAutoConfiguration.class })
 public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
@@ -53,7 +53,7 @@ public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 	private ApplicationContext applicationContext;
 
 	public void addInterceptors(InterceptorRegistry registry) {
-		Map<PampasMVCProperties.Interceptors, HandlerInterceptor> interceptors = new LinkedHashMap();
+		Map<PampasMVCProperties.Interceptors, HandlerInterceptor> interceptors = Maps.newLinkedHashMap();
 		interceptors.put(PampasMVCProperties.Interceptors.CSRFCheck,
 				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasCSRFCheckInterceptor"));
 		interceptors.put(PampasMVCProperties.Interceptors.App,
@@ -84,9 +84,10 @@ public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 
 	}
 
-	public void extendMessageConverters(List converters) {
-		Iterators.removeIf(converters.iterator(), new Predicate<HttpMessageConverter>() {
-			public boolean apply(HttpMessageConverter input) {
+	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+		Iterators.removeIf(converters.iterator(), new Predicate<HttpMessageConverter<?>>() {
+			@Override
+			public boolean apply(HttpMessageConverter<?> input) {
 				return input instanceof StringHttpMessageConverter;
 			}
 		});

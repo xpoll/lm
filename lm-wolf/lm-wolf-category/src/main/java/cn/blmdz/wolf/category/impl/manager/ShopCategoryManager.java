@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryDao;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryItemDao;
-import cn.blmdz.wolf.parana.category.model.ShopCategory;
+import cn.blmdz.wolf.category.model.ShopCategory;
 
 @Component
 public class ShopCategoryManager {

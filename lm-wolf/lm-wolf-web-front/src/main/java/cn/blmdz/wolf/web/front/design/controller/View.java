@@ -23,8 +23,8 @@ import cn.blmdz.hunt.design.service.SiteService;
 import cn.blmdz.hunt.engine.exception.NotFound404Exception;
 import cn.blmdz.hunt.engine.request.ViewRender;
 import cn.blmdz.hunt.engine.utils.Domains;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.service.ItemReadService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.service.ItemReadService;
 import cn.blmdz.wolf.web.front.design.service.ParanaSiteService;
 
 public class View {

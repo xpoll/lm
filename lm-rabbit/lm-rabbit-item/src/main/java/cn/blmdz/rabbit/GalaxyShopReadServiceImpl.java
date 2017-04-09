@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.rabbit.shop.service.GalaxyShopReadService;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

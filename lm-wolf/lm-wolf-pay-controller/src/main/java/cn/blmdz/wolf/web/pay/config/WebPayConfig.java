@@ -17,7 +17,7 @@ import cn.blmdz.wolf.web.pay.service.DefaultPaySettingsProvider;
 import cn.blmdz.wolf.web.pay.service.PaySettingsProvider;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.web.pay.controller", "io.terminus.parana.web.pay.service"})
+@ComponentScan({"cn.blmdz.wolf.web.pay.controller", "cn.blmdz.wolf.web.pay.service"})
 public class WebPayConfig {
    @Bean
    @ConditionalOnMissingBean
@@ -30,7 +30,7 @@ public class WebPayConfig {
       name = {"pay.debug"},
       havingValue = "true"
    )
-   @ComponentScan({"io.terminus.parana.web.mock.pay"})
+   @ComponentScan({"cn.blmdz.wolf.web.mock.pay"})
    public static class MockPayConfig {
    }
 

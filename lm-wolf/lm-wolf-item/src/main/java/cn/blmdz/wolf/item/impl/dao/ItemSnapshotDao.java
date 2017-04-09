@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.item.model.ItemSnapshot;
+import cn.blmdz.wolf.item.model.ItemSnapshot;
 
 @Repository
 public class ItemSnapshotDao extends MyBatisDao {

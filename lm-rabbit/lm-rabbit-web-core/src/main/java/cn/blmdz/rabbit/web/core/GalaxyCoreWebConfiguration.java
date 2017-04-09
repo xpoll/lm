@@ -29,7 +29,7 @@ import cn.blmdz.aide.file.aliyun.AliyunFileServer;
 import cn.blmdz.aide.file.aliyun.AliyunImageServer;
 import cn.blmdz.aide.sms.SmsService;
 import cn.blmdz.rabbit.web.core.component.MockSmsService;
-import cn.blmdz.wolf.parana.search.item.ItemSearchWriteService;
+import cn.blmdz.wolf.search.item.ItemSearchWriteService;
 import cn.blmdz.wolf.web.core.events.item.listener.IndexListener;
 
 /**

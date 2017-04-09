@@ -13,8 +13,8 @@ import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.BackCategoryDao;
 import cn.blmdz.wolf.category.impl.dao.CategoryAttributeDao;
 import cn.blmdz.wolf.category.impl.manager.BackCategoryManager;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.category.service.BackCategoryWriteService;
+import cn.blmdz.wolf.category.model.BackCategory;
+import cn.blmdz.wolf.category.service.BackCategoryWriteService;
 
 @Service
 public class BackCategoryWriteServiceImpl implements BackCategoryWriteService {

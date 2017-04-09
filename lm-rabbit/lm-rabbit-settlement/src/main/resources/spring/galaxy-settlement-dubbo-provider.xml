@@ -12,10 +12,10 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- settlement services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.settlement.service.SettlementReadService" ref="settlementReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.settlement.service.SettlementWriteService" ref="settlementWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.settlement.service.GalaxySettlementReadService" ref="galaxySettlementReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.settlement.service.GalaxySettlementWriteService" ref="galaxySettlementWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.settlement.service.SettlementReadService" ref="settlementReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.settlement.service.SettlementWriteService" ref="settlementWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.settlement.service.GalaxySettlementReadService" ref="galaxySettlementReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.settlement.service.GalaxySettlementWriteService" ref="galaxySettlementWriteServiceImpl"/>
 
 
 

@@ -10,8 +10,8 @@ import cn.blmdz.home.common.model.Response;
 import cn.blmdz.home.common.util.Arguments;
 import cn.blmdz.rabbit.storage.impl.manager.GalaxyStorageManager;
 import cn.blmdz.wolf.item.impl.dao.SkuDao;
-import cn.blmdz.wolf.parana.item.model.Sku;
-import cn.blmdz.wolf.parana.storage.service.StorageService;
+import cn.blmdz.wolf.item.model.Sku;
+import cn.blmdz.wolf.storage.service.StorageService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

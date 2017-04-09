@@ -12,24 +12,24 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.config.service.ConfigReadService" id="configReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.config.service.ConfigReadService" id="configReadService" check="false"/>
 
 
     <!-- pay service -->
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.pay.service.PayWriteService" id="payWriteService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.pay.service.PayReadService" id="payReadService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.pay.mock.service.MockPayReadService" id="mockPayReadService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.pay.mock.service.MockPayWriteService" id="mockPayWriteService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.pay.mock.service.MockedAlipayTransService" id="mockedAlipayTransService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.service.PayWriteService" id="payWriteService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.service.PayReadService" id="payReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.mock.service.MockPayReadService" id="mockPayReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.mock.service.MockPayWriteService" id="mockPayWriteService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.mock.service.MockedAlipayTransService" id="mockedAlipayTransService" check="false"/>
 
     <!-- settlement -->
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.settlement.service.SettlementReadService" id="settlementReadService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.settlement.service.SettlementWriteService" id="settlementWriteService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.galaxy.settlement.service.GalaxySettlementReadService" id="galaxySettlementReadService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.galaxy.settlement.service.GalaxySettlementWriteService" id="galaxySettlementWriteService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.settlement.service.SettlementReadService" id="settlementReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.settlement.service.SettlementWriteService" id="settlementWriteService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.rabbit.settlement.service.GalaxySettlementReadService" id="galaxySettlementReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.rabbit.settlement.service.GalaxySettlementWriteService" id="galaxySettlementWriteService" check="false"/>
 
     <!-- trade -->
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderSettlementReadService" id="orderSettlementReadService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.galaxy.order.service.OrderSettlementWriteService" id="orderSettlementWriteService" check="false"/>
-    <dubbo:reference version="1.0.0" retries="0" interface="io.terminus.parana.order.service.OrderReadService" id="orderReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.rabbit.order.service.OrderSettlementReadService" id="orderSettlementReadService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.rabbit.order.service.OrderSettlementWriteService" id="orderSettlementWriteService" check="false"/>
+    <dubbo:reference version="1.0.0" retries="0" interface="cn.blmdz.wolf.order.service.OrderReadService" id="orderReadService" check="false"/>
 </beans>

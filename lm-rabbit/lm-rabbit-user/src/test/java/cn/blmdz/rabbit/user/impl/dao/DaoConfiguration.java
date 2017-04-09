@@ -19,7 +19,7 @@ import cn.blmdz.boot.mybatis.autoconfigure.MybatisAutoConfiguration;
  */
 @Configuration
 @EnableAutoConfiguration(exclude = DubboAutoConfiguration.class)
-@ComponentScan({"io.terminus.galaxy.user.impl.dao"})
+@ComponentScan({"cn.blmdz.rabbit.user.impl.dao"})
 @AutoConfigureAfter(MybatisAutoConfiguration.class)
 public class DaoConfiguration {
 }

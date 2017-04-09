@@ -57,7 +57,7 @@ public class OperatorRoles {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Boolean updateRole(@PathVariable Long id, @RequestBody OperatorRole role) {
-        OperatorRole existRole = RespHelper.orServEx(operatorRoleReadService.findById(id));
+        OperatorRole existRole = RespHelper.<OperatorRole>orServEx(operatorRoleReadService.findById(id));
         if (existRole == null) {
             throw new JsonResponseException(500, "operator.role.not.exist");
         }
@@ -82,6 +82,6 @@ public class OperatorRoles {
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<OperatorRole> findAllRoles() {
-        return RespHelper.or500(operatorRoleReadService.findByStatus(ThreadVars.getAppKey(), 1));
+        return RespHelper.<List<OperatorRole>>or500(operatorRoleReadService.findByStatus(ThreadVars.getAppKey(), 1));
     }
 }

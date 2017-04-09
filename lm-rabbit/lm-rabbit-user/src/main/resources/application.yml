@@ -1,0 +1,35 @@
+logging:
+  file: /var/log/galaxy/user.log
+  level.*: INFO
+  level.io.terminus: DEBUG
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: cn.blmdz.wolf.(user|file|article|user.address).model,cn.blmdz.rabbit.user.model
+
+datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/b2b2c?useUnicode=true&characterEncoding=UTF8
+  username: root
+  password: root
+  minimum-idle: 2
+  connection-timeout: 5000
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  max-total: 10
+  max-idle: 2
+  test-on-borrow: true
+
+zookeeper:
+  host: 127.0.0.1
+  port: 2181
+
+dubbo:
+  name: galaxy-user
+  registry: zookeeper://127.0.0.1:2181
+  port: -1
+  timeout: 10000
+  threads: 100
+  heartBeats: 10000

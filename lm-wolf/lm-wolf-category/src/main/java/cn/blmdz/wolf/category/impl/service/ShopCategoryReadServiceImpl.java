@@ -19,10 +19,10 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
 import cn.blmdz.home.common.model.Response;
+import cn.blmdz.wolf.category.dto.ShopCategoryWithChildren;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryDao;
-import cn.blmdz.wolf.parana.category.dto.ShopCategoryWithChildren;
-import cn.blmdz.wolf.parana.category.model.ShopCategory;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryReadService;
+import cn.blmdz.wolf.category.model.ShopCategory;
+import cn.blmdz.wolf.category.service.ShopCategoryReadService;
 
 @Service
 public class ShopCategoryReadServiceImpl implements ShopCategoryReadService {

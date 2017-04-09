@@ -5,9 +5,9 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import cn.blmdz.wolf.category.dto.ShopCategoryWithChildren;
+import cn.blmdz.wolf.category.model.ShopCategory;
 import cn.blmdz.wolf.common.utils.Iters;
-import cn.blmdz.wolf.parana.category.dto.ShopCategoryWithChildren;
-import cn.blmdz.wolf.parana.category.model.ShopCategory;
 
 public class ShopCategoryUtils {
    public static boolean findShopCategoryAncestors(List<ShopCategoryWithChildren> nodes, Long id, List ancestors) {

@@ -64,6 +64,6 @@ public class MainSellers {
         map.put("roleName", role.getName());
 
         seller.setExtra(map);
-        RespHelper.or500(sellerWriteService.updateSeller(seller));
+        RespHelper.<Boolean>or500(sellerWriteService.updateSeller(seller));
     }
 }

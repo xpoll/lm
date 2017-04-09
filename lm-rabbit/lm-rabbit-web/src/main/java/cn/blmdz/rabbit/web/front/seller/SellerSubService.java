@@ -20,7 +20,7 @@ import cn.blmdz.rabbit.user.service.SellerReadService;
 import cn.blmdz.rabbit.user.service.SellerRoleReadService;
 import cn.blmdz.rabbit.web.util.SellerUtils;
 import cn.blmdz.wolf.common.model.ParanaUser;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 

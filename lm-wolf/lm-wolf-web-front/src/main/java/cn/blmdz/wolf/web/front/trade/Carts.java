@@ -26,8 +26,8 @@ import cn.blmdz.wolf.cart.dto.RichCart;
 import cn.blmdz.wolf.cart.model.CartItem;
 import cn.blmdz.wolf.cart.service.CartReadService;
 import cn.blmdz.wolf.cart.service.CartWriteService;
-import cn.blmdz.wolf.parana.item.model.Sku;
-import cn.blmdz.wolf.parana.item.service.SkuReadService;
+import cn.blmdz.wolf.item.model.Sku;
+import cn.blmdz.wolf.item.service.SkuReadService;
 import cn.blmdz.wolf.web.front.component.trade.CartReader;
 
 @RestController

@@ -12,8 +12,8 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- pay services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.pay.service.PayReadService" ref="payReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.pay.service.PayWriteService" ref="payWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.service.PayReadService" ref="payReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.service.PayWriteService" ref="payWriteServiceImpl"/>
 
 
 

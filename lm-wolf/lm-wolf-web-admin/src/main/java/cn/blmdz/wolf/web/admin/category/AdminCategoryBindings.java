@@ -17,10 +17,10 @@ import com.google.common.collect.Lists;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.cache.BackCategoryCacher;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.category.service.CategoryBindingReadService;
-import cn.blmdz.wolf.parana.category.service.CategoryBindingWriteService;
+import cn.blmdz.wolf.cache.BackCategoryCacher;
+import cn.blmdz.wolf.category.model.BackCategory;
+import cn.blmdz.wolf.category.service.CategoryBindingReadService;
+import cn.blmdz.wolf.category.service.CategoryBindingWriteService;
 
 @RestController
 @RequestMapping({"/api/categoryBindings"})

@@ -11,7 +11,7 @@ import com.google.common.collect.Maps;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
 import cn.blmdz.home.common.util.JsonMapper;
-import cn.blmdz.wolf.parana.spu.model.Spu;
+import cn.blmdz.wolf.spu.model.Spu;
 
 @Repository
 public class SpuDao extends MyBatisDao {

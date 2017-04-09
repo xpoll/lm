@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.article"})
+@ComponentScan({"cn.blmdz.wolf.article"})
 public class ArticleAutoConfig {
 }

@@ -9,8 +9,8 @@ import com.google.common.base.Objects;
 import cn.blmdz.home.common.exception.ServiceException;
 import cn.blmdz.wolf.item.impl.dao.ItemDao;
 import cn.blmdz.wolf.item.impl.dao.SkuDao;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.Sku;
 import lombok.extern.slf4j.Slf4j;
 
 /**

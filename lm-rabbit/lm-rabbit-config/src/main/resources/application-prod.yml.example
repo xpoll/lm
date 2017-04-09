@@ -5,7 +5,7 @@ logging:
 
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: io.terminus.parana.config.model
+  typeAliasesPackage: cn.blmdz.wolf.config.model
 
 datasource:
   driver-class-name: com.mysql.jdbc.Driver

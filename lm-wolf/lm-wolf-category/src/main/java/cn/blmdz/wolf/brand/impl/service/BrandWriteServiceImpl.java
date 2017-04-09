@@ -11,8 +11,8 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.brand.impl.dao.BrandDao;
-import cn.blmdz.wolf.parana.brand.model.Brand;
-import cn.blmdz.wolf.parana.brand.service.BrandWriteService;
+import cn.blmdz.wolf.brand.model.Brand;
+import cn.blmdz.wolf.brand.service.BrandWriteService;
 
 @Service
 public class BrandWriteServiceImpl implements BrandWriteService {

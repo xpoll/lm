@@ -14,9 +14,9 @@ import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.BackCategoryDao;
 import cn.blmdz.wolf.category.impl.dao.CategoryBindingDao;
 import cn.blmdz.wolf.category.impl.dao.FrontCategoryDao;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.category.model.FrontCategory;
-import cn.blmdz.wolf.parana.category.service.CategoryBindingReadService;
+import cn.blmdz.wolf.category.model.BackCategory;
+import cn.blmdz.wolf.category.model.FrontCategory;
+import cn.blmdz.wolf.category.service.CategoryBindingReadService;
 
 @Service
 public class CategoryBindingReadServiceImpl implements CategoryBindingReadService {

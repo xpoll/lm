@@ -4,10 +4,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.order"})
+@ComponentScan({"cn.blmdz.wolf.order"})
 public class TradeApiConfig {
    @Configuration
-   @ComponentScan({"io.terminus.parana.cart"})
+   @ComponentScan({"cn.blmdz.wolf.cart"})
    public static class ShoppingCartConfiguration {
    }
 }

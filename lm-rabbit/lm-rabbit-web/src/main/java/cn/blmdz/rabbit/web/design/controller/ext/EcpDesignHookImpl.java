@@ -9,7 +9,7 @@ import cn.blmdz.hunt.design.controller.ext.DesignHook;
 import cn.blmdz.hunt.design.medol.Site;
 import cn.blmdz.hunt.design.service.SiteService;
 import cn.blmdz.rabbit.web.design.service.EcpSiteService;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 
 /**
  * Created by IntelliJ IDEA.

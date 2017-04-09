@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
+import cn.blmdz.wolf.item.model.ItemAttribute;
 
 @Repository
 public class ItemAttributeDao extends MyBatisDao {

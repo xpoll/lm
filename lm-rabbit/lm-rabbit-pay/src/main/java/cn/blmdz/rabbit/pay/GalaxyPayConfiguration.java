@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration;
  * @author Effet
  */
 @Configuration
-@ComponentScan({"io.terminus.parana.pay"})
+@ComponentScan({"cn.blmdz.wolf.pay"})
 public class GalaxyPayConfiguration {
 }

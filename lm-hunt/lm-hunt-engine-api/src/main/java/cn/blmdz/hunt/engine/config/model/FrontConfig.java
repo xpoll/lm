@@ -10,10 +10,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
 @Getter
+@Setter
 public class FrontConfig extends BaseConfig {
 	private static final long serialVersionUID = 7453802881470194536L;
 	public static final String HREF_BASE = "base";

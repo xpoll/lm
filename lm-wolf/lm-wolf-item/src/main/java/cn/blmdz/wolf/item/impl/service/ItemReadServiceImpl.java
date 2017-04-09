@@ -23,22 +23,22 @@ import com.google.common.collect.Tables;
 
 import cn.blmdz.home.common.model.PageInfo;
 import cn.blmdz.home.common.model.Response;
+import cn.blmdz.wolf.attribute.dto.GroupedSkuAttribute;
+import cn.blmdz.wolf.attribute.dto.SkuAttribute;
 import cn.blmdz.wolf.common.model.ParanaUser;
+import cn.blmdz.wolf.item.dto.FullItem;
+import cn.blmdz.wolf.item.dto.ItemWithAttribute;
+import cn.blmdz.wolf.item.dto.ViewedItem;
+import cn.blmdz.wolf.item.dto.ViewedItemDetailInfo;
 import cn.blmdz.wolf.item.impl.dao.ItemAttributeDao;
 import cn.blmdz.wolf.item.impl.dao.ItemDao;
 import cn.blmdz.wolf.item.impl.dao.ItemDetailDao;
 import cn.blmdz.wolf.item.impl.dao.SkuDao;
-import cn.blmdz.wolf.parana.attribute.dto.GroupedSkuAttribute;
-import cn.blmdz.wolf.parana.attribute.dto.SkuAttribute;
-import cn.blmdz.wolf.parana.item.dto.FullItem;
-import cn.blmdz.wolf.parana.item.dto.ItemWithAttribute;
-import cn.blmdz.wolf.parana.item.dto.ViewedItem;
-import cn.blmdz.wolf.parana.item.dto.ViewedItemDetailInfo;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
-import cn.blmdz.wolf.parana.item.model.ItemDetail;
-import cn.blmdz.wolf.parana.item.model.Sku;
-import cn.blmdz.wolf.parana.item.service.ItemReadService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemAttribute;
+import cn.blmdz.wolf.item.model.ItemDetail;
+import cn.blmdz.wolf.item.model.Sku;
+import cn.blmdz.wolf.item.service.ItemReadService;
 
 @Service
 public class ItemReadServiceImpl implements ItemReadService {

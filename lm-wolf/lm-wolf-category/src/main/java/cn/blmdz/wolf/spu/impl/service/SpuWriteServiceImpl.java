@@ -13,17 +13,17 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.BackCategoryDao;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.item.common.Digestors;
-import cn.blmdz.wolf.parana.spu.dto.FullSpu;
-import cn.blmdz.wolf.parana.spu.model.Spu;
-import cn.blmdz.wolf.parana.spu.model.SpuAttribute;
-import cn.blmdz.wolf.parana.spu.model.SpuDetail;
-import cn.blmdz.wolf.parana.spu.service.SpuWriteService;
+import cn.blmdz.wolf.category.model.BackCategory;
+import cn.blmdz.wolf.item.common.Digestors;
+import cn.blmdz.wolf.spu.dto.FullSpu;
 import cn.blmdz.wolf.spu.impl.dao.SpuAttributeDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuDetailDao;
 import cn.blmdz.wolf.spu.impl.manager.SpuManager;
+import cn.blmdz.wolf.spu.model.Spu;
+import cn.blmdz.wolf.spu.model.SpuAttribute;
+import cn.blmdz.wolf.spu.model.SpuDetail;
+import cn.blmdz.wolf.spu.service.SpuWriteService;
 
 @Service
 public class SpuWriteServiceImpl implements SpuWriteService {

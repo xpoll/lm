@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.pay.mock"})
+@ComponentScan({"cn.blmdz.wolf.pay.mock"})
 public class MockPayServiceConfig {
 }

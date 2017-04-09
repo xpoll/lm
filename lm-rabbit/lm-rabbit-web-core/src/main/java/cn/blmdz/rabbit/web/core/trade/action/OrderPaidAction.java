@@ -28,8 +28,8 @@ import cn.blmdz.wolf.order.service.OrderActionReadService;
 import cn.blmdz.wolf.order.service.OrderReadService;
 import cn.blmdz.wolf.order.service.OrderWriteService;
 import cn.blmdz.wolf.order.util.Params;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

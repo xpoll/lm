@@ -14,8 +14,8 @@ import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.FrontCategoryDao;
 import cn.blmdz.wolf.category.impl.manager.CategoryBindingManager;
 import cn.blmdz.wolf.category.impl.manager.FrontCategoryManager;
-import cn.blmdz.wolf.parana.category.model.FrontCategory;
-import cn.blmdz.wolf.parana.category.service.FrontCategoryWriteService;
+import cn.blmdz.wolf.category.model.FrontCategory;
+import cn.blmdz.wolf.category.service.FrontCategoryWriteService;
 
 @Service
 public class FrontCategoryWriteServiceImpl implements FrontCategoryWriteService {

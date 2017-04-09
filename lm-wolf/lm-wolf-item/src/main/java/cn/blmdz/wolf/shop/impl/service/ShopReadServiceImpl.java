@@ -12,9 +12,9 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
 import cn.blmdz.wolf.shop.impl.dao.ShopDao;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 
 @Service
 public class ShopReadServiceImpl implements ShopReadService {

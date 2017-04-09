@@ -1,0 +1,85 @@
+package cn.blmdz.wolf.item.dto;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Sets;
+
+import cn.blmdz.wolf.attribute.dto.SkuAttribute;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemDetail;
+import cn.blmdz.wolf.item.model.Sku;
+import cn.blmdz.wolf.rule.dto.BaseInput;
+
+public class FullItem extends BaseInput {
+   private static final long serialVersionUID = -6794381566838883200L;
+   private Item item;
+   private ItemDetail itemDetail;
+   private List<Sku> skus;
+
+   @JsonIgnore
+   public Long getCategoryId() {
+      return this.item != null?this.item.getCategoryId():null;
+   }
+
+   @JsonIgnore
+   public Long getSpuId() {
+      return this.item != null?this.item.getSpuId():null;
+   }
+
+   @JsonIgnore
+   public Set getSkuAttrKeys() {
+      if(CollectionUtils.isEmpty(this.skus)) {
+         return Collections.emptySet();
+      } else {
+         Set<String> skuAttrKeys = Sets.newLinkedHashSet();
+
+         for(Sku sku : this.skus) {
+            if(!CollectionUtils.isEmpty(sku.getAttrs())) {
+               for(SkuAttribute skuAttribute : sku.getAttrs()) {
+                  skuAttrKeys.add(skuAttribute.getAttrKey());
+               }
+            }
+         }
+
+         return skuAttrKeys;
+      }
+   }
+
+   @JsonIgnore
+   public List getGeneralSkus() {
+      return this.skus;
+   }
+
+   public String toString() {
+      return "FullItem(item=" + this.getItem() + ", itemDetail=" + this.getItemDetail() + ", skus=" + this.getSkus() + ")";
+   }
+
+   public Item getItem() {
+      return this.item;
+   }
+
+   public void setItem(Item item) {
+      this.item = item;
+   }
+
+   public ItemDetail getItemDetail() {
+      return this.itemDetail;
+   }
+
+   public void setItemDetail(ItemDetail itemDetail) {
+      this.itemDetail = itemDetail;
+   }
+
+   public List<Sku> getSkus() {
+      return this.skus;
+   }
+
+   public void setSkus(List skus) {
+      this.skus = skus;
+   }
+}

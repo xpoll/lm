@@ -1,98 +1,110 @@
 package cn.blmdz.wolf.auth.model;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.Maps;
-
-import cn.blmdz.wolf.auth.model.App;
-
 import java.util.Locale;
 import java.util.Map;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Maps;
+
 public enum ParanaThreadVars {
-   APP,
-   DOMAIN,
-   HOST,
-   LOCALE,
-   SEO;
+	APP,
 
-   private static App app;
-   private static Map noPampasMap = Maps.newHashMap();
-   private static ThreadLocal currentEnv = new ThreadLocal() {
-      protected Map initialValue() {
-         return Maps.newHashMap();
-      }
-   };
+	DOMAIN,
 
-   public static void initNoPampasApp(App initAPP) {
-      app = initAPP;
-      noPampasMap.put(APP, initAPP);
-   }
+	HOST,
 
-   private static Object get(ParanaThreadVars var) {
-      return ((Map)currentEnv.get()).get(var) == null?noPampasMap.get(var):((Map)currentEnv.get()).get(var);
-   }
+	LOCALE,
 
-   private static void set(ParanaThreadVars var, Object value) {
-      ((Map)currentEnv.get()).put(var, value);
-   }
+	SEO;
 
-   private static void clear(ParanaThreadVars var) {
-      ((Map)currentEnv.get()).remove(var);
-   }
+	private static App app;
+	private static Map<ParanaThreadVars, Object> noPampasMap;
+	private static ThreadLocal<Map<ParanaThreadVars, Object>> currentEnv;
 
-   public static void clearAll() {
-      ((Map)currentEnv.get()).clear();
-   }
+	public static void initNoPampasApp(App initAPP) {
+		app = initAPP;
+		noPampasMap.put(APP, initAPP);
+	}
 
-   public static void setApp(App app) {
-      set(APP, app);
-   }
+	private static <T> T get(ParanaThreadVars var) {
+		if (currentEnv.get().get(var) == null) {
+			return (T) noPampasMap.get(var);
+		}
 
-   public static App getApp() {
-      return (App)get(APP);
-   }
+		return (T) currentEnv.get().get(var);
+	}
 
-   public static void clearApp() {
-      clear(APP);
-   }
+	private static void set(ParanaThreadVars var, Object value) {
+		currentEnv.get().put(var, value);
+	}
 
-   public static String getAppKey() {
-      return getApp().getKey();
-   }
+	private static void clear(ParanaThreadVars var) {
+		currentEnv.get().remove(var);
+	}
 
-   public static void setDomain(String domain) {
-      set(DOMAIN, domain);
-   }
+	public static void clearAll() {
+		currentEnv.get().clear();
+	}
 
-   public static String getDomain() {
-      return (String)MoreObjects.firstNonNull(get(DOMAIN), getApp().getDomain());
-   }
+	public static void setApp(App app) {
+		set(APP, app);
+	}
 
-   public static void clearDomain() {
-      clear(DOMAIN);
-   }
+	public static App getApp() {
+		return (App) get(APP);
+	}
 
-   public static void setHost(String host) {
-      set(HOST, host);
-   }
+	public static void clearApp() {
+		clear(APP);
+	}
 
-   public static String getHost() {
-      return (String)get(HOST);
-   }
+	public static String getAppKey() {
+		return getApp().getKey();
+	}
 
-   public static void clearHost() {
-      clear(HOST);
-   }
+	public static void setDomain(String domain) {
+		set(DOMAIN, domain);
+	}
 
-   public static void setLocale(Locale locale) {
-      set(LOCALE, locale);
-   }
+	public static String getDomain() {
+		return (String) MoreObjects.firstNonNull(get(DOMAIN), getApp().getDomain());
+	}
 
-   public static Locale getLocale() {
-      return (Locale)MoreObjects.firstNonNull(get(LOCALE), Locale.getDefault());
-   }
+	public static void clearDomain() {
+		clear(DOMAIN);
+	}
 
-   public static void clearLocale() {
-      clear(LOCALE);
-   }
+	public static void setHost(String host) {
+		set(HOST, host);
+	}
+
+	public static String getHost() {
+		return (String) get(HOST);
+	}
+
+	public static void clearHost() {
+		clear(HOST);
+	}
+
+	public static void setLocale(Locale locale) {
+		set(LOCALE, locale);
+	}
+
+	public static Locale getLocale() {
+		return (Locale) MoreObjects.firstNonNull(get(LOCALE), Locale.getDefault());
+	}
+
+	public static void clearLocale() {
+		clear(LOCALE);
+	}
+
+	static {
+		noPampasMap = Maps.newHashMap();
+
+		currentEnv = new ThreadLocal<Map<ParanaThreadVars, Object>>() {
+			protected Map<ParanaThreadVars, Object> initialValue() {
+				return Maps.newHashMap();
+			}
+		};
+	}
 }

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.category.model.CategoryAttribute;
-import cn.blmdz.wolf.parana.category.service.CategoryAttributeReadService;
+import cn.blmdz.wolf.category.model.CategoryAttribute;
+import cn.blmdz.wolf.category.service.CategoryAttributeReadService;
 
 @RestController
 @RequestMapping({"/api/attributes"})

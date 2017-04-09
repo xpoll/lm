@@ -4,4 +4,4 @@ datasource:
 
 mybatis:
   mapperLocations:  classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: io.terminus.parana.(user|file|article|user.address).model,io.terminus.galaxy.user.model
+  typeAliasesPackage: cn.blmdz.wolf.(user|file|article|user.address).model,cn.blmdz.rabbit.user.model

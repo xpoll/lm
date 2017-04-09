@@ -17,8 +17,8 @@ import com.google.common.collect.Maps;
 import cn.blmdz.home.common.model.PageInfo;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.brand.impl.dao.BrandDao;
-import cn.blmdz.wolf.parana.brand.model.Brand;
-import cn.blmdz.wolf.parana.brand.service.BrandReadService;
+import cn.blmdz.wolf.brand.model.Brand;
+import cn.blmdz.wolf.brand.service.BrandReadService;
 
 @Service
 public class BrandReadServiceImpl implements BrandReadService {

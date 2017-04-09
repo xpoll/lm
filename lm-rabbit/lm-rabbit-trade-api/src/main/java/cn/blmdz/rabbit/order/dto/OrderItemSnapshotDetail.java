@@ -2,7 +2,7 @@ package cn.blmdz.rabbit.order.dto;
 
 import java.util.Map;
 
-import cn.blmdz.wolf.parana.item.model.ItemSnapshot;
+import cn.blmdz.wolf.item.model.ItemSnapshot;
 import lombok.Getter;
 import lombok.Setter;
 

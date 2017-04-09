@@ -10,7 +10,7 @@ import cn.blmdz.wolf.SettlementAutoConfig;
  * @author Effet
  */
 @Configuration
-@ComponentScan({"io.terminus.galaxy.settlement"})
+@ComponentScan({"cn.blmdz.rabbit.settlement"})
 @Import({SettlementAutoConfig.class})
 public class GalaxySettlementConfiguration {
 

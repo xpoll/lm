@@ -10,5 +10,5 @@ public class Acl implements Serializable {
    private static final long serialVersionUID = 0L;
    private Map<String, DefaultRole> defaults;
    private Map<String, Resource> resources;
-   private Map trees;
+   private Map<String, Map<String, TreeNode>> trees;
 }

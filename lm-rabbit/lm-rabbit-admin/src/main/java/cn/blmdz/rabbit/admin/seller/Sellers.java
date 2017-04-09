@@ -21,9 +21,9 @@ import cn.blmdz.rabbit.user.service.SellerReadService;
 import cn.blmdz.rabbit.user.service.SellerWriteService;
 import cn.blmdz.rabbit.web.core.component.UserCacheCleaner;
 import cn.blmdz.wolf.common.utils.RespHelper;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
-import cn.blmdz.wolf.parana.shop.service.ShopWriteService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.service.ShopWriteService;
 import cn.blmdz.wolf.user.model.User;
 import cn.blmdz.wolf.user.service.UserReadService;
 import lombok.extern.slf4j.Slf4j;
@@ -80,14 +80,14 @@ public class Sellers {
             throw new JsonResponseException(500, "seller.create.fail.already.exist");
         }
 
-        User user = RespHelper.or500(userReadService.findById(userId));
+        User user = RespHelper.<User>or500(userReadService.findById(userId));
 
         Seller toCreate = new Seller();
         toCreate.setUserId(userId);
         toCreate.setUserName(getUserName(user));
         toCreate.setStatus(1); // 运营创建默认为审核通过
         toCreate.setExtra(seller.getExtra());
-        return RespHelper.or500(sellerWriteService.createSeller(toCreate));
+        return RespHelper.<Long>or500(sellerWriteService.createSeller(toCreate));
     }
 
     private String getUserName(User user) {
@@ -119,7 +119,7 @@ public class Sellers {
         Seller toUpdate = new Seller();
         toUpdate.setId(exist.getId());
         toUpdate.setStatus(1);
-        Boolean result = RespHelper.or500(sellerWriteService.updateSeller(toUpdate));
+        Boolean result = RespHelper.<Boolean>or500(sellerWriteService.updateSeller(toUpdate));
 
         // clean user cache
         userCacheCleaner.clean(userId);
@@ -146,7 +146,7 @@ public class Sellers {
         Map<String, String> extra = exist.getExtra();
         extra.put("reason", reason);
         toUpdate.setExtra(extra);
-        return RespHelper.or500(sellerWriteService.updateSeller(toUpdate));
+        return RespHelper.<Boolean>or500(sellerWriteService.updateSeller(toUpdate));
     }
 
     @RequestMapping(value = "/{userId}/frozen", method = RequestMethod.PUT)
@@ -165,7 +165,7 @@ public class Sellers {
         Seller toUpdate = new Seller();
         toUpdate.setId(exist.getId());
         toUpdate.setStatus(-2); // 冻结
-        Boolean result = RespHelper.or500(sellerWriteService.updateSeller(toUpdate));
+        Boolean result = RespHelper.<Boolean>or500(sellerWriteService.updateSeller(toUpdate));
 
         // clean user cache
         userCacheCleaner.clean(userId);
@@ -189,7 +189,7 @@ public class Sellers {
         Seller toUpdate = new Seller();
         toUpdate.setId(exist.getId());
         toUpdate.setStatus(1); // 恢复成正常状态
-        Boolean result = RespHelper.or500(sellerWriteService.updateSeller(toUpdate));
+        Boolean result = RespHelper.<Boolean>or500(sellerWriteService.updateSeller(toUpdate));
 
         // clean user cache
         userCacheCleaner.clean(userId);
@@ -223,12 +223,12 @@ public class Sellers {
         toCreate.setType(1);
         toCreate.setStatus(1);
         toCreate.setPhone(exist.getExtra().get("phone"));
-        Long shopId = RespHelper.or500(shopWriteService.create(toCreate));
+        Long shopId = RespHelper.<Long>or500(shopWriteService.create(toCreate));
 
         Seller toUpdateSeller = new Seller();
         toUpdateSeller.setId(exist.getId());
         toUpdateSeller.setShopId(shopId);
         toUpdateSeller.setShopName(exist.getExtra().get("shopName"));
-        return RespHelper.or500(sellerWriteService.updateSeller(toUpdateSeller));
+        return RespHelper.<Boolean>or500(sellerWriteService.updateSeller(toUpdateSeller));
     }
 }

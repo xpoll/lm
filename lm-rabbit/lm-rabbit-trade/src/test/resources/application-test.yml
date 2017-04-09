@@ -5,5 +5,5 @@ spring:
 
 mybatis:
   mapperLocations:  classpath:mapper/*Mapper.xml
-  typeAliasesPackage: io.terminus.galaxy.order.model
+  typeAliasesPackage: cn.blmdz.rabbit.order.model
 

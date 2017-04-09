@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class Render implements Serializable {
 	private static final long serialVersionUID = 2784212452907126587L;
-	
+
 	public static final String DEFAULT_LAYOUT = "default_layout";
 	private Set<String> prefixs;
 	private Map<String, Layout> layouts;

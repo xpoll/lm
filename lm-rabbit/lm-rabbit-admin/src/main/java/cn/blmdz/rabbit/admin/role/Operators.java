@@ -64,7 +64,7 @@ public class Operators {
 
         Operator op = new Operator();
         op.setRoleId(operator.getRoleId());
-        return RespHelper.or500(operatorWriteService.create(user, op));
+        return RespHelper.<Long>or500(operatorWriteService.create(user, op));
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)

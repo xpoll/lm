@@ -65,19 +65,17 @@ public class ExceptionResolver2 extends ExceptionHandlerExceptionResolver {
 				return null;
 			} else {
 				ExceptionResolver2.Error error = this.buildError(exception);
-				ResponseStatus responseStatus = (ResponseStatus) AnnotationUtils
-						.findAnnotation(exception.getClass(),
-								ResponseStatus.class);
+				ResponseStatus responseStatus = (ResponseStatus) AnnotationUtils.findAnnotation(exception.getClass(),
+						ResponseStatus.class);
 				if (responseStatus != null) {
-					error.setStatus(Integer.valueOf(responseStatus.value()
-							.value()));
+					error.setStatus(Integer.valueOf(responseStatus.value().value()));
 				}
 
-				ResponseBody responseBodyAnn = (ResponseBody) AnnotationUtils
-						.findAnnotation(method, ResponseBody.class);
-				if (!Objects.equal(request.getHeader("X-Requested-With"), "XMLHttpRequest") && responseBodyAnn == null) {
-					return new ModelAndView(this.defaultErrorView,
-							ImmutableMap.of("error", error));
+				ResponseBody responseBodyAnn = (ResponseBody) AnnotationUtils.findAnnotation(method,
+						ResponseBody.class);
+				if (!Objects.equal(request.getHeader("X-Requested-With"), "XMLHttpRequest")
+						&& responseBodyAnn == null) {
+					return new ModelAndView(this.defaultErrorView, ImmutableMap.of("error", error));
 				} else {
 					PrintWriter out = null;
 
@@ -107,8 +105,7 @@ public class ExceptionResolver2 extends ExceptionHandlerExceptionResolver {
 	private Error buildError(Exception exception) {
 		if (exception instanceof JsonResponseException) {
 			JsonResponseException jsonEx = (JsonResponseException) exception;
-			Integer status = (Integer) Objects.firstNonNull(Integer.valueOf(jsonEx.getStatus()),
-					Integer.valueOf(500));
+			Integer status = (Integer) Objects.firstNonNull(Integer.valueOf(jsonEx.getStatus()), Integer.valueOf(500));
 			return new Error(status,
 					(String) Objects.firstNonNull(this.messageSources.get(jsonEx.getMessage()), "失败了"));
 		}

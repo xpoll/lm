@@ -12,9 +12,9 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- pay services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.pay.mock.service.MockPayReadService" ref="mockPayReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.pay.mock.service.MockPayWriteService" ref="mockPayWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.pay.mock.service.MockedAlipayTransService" ref="mockedAlipayTransServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.mock.service.MockPayReadService" ref="mockPayReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.mock.service.MockPayWriteService" ref="mockPayWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.pay.mock.service.MockedAlipayTransService" ref="mockedAlipayTransServiceImpl"/>
 
 
 

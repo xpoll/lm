@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.util.CollectionUtils;
 
 import cn.blmdz.home.common.util.BeanMapper;
-import cn.blmdz.wolf.parana.search.dto.IndexedShop;
-import cn.blmdz.wolf.parana.shop.model.Shop;
+import cn.blmdz.wolf.search.dto.IndexedShop;
+import cn.blmdz.wolf.shop.model.Shop;
 
 public abstract class BaseIndexedShopFactory<T extends IndexedShop>
   implements IndexedShopFactory<T>

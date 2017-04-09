@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.category.model.CategoryBinding;
+import cn.blmdz.wolf.category.model.CategoryBinding;
 
 @Repository
 public class CategoryBindingDao extends MyBatisDao {

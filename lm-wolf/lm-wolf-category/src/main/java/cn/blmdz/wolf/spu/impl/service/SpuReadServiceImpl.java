@@ -14,16 +14,16 @@ import com.google.common.collect.Maps;
 
 import cn.blmdz.home.common.model.PageInfo;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.spu.dto.FullSpu;
-import cn.blmdz.wolf.parana.spu.model.SkuTemplate;
-import cn.blmdz.wolf.parana.spu.model.Spu;
-import cn.blmdz.wolf.parana.spu.model.SpuAttribute;
-import cn.blmdz.wolf.parana.spu.model.SpuDetail;
-import cn.blmdz.wolf.parana.spu.service.SpuReadService;
+import cn.blmdz.wolf.spu.dto.FullSpu;
 import cn.blmdz.wolf.spu.impl.dao.SkuTemplateDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuAttributeDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuDetailDao;
+import cn.blmdz.wolf.spu.model.SkuTemplate;
+import cn.blmdz.wolf.spu.model.Spu;
+import cn.blmdz.wolf.spu.model.SpuAttribute;
+import cn.blmdz.wolf.spu.model.SpuDetail;
+import cn.blmdz.wolf.spu.service.SpuReadService;
 
 @Service
 public class SpuReadServiceImpl implements SpuReadService {

@@ -5,12 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import cn.blmdz.wolf.common.banner.ParanaBanner;
 
-/**
- * Desc:
- * Mail: F@terminus.io
- * Data: 16/3/7
- * Author: yangzefeng
- */
 @SpringBootApplication
 public class GalaxyTradeApplication {
 

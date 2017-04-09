@@ -69,12 +69,12 @@ pay:
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
   typeAliasesPackage: >
-    io.terminus.parana.(item|shop|category|spu|brand|user).model,
-    io.terminus.parana.(order|cart).model,io.terminus.galaxy.order.model,
-    io.terminus.parana.(user|file|article|user.address).model,io.terminus.galaxy.user.model,
-    io.terminus.parana.msg.model,
-    io.terminus.parana.pay.model,
-    io.terminus.parana.pay.mock.model
+    cn.blmdz.wolf.(item|shop|category|spu|brand|user).model,
+    cn.blmdz.wolf.(order|cart).model,cn.blmdz.rabbit.order.model,
+    cn.blmdz.wolf.(user|file|article|user.address).model,cn.blmdz.rabbit.user.model,
+    cn.blmdz.wolf.msg.model,
+    cn.blmdz.wolf.pay.model,
+    cn.blmdz.wolf.pay.mock.model
 
 datasource:
   driver-class-name: com.mysql.jdbc.Driver

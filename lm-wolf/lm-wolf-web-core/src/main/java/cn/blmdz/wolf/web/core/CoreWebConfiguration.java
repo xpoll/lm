@@ -24,7 +24,7 @@ import com.google.common.eventbus.EventBus;
 
 import cn.blmdz.aide.file.ImageServer;
 import cn.blmdz.aide.file.aliyun.AliyunImageServer;
-import cn.blmdz.wolf.parana.search.item.ItemSearchWriteService;
+import cn.blmdz.wolf.search.item.ItemSearchWriteService;
 import cn.blmdz.wolf.web.core.auth.DefaultRoleAuthorizor;
 import cn.blmdz.wolf.web.core.auth.DefaultTypeAuthorizor;
 import cn.blmdz.wolf.web.core.auth.RoleAuthorizor;

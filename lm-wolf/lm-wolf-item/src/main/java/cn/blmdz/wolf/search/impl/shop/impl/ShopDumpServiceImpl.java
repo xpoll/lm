@@ -18,11 +18,11 @@ import com.google.common.collect.Iterables;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.home.search.api.IndexExecutor;
 import cn.blmdz.home.search.api.model.IndexTask;
-import cn.blmdz.wolf.parana.search.dto.IndexedShop;
-import cn.blmdz.wolf.parana.search.shop.SearchShopProperties;
-import cn.blmdz.wolf.parana.search.shop.ShopDumpService;
-import cn.blmdz.wolf.parana.shop.model.Shop;
+import cn.blmdz.wolf.search.dto.IndexedShop;
+import cn.blmdz.wolf.search.shop.SearchShopProperties;
+import cn.blmdz.wolf.search.shop.ShopDumpService;
 import cn.blmdz.wolf.shop.impl.dao.ShopDao;
+import cn.blmdz.wolf.shop.model.Shop;
 
 @Component
 public class ShopDumpServiceImpl

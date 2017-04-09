@@ -12,7 +12,7 @@ public interface UserReadService<T extends User> {
 
    Response findByIds(List var1);
 
-   Response findBy(String var1, LoginType var2);
+   Response<User> findBy(String var1, LoginType var2);
 
    Response login(String var1, String var2, LoginType var3);
 

@@ -8,7 +8,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.brand.model.Brand;
+import cn.blmdz.wolf.brand.model.Brand;
 
 @Repository
 public class BrandDao extends MyBatisDao {

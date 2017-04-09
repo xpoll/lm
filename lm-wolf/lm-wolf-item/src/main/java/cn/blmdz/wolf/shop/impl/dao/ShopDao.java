@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
 import cn.blmdz.home.common.util.JsonMapper;
-import cn.blmdz.wolf.parana.shop.model.Shop;
+import cn.blmdz.wolf.shop.model.Shop;
 
 @Repository
 public class ShopDao extends MyBatisDao {

@@ -8,7 +8,7 @@ import cn.blmdz.home.common.model.Paging;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
 import cn.blmdz.rabbit.item.dto.SearchItemDto;
-import cn.blmdz.wolf.parana.item.model.Item;
+import cn.blmdz.wolf.item.model.Item;
 
 /**
  * Date: 7/19/16

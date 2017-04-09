@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.spu.model.SkuTemplate;
+import cn.blmdz.wolf.spu.model.SkuTemplate;
 
 @Repository
 public class SkuTemplateDao extends MyBatisDao {

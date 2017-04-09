@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopWriteService;
 import cn.blmdz.wolf.shop.impl.dao.ShopDao;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopWriteService;
 
 @Service
 public class ShopWriteServiceImpl implements ShopWriteService {

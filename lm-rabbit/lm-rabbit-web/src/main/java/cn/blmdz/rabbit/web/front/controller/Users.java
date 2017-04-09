@@ -205,7 +205,7 @@ public class Users {
     @RequestMapping(value = "/register/mobile/validate")
     public Boolean registerValidate(@RequestParam String mobile){
         if (mobilePattern.getPattern().matcher(mobile).matches()) {
-            User user = RespHelper.or500(userReadService.findBy(mobile, LoginType.MOBILE));
+            User user = RespHelper.<User>or500(userReadService.findBy(mobile, LoginType.MOBILE));
             if(Arguments.isNull(user)){
                 return true;
             }
@@ -353,7 +353,7 @@ public class Users {
 
             //验证该手机号是否存在
             if(Objects.equal(type, 1)){
-                User user = RespHelper.or500(userReadService.findBy(mobile, LoginType.MOBILE));
+                User user = RespHelper.<User>or500(userReadService.findBy(mobile, LoginType.MOBILE));
                 if(Arguments.isNull(user)){
                     throw new JsonResponseException(500, "mobile.not.valid");
                 }
@@ -578,7 +578,7 @@ public class Users {
             throw new JsonResponseException(500,"user.password.6to16");
         }
         log.debug("user {} want to change password at {}", userId, DateTime.now().toString("yyyy-MM-dd HH:mm:ss"));
-        User user = RespHelper.or500(userReadService.findById(userId));
+        User user = RespHelper.<User>or500(userReadService.findById(userId));
         if (!EncryptUtil.match(oldPassword, user.getPassword())) {
             log.warn("user old password{} isn't matched.", oldPassword);
             throw new JsonResponseException("user.old.password.not.match");

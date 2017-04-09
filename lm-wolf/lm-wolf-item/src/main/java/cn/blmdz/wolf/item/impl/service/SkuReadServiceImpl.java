@@ -13,8 +13,8 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.item.impl.dao.SkuDao;
-import cn.blmdz.wolf.parana.item.model.Sku;
-import cn.blmdz.wolf.parana.item.service.SkuReadService;
+import cn.blmdz.wolf.item.model.Sku;
+import cn.blmdz.wolf.item.service.SkuReadService;
 
 @Service
 public class SkuReadServiceImpl implements SkuReadService {

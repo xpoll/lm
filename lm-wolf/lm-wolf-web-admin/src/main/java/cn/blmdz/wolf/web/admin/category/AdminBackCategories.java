@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.category.service.BackCategoryReadService;
-import cn.blmdz.wolf.parana.category.service.BackCategoryWriteService;
+import cn.blmdz.wolf.category.model.BackCategory;
+import cn.blmdz.wolf.category.service.BackCategoryReadService;
+import cn.blmdz.wolf.category.service.BackCategoryWriteService;
 
 @RestController
 @RequestMapping({"/api/backCategories"})

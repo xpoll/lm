@@ -123,7 +123,7 @@ public class ConfigManager implements Runnable {
 
 	private void loadByApp(App app) throws IllegalAccessException, IOException, InstantiationException {
 		String appKey = app.getKey();
-		FrontConfig frontConfig = (FrontConfig) this.configParser.parseConfig(app, FrontConfig.class);
+		FrontConfig frontConfig = this.configParser.parseConfig(app, FrontConfig.class);
 		if (frontConfig != null) {
 			this.frontConfigMap.put(appKey, frontConfig);
 		}

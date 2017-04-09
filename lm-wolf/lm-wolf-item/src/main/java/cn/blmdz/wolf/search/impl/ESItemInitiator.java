@@ -12,7 +12,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import cn.blmdz.home.search.ESClient;
-import cn.blmdz.wolf.parana.search.item.SearchItemProperties;
+import cn.blmdz.wolf.search.item.SearchItemProperties;
 
 @Component
 public class ESItemInitiator {

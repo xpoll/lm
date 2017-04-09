@@ -9,7 +9,7 @@ import cn.blmdz.home.zookeeper.ZKClientFactory;
 import cn.blmdz.home.zookeeper.pubsub.Publisher;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.config.impl"})
+@ComponentScan({"cn.blmdz.wolf.config.impl"})
 public class ConfigAutoConfig {
    @Autowired
    private ZKClientFactory zkClientFactory;

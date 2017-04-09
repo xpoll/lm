@@ -14,8 +14,8 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.FrontCategoryDao;
-import cn.blmdz.wolf.parana.category.model.FrontCategory;
-import cn.blmdz.wolf.parana.category.service.FrontCategoryReadService;
+import cn.blmdz.wolf.category.model.FrontCategory;
+import cn.blmdz.wolf.category.service.FrontCategoryReadService;
 
 @Service
 public class FrontCategoryReadServiceImpl implements FrontCategoryReadService {

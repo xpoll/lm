@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import cn.blmdz.home.search.api.IndexTaskBuilder;
 import cn.blmdz.home.search.api.model.IndexAction;
 import cn.blmdz.home.search.api.model.IndexTask;
-import cn.blmdz.wolf.parana.search.dto.IndexedShop;
-import cn.blmdz.wolf.parana.search.shop.SearchShopProperties;
+import cn.blmdz.wolf.search.dto.IndexedShop;
+import cn.blmdz.wolf.search.shop.SearchShopProperties;
 
 @Component
 public class IndexedShopIndexAction

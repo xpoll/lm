@@ -9,7 +9,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.search.item.ItemSearchWriteService;
+import cn.blmdz.wolf.search.item.ItemSearchWriteService;
 import cn.blmdz.wolf.web.core.events.item.ItemDeletedEvent;
 import cn.blmdz.wolf.web.core.events.item.ItemUpdateEvent;
 

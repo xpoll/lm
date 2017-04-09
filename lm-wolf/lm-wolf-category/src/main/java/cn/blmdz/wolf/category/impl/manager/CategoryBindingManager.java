@@ -9,8 +9,8 @@ import org.springframework.util.CollectionUtils;
 
 import cn.blmdz.wolf.category.impl.dao.CategoryBindingDao;
 import cn.blmdz.wolf.category.impl.dao.FrontCategoryDao;
-import cn.blmdz.wolf.parana.category.model.CategoryBinding;
-import cn.blmdz.wolf.parana.category.model.FrontCategory;
+import cn.blmdz.wolf.category.model.CategoryBinding;
+import cn.blmdz.wolf.category.model.FrontCategory;
 
 @Component
 public class CategoryBindingManager {

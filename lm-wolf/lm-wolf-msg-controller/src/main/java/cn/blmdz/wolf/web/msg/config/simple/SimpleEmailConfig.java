@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.web.msg.impl.common.simple", "io.terminus.parana.web.msg.impl.email.common", "io.terminus.parana.web.msg.impl.email.simple"})
+@ComponentScan({"cn.blmdz.wolf.web.msg.impl.common.simple", "cn.blmdz.wolf.web.msg.impl.email.common", "cn.blmdz.wolf.web.msg.impl.email.simple"})
 public class SimpleEmailConfig {
 }

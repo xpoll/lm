@@ -24,7 +24,7 @@ import cn.blmdz.wolf.order.dao.SkuOrderRefundDao;
  * Author: yangzefeng
  */
 @Configuration
-@ComponentScan({"io.terminus.galaxy.order"})
+@ComponentScan({"cn.blmdz.rabbit.order"})
 @Import({TradeAutoConfig.class})
 public class GalaxyTradeConfiguration {
 

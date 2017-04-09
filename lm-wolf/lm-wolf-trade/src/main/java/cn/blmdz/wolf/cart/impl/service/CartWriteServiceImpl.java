@@ -21,7 +21,7 @@ import cn.blmdz.home.common.util.Arguments;
 import cn.blmdz.wolf.cart.impl.dao.CartItemDao;
 import cn.blmdz.wolf.cart.model.CartItem;
 import cn.blmdz.wolf.cart.service.CartWriteService;
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.item.model.Sku;
 
 @Service
 public class CartWriteServiceImpl implements CartWriteService {

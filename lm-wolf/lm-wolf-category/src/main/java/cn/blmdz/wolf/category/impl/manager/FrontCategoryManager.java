@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.blmdz.wolf.category.impl.dao.CategoryBindingDao;
 import cn.blmdz.wolf.category.impl.dao.FrontCategoryDao;
-import cn.blmdz.wolf.parana.category.model.FrontCategory;
+import cn.blmdz.wolf.category.model.FrontCategory;
 
 @Component
 public class FrontCategoryManager {

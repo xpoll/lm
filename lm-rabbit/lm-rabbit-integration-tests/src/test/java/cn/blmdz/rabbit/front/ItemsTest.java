@@ -25,15 +25,15 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import cn.blmdz.rabbit.BaseWebTest;
-import cn.blmdz.wolf.parana.attribute.dto.GroupedOtherAttribute;
-import cn.blmdz.wolf.parana.attribute.dto.GroupedSkuAttribute;
-import cn.blmdz.wolf.parana.attribute.dto.OtherAttribute;
-import cn.blmdz.wolf.parana.attribute.dto.SkuAttribute;
-import cn.blmdz.wolf.parana.item.dto.FullItem;
-import cn.blmdz.wolf.parana.item.dto.ImageInfo;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemDetail;
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.attribute.dto.GroupedOtherAttribute;
+import cn.blmdz.wolf.attribute.dto.GroupedSkuAttribute;
+import cn.blmdz.wolf.attribute.dto.OtherAttribute;
+import cn.blmdz.wolf.attribute.dto.SkuAttribute;
+import cn.blmdz.wolf.item.dto.FullItem;
+import cn.blmdz.wolf.item.dto.ImageInfo;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemDetail;
+import cn.blmdz.wolf.item.model.Sku;
 import configuration.FrontWebConfiguration;
 
 /**

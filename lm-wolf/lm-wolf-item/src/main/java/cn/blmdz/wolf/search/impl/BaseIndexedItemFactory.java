@@ -11,15 +11,15 @@ import org.springframework.util.CollectionUtils;
 import com.google.common.collect.Lists;
 
 import cn.blmdz.home.common.util.BeanMapper;
+import cn.blmdz.wolf.attribute.dto.GroupedOtherAttribute;
+import cn.blmdz.wolf.attribute.dto.OtherAttribute;
+import cn.blmdz.wolf.cache.BackCategoryCacher;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryItemDao;
-import cn.blmdz.wolf.parana.attribute.dto.GroupedOtherAttribute;
-import cn.blmdz.wolf.parana.attribute.dto.OtherAttribute;
-import cn.blmdz.wolf.parana.cache.BackCategoryCacher;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.category.model.ShopCategoryItem;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
-import cn.blmdz.wolf.parana.search.dto.IndexedItem;
+import cn.blmdz.wolf.category.model.BackCategory;
+import cn.blmdz.wolf.category.model.ShopCategoryItem;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemAttribute;
+import cn.blmdz.wolf.search.dto.IndexedItem;
 
 public abstract class BaseIndexedItemFactory<T extends IndexedItem> implements IndexedItemFactory<IndexedItem> {
 	private static final Logger log = LoggerFactory.getLogger(BaseIndexedItemFactory.class);

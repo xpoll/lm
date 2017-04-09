@@ -15,7 +15,7 @@ public class PageRenderAspect {
       this.authenticator = authenticator;
    }
 
-   @Around("execution(public java.lang.String io.terminus.pampas.engine.PageRender.render(..)) && args(domain, path, ..)")
+   @Around("execution(public java.lang.String cn.blmdz.hunt.engine.PageRender.render(..)) && args(domain, path, ..)")
    public Object filterAuth(ProceedingJoinPoint pjp, String domain, String path) throws Throwable {
       String html = (String)pjp.proceed();
       if(!"i18n".equalsIgnoreCase(path)) {

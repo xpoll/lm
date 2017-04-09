@@ -48,7 +48,7 @@ public class MainSellerRoleService {
     public Response<Paging<MainSellerRole>> pagination(BaseUser user, String name, Long id, Integer status, Integer pageNo, Integer pageSize) {
         try {
             if (id != null) {
-                MainSellerRole role = RespHelper.orServEx(mainSellerRoleReadService.findById(id));
+                MainSellerRole role = RespHelper.<MainSellerRole>orServEx(mainSellerRoleReadService.findById(id));
                 if (Objects.equals(role.getStatus(), -1)) {
                     return Response.ok(Paging.<MainSellerRole>empty());
                 }
@@ -83,7 +83,7 @@ public class MainSellerRoleService {
                 MainSellerRole role = new MainSellerRole();
                 return Response.ok(role);
             }
-            MainSellerRole role = RespHelper.orServEx(mainSellerRoleReadService.findById(id));
+            MainSellerRole role = RespHelper.<MainSellerRole>orServEx(mainSellerRoleReadService.findById(id));
             if (role == null) {
                 log.warn("operator role not id={}", id);
                 return Response.fail("operator.role.not.found");

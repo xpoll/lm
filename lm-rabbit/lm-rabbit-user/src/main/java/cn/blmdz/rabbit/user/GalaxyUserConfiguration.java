@@ -13,9 +13,12 @@ import cn.blmdz.wolf.user.UserAutoConfig;
  * @author Effet
  */
 @Configuration
-@ComponentScan(basePackages = {
-        "io.terminus.galaxy.user.impl"
-})
-@Import({UserAutoConfig.class, ExtraUserAutoConfig.class, FileAutoConfig.class, ArticleAutoConfig.class})
+@ComponentScan(basePackages = { "cn.blmdz.rabbit.user.impl" })
+@Import({
+	UserAutoConfig.class,
+	ExtraUserAutoConfig.class,
+	FileAutoConfig.class,
+	ArticleAutoConfig.class
+	})
 public class GalaxyUserConfiguration {
 }

@@ -26,11 +26,9 @@ public class SessionAutoConfiguration {
 		AFSessionFilter afSessionFilter = new AFSessionFilter(true);
 		afSessionFilter.setSessionManager(afSessionManager());
 		afSessionFilter.setCookieDomain(properties.getCookieDomain());
-		afSessionFilter.setMaxInactiveInterval(properties
-				.getMaxInactiveInterval());
+		afSessionFilter.setMaxInactiveInterval(properties.getMaxInactiveInterval());
 		afSessionFilter.setSessionCookieName(properties.getCookieName());
-		afSessionFilter.setCookieContextPath(properties
-				.getCookieContextPath());
+		afSessionFilter.setCookieContextPath(properties.getCookieContextPath());
 		afSessionFilter.setCookieMaxAge(properties.getCookieMaxAge());
 		afSessionFilter.setSessionKeyPrefix(properties.getRedisPrefix());
 		registration.setFilter(afSessionFilter);
@@ -46,23 +44,15 @@ public class SessionAutoConfiguration {
 		configuration.setSerializeType(properties.getSerializeType());
 		configuration.setSource(properties.getSource());
 		configuration.setSessionRedisPrefix(properties.getRedisPrefix());
-		configuration.setSessionRedisCluster(Boolean.valueOf(properties
-				.isRedisCluster()));
-		configuration.setSessionRedisTestOnBorrow(Boolean
-				.valueOf(properties.isRedisTestOnBorrow()));
-		configuration.setSessionRedisMaxIdle(Integer.valueOf(properties
-				.getRedisMaxIdle()));
-		configuration.setSessionRedisMaxTotal(Integer.valueOf(properties
-				.getRedisMaxTotal()));
+		configuration.setSessionRedisCluster(Boolean.valueOf(properties.isRedisCluster()));
+		configuration.setSessionRedisTestOnBorrow(Boolean.valueOf(properties.isRedisTestOnBorrow()));
+		configuration.setSessionRedisMaxIdle(Integer.valueOf(properties.getRedisMaxIdle()));
+		configuration.setSessionRedisMaxTotal(Integer.valueOf(properties.getRedisMaxTotal()));
 		configuration.setSessionRedisHost(properties.getRedisHost());
-		configuration.setSessionRedisPort(Integer.valueOf(properties
-				.getRedisPort()));
-		configuration.setSessionRedisSentinelHosts(properties
-				.getRedisSentinelHosts());
-		configuration.setSessionRedisSentinelMasterName(properties
-				.getRedisSentinelMasterName());
-		configuration.setSessionRedisDbIndex(Integer.valueOf(properties
-				.getRedisIndex()));
+		configuration.setSessionRedisPort(Integer.valueOf(properties.getRedisPort()));
+		configuration.setSessionRedisSentinelHosts(properties.getRedisSentinelHosts());
+		configuration.setSessionRedisSentinelMasterName(properties.getRedisSentinelMasterName());
+		configuration.setSessionRedisDbIndex(Integer.valueOf(properties.getRedisIndex()));
 		return AFSessionManager.newInstance(configuration);
 	}
 }

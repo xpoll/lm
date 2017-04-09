@@ -10,7 +10,7 @@ import com.google.common.collect.Multimap;
 import cn.blmdz.wolf.auth.model.ExtendedRole;
 
 public class ExtendedRoleUtil {
-   public static Multimap groupUpRoles(List<String> roles) {
+   public static Multimap<String, ExtendedRole> groupUpRoles(List<String> roles) {
       Multimap<String, ExtendedRole> map = ArrayListMultimap.create();
 
       for(String role : roles) {

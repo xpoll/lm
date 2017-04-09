@@ -3,7 +3,7 @@ package cn.blmdz.wolf.spu.impl.dao;
 import org.springframework.stereotype.Repository;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.spu.model.SpuDetail;
+import cn.blmdz.wolf.spu.model.SpuDetail;
 
 @Repository
 public class SpuDetailDao extends MyBatisDao {

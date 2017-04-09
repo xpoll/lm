@@ -3,17 +3,11 @@ package cn.blmdz.rabbit.user;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import cn.blmdz.wolf.common.banner.ParanaBanner;
-
-/**
- * @author Effet
- */
 @SpringBootApplication
 public class GalaxyUserApplication {
-    public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(GalaxyUserApplication.class,
-                "classpath:/spring/galaxy-user-dubbo-provider.xml");
-        application.setBanner(new ParanaBanner());
-        application.run(args);
-    }
+	public static void main(String[] args) {
+		SpringApplication application = new SpringApplication(GalaxyUserApplication.class,
+				"classpath:/spring/galaxy-user-dubbo-provider.xml");
+		application.run(args);
+	}
 }

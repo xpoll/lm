@@ -131,7 +131,7 @@ private <T extends BaseConfig> T parseConfig0(App app, String path, Class<T> con
                }
             }
 
-            config.merge((BaseConfig)YAML.loadAs(configStr, configClass));
+            config.merge(YAML.loadAs(configStr, configClass));
             log.info("load app [{}] config success, config: {}", app, config);
          } else if(config != null) {
             for(String importFilePath : config.getImported()) {

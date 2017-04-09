@@ -5,7 +5,7 @@ import java.util.Map;
 
 import cn.blmdz.home.common.model.BaseUser;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.item.model.Sku;
 
 public interface CartWriteService {
    Response changeCart(Sku var1, Integer var2, Long var3);

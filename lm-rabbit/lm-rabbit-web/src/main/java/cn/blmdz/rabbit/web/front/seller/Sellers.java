@@ -58,7 +58,7 @@ public class Sellers {
             toCreate.setUserName(user.getName());
             toCreate.setStatus(0);
             toCreate.setExtra(seller.getExtra());
-            RespHelper.or500(sellerWriteService.createSeller(toCreate));
+            RespHelper.<Long>or500(sellerWriteService.createSeller(toCreate));
             return Boolean.TRUE;
         } else {
             if (Objects.equals(exist.getStatus(), 0) || Objects.equals(exist.getStatus(), -1)) {
@@ -66,7 +66,7 @@ public class Sellers {
                 toUpdate.setId(exist.getId());
                 toUpdate.setStatus(0);
                 toUpdate.setExtra(seller.getExtra());
-                return RespHelper.or500(sellerWriteService.updateSeller(toUpdate));
+                return RespHelper.<Boolean>or500(sellerWriteService.updateSeller(toUpdate));
             } else {
                 log.error("seller apply status neither init nor rejected, cannot update apply info");
                 throw new JsonResponseException(500, "seller.apply.status.not.allow.reapply");

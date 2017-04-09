@@ -19,14 +19,14 @@ import com.google.common.collect.Sets;
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.common.UserUtil;
+import cn.blmdz.wolf.category.dto.ShopCategoryWithChildren;
+import cn.blmdz.wolf.category.model.ShopCategory;
+import cn.blmdz.wolf.category.service.ShopCategoryItemWriteService;
+import cn.blmdz.wolf.category.service.ShopCategoryReadService;
+import cn.blmdz.wolf.category.service.ShopCategoryWriteService;
 import cn.blmdz.wolf.common.model.ParanaUser;
 import cn.blmdz.wolf.common.utils.RespHelper;
-import cn.blmdz.wolf.parana.category.dto.ShopCategoryWithChildren;
-import cn.blmdz.wolf.parana.category.model.ShopCategory;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryItemWriteService;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryReadService;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryWriteService;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import cn.blmdz.wolf.web.front.util.ShopCategoryUtils;
 
 @RestController

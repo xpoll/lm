@@ -8,7 +8,7 @@ import java.util.List;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.protocol.Export;
-import cn.blmdz.wolf.parana.shop.model.Shop;
+import cn.blmdz.wolf.shop.model.Shop;
 
 /**
  * Date: 7/19/16

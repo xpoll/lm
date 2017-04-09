@@ -15,9 +15,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import cn.blmdz.rabbit.web.core.GalaxyCoreWebConfiguration;
+import cn.blmdz.wolf.ItemApiConfiguration;
 import cn.blmdz.wolf.auth.web.WebAuthenticationConfiguration;
 import cn.blmdz.wolf.config.ConfigCenter;
-import cn.blmdz.wolf.parana.ItemApiConfiguration;
 import cn.blmdz.wolf.web.core.advices.JsonExceptionResolver;
 import cn.blmdz.wolf.web.msg.config.MsgAdminWebConfig;
 import cn.blmdz.wolf.web.msg.config.MsgWebConfig;
@@ -29,15 +29,15 @@ import cn.blmdz.wolf.web.msg.config.MsgWebConfig;
  */
 @Configuration
 @ComponentScan(basePackages = {
-        "io.terminus.parana.web.core.advices",
-        "io.terminus.parana.web.core.component",
-        "io.terminus.parana.web.core.events",
-        "io.terminus.parana.web.core.exceptions",
-        "io.terminus.parana.web.admin.brand",
-        "io.terminus.parana.web.admin.category",
-        "io.terminus.parana.web.admin.item",
-        "io.terminus.parana.web.admin.jobs",
-        "io.terminus.parana.web.admin.spu",
+        "cn.blmdz.wolf.web.core.advices",
+        "cn.blmdz.wolf.web.core.component",
+        "cn.blmdz.wolf.web.core.events",
+        "cn.blmdz.wolf.web.core.exceptions",
+        "cn.blmdz.wolf.web.admin.brand",
+        "cn.blmdz.wolf.web.admin.category",
+        "cn.blmdz.wolf.web.admin.item",
+        "cn.blmdz.wolf.web.admin.jobs",
+        "cn.blmdz.wolf.web.admin.spu",
 }, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
                 JsonExceptionResolver.class,

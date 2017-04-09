@@ -5,7 +5,7 @@ logging:
 
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: io.terminus.parana.settlement.model,io.terminus.galaxy.settlement.model,io.terminus.parana.settlement.dto
+  typeAliasesPackage: cn.blmdz.wolf.settlement.model,cn.blmdz.rabbit.settlement.model,cn.blmdz.wolf.settlement.dto
 
 datasource:
   driver-class-name: com.mysql.jdbc.Driver

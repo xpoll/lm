@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.brand.model.Brand;
-import cn.blmdz.wolf.parana.brand.service.BrandReadService;
-import cn.blmdz.wolf.parana.brand.service.BrandWriteService;
+import cn.blmdz.wolf.brand.model.Brand;
+import cn.blmdz.wolf.brand.service.BrandReadService;
+import cn.blmdz.wolf.brand.service.BrandWriteService;
 
 @RestController
 @RequestMapping({"/api/brands"})

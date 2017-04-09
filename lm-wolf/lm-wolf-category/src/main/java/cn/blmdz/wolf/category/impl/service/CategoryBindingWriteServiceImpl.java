@@ -14,8 +14,8 @@ import com.google.common.collect.Lists;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.CategoryBindingDao;
 import cn.blmdz.wolf.category.impl.manager.CategoryBindingManager;
-import cn.blmdz.wolf.parana.category.model.CategoryBinding;
-import cn.blmdz.wolf.parana.category.service.CategoryBindingWriteService;
+import cn.blmdz.wolf.category.model.CategoryBinding;
+import cn.blmdz.wolf.category.service.CategoryBindingWriteService;
 
 @Service
 public class CategoryBindingWriteServiceImpl implements CategoryBindingWriteService {

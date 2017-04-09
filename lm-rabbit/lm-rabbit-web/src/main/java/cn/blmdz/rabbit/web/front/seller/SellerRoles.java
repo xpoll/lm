@@ -60,7 +60,7 @@ public class SellerRoles {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Boolean updateRole(@PathVariable Long id, @RequestBody SellerRole sellerRole) {
-        SellerRole existRole = RespHelper.orServEx(sellerRoleReadService.findById(id));
+        SellerRole existRole = RespHelper.<SellerRole>orServEx(sellerRoleReadService.findById(id));
         if (existRole == null) {
             throw new JsonResponseException(500, "seller.role.not.exist");
         }
@@ -90,6 +90,6 @@ public class SellerRoles {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<SellerRole> findAllRoles() {
         Long shopId = SellerUtils.getLoggedShopId();
-        return RespHelper.or500(sellerRoleReadService.findByShopIdAndStatus(ThreadVars.getAppKey(), shopId, 1));
+        return RespHelper.<List<SellerRole>>or500(sellerRoleReadService.findByShopIdAndStatus(ThreadVars.getAppKey(), shopId, 1));
     }
 }

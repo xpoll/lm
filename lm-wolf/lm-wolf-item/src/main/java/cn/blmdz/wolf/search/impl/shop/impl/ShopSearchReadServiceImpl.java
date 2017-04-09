@@ -15,10 +15,10 @@ import cn.blmdz.home.common.model.Response;
 import cn.blmdz.home.search.api.Searcher;
 import cn.blmdz.home.search.api.model.WithAggregations;
 import cn.blmdz.home.search.api.query.Criterias;
-import cn.blmdz.wolf.parana.search.dto.SearchedShop;
-import cn.blmdz.wolf.parana.search.dto.SearchedShopWithAggs;
-import cn.blmdz.wolf.parana.search.shop.SearchShopProperties;
-import cn.blmdz.wolf.parana.search.shop.ShopSearchReadService;
+import cn.blmdz.wolf.search.dto.SearchedShop;
+import cn.blmdz.wolf.search.dto.SearchedShopWithAggs;
+import cn.blmdz.wolf.search.shop.SearchShopProperties;
+import cn.blmdz.wolf.search.shop.ShopSearchReadService;
 
 @Service
 public class ShopSearchReadServiceImpl

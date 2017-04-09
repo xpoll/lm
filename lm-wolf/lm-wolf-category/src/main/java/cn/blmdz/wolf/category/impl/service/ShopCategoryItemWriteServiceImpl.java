@@ -17,8 +17,8 @@ import com.google.common.collect.Sets;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryItemDao;
-import cn.blmdz.wolf.parana.category.model.ShopCategoryItem;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryItemWriteService;
+import cn.blmdz.wolf.category.model.ShopCategoryItem;
+import cn.blmdz.wolf.category.service.ShopCategoryItemWriteService;
 
 @Service
 public class ShopCategoryItemWriteServiceImpl implements ShopCategoryItemWriteService {

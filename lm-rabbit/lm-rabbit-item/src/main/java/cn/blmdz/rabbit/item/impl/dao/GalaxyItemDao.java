@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.item.model.Item;
+import cn.blmdz.wolf.item.model.Item;
 
 /**
  * Date: 7/19/16

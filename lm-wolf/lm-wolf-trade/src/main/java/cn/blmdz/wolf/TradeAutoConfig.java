@@ -15,7 +15,7 @@ import cn.blmdz.wolf.order.dao.SkuOrderDao;
 import cn.blmdz.wolf.order.dao.SkuOrderRefundDao;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.order"})
+@ComponentScan({"cn.blmdz.wolf.order"})
 public class TradeAutoConfig {
    @ConditionalOnMissingBean({OrderComponent.class})
    @Configuration
@@ -27,7 +27,7 @@ public class TradeAutoConfig {
    }
 
    @Configuration
-   @ComponentScan({"io.terminus.parana.cart"})
+   @ComponentScan({"cn.blmdz.wolf.cart"})
    public static class ShoppingCartConfiguration {
    }
 }

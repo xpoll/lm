@@ -12,46 +12,46 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- item services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.ItemReadService" ref="itemReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.ItemWriteService" ref="itemWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.SkuReadService" ref="skuReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.ItemSnapshotReadService" ref="itemSnapshotReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.ItemSnapshotWriteService" ref="itemSnapshotWriteServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.brand.service.BrandReadService" ref="brandReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.brand.service.BrandWriteService" ref="brandWriteServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.spu.service.SpuReadService" ref="spuReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.spu.service.SpuWriteService" ref="spuWriteServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.CategoryAttributeReadService" ref="categoryAttributeReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.CategoryAttributeWriteService" ref="categoryAttributeWriteServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.storage.service.StorageService" ref="galaxyStorageServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.item.service.GalaxyItemReadService" ref="galaxyItemReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.ItemReadService" ref="itemReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.ItemWriteService" ref="itemWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.SkuReadService" ref="skuReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.ItemSnapshotReadService" ref="itemSnapshotReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.ItemSnapshotWriteService" ref="itemSnapshotWriteServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.brand.service.BrandReadService" ref="brandReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.brand.service.BrandWriteService" ref="brandWriteServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.spu.service.SpuReadService" ref="spuReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.spu.service.SpuWriteService" ref="spuWriteServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.CategoryAttributeReadService" ref="categoryAttributeReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.CategoryAttributeWriteService" ref="categoryAttributeWriteServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.storage.service.StorageService" ref="galaxyStorageServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.item.service.GalaxyItemReadService" ref="galaxyItemReadServiceImpl"/>
 
     <!-- search service -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.search.item.ItemDumpService" ref="itemDumpServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.search.item.ItemSearchReadService" ref="itemSearchReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.search.item.ItemSearchWriteService" ref="itemSearchWriteServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.search.shop.ShopSearchReadService" ref="shopSearchReadServiceImpl" />
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.search.shop.ShopDumpService" ref="shopDumpServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.search.item.ItemDumpService" ref="itemDumpServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.search.item.ItemSearchReadService" ref="itemSearchReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.search.item.ItemSearchWriteService" ref="itemSearchWriteServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.search.shop.ShopSearchReadService" ref="shopSearchReadServiceImpl" />
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.search.shop.ShopDumpService" ref="shopDumpServiceImpl" />
 
 
 
     <!-- parana shop services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.shop.service.ShopReadService" ref="shopReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.shop.service.ShopWriteService" ref="shopWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.shop.service.AdminShopWriteService" ref="adminShopWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.shop.service.ShopReadService" ref="shopReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.shop.service.ShopWriteService" ref="shopWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.shop.service.AdminShopWriteService" ref="adminShopWriteServiceImpl"/>
 
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.BackCategoryWriteService" ref="backCategoryWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.BackCategoryReadService" ref="backCategoryReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.CategoryBindingWriteService" ref="categoryBindingWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.CategoryBindingReadService" ref="categoryBindingReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.CategoryBindingReadService" ref="categoryBindingReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.AdminItemWriteService" ref="adminItemWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.item.service.AdminItemReadService" ref="adminItemReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.FrontCategoryWriteService" ref="frontCategoryWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.FrontCategoryReadService" ref="frontCategoryReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.ShopCategoryReadService" ref="shopCategoryReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.ShopCategoryWriteService" ref="shopCategoryWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.ShopCategoryItemReadService" ref="shopCategoryItemReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.category.service.ShopCategoryItemWriteService" ref="shopCategoryItemWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.BackCategoryWriteService" ref="backCategoryWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.BackCategoryReadService" ref="backCategoryReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.CategoryBindingWriteService" ref="categoryBindingWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.CategoryBindingReadService" ref="categoryBindingReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.CategoryBindingReadService" ref="categoryBindingReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.AdminItemWriteService" ref="adminItemWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.item.service.AdminItemReadService" ref="adminItemReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.FrontCategoryWriteService" ref="frontCategoryWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.FrontCategoryReadService" ref="frontCategoryReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.ShopCategoryReadService" ref="shopCategoryReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.ShopCategoryWriteService" ref="shopCategoryWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.ShopCategoryItemReadService" ref="shopCategoryItemReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.category.service.ShopCategoryItemWriteService" ref="shopCategoryItemWriteServiceImpl"/>
 
 </beans>

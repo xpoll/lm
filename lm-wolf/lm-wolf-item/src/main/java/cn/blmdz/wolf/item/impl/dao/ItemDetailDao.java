@@ -3,7 +3,7 @@ package cn.blmdz.wolf.item.impl.dao;
 import org.springframework.stereotype.Repository;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.item.model.ItemDetail;
+import cn.blmdz.wolf.item.model.ItemDetail;
 
 @Repository
 public class ItemDetailDao extends MyBatisDao {

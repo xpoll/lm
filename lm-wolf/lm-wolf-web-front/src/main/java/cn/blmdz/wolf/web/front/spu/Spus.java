@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Paging;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.spu.model.Spu;
-import cn.blmdz.wolf.parana.spu.service.SpuReadService;
+import cn.blmdz.wolf.spu.model.Spu;
+import cn.blmdz.wolf.spu.service.SpuReadService;
 
 @RestController
 @RequestMapping({"/api/seller/spu"})

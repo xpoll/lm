@@ -8,7 +8,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.home.common.mysql.dao.MyBatisDao;
-import cn.blmdz.wolf.parana.category.model.CategoryAttribute;
+import cn.blmdz.wolf.category.model.CategoryAttribute;
 
 @Repository
 public class CategoryAttributeDao extends MyBatisDao {

@@ -2,7 +2,7 @@ package cn.blmdz.wolf.web.core.advices;
 
 import com.google.common.net.MediaType;
 
-import cn.blmdz.wolf.parana.rule.exception.InvalidException;
+import cn.blmdz.wolf.rule.exception.InvalidException;
 
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;

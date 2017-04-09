@@ -54,9 +54,9 @@ public class OrderSellerCancelAction implements TradeAction<Boolean> {
         Long orderId = Long.valueOf(Params.get(context, "orderId").toString());
 
         // 订单
-        ShopOrder shopOrder = RespHelper.orServEx(orderReadService.findShopOrderById(orderId));
+        ShopOrder shopOrder = RespHelper.<ShopOrder>orServEx(orderReadService.findShopOrderById(orderId));
         // 子订单
-        List<SkuOrder> skuOrders = RespHelper.orServEx(orderReadService.findSkuOrderByParentId(orderId));
+        List<SkuOrder> skuOrders = RespHelper.<List<SkuOrder>>orServEx(orderReadService.findSkuOrderByParentId(orderId));
 
         List<Order> toUpdates = new ArrayList<>();
         // 流转到卖家取消订单节点

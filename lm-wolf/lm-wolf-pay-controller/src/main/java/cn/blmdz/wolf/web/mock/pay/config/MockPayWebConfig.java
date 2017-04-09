@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
    name = {"pay.debug"},
    havingValue = "true"
 )
-@ComponentScan({"io.terminus.parana.web.mock.pay"})
+@ComponentScan({"cn.blmdz.wolf.web.mock.pay"})
 public class MockPayWebConfig {
 }

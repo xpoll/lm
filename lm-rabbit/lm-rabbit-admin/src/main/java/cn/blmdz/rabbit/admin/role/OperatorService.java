@@ -55,7 +55,7 @@ public class OperatorService {
         try {
             Long userId = getLoginAdminId(user);
 
-            Paging<Operator> paging = RespHelper.orServEx(operatorReadService.pagination(roleId, null, pageNo, pageSize));
+            Paging<Operator> paging = RespHelper.<Paging<Operator>>orServEx(operatorReadService.pagination(roleId, null, pageNo, pageSize));
             List<Operator> result = new ArrayList<>();
             List<Long> userIds = Lists.newArrayList();
             List<Long> roleIds = Lists.newArrayList();

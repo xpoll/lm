@@ -17,7 +17,7 @@ import cn.blmdz.wolf.msg.impl.component.helper.DefaultSubscriptionChecker;
 import cn.blmdz.wolf.msg.impl.dao.mysql.SubscriptionDao;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.msg.impl"})
+@ComponentScan({"cn.blmdz.wolf.msg.impl"})
 public class MessageAutoConfig {
    @Bean
    @ConditionalOnMissingBean({MessageValidatorChain.class})

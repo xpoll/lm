@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
-import cn.blmdz.wolf.parana.cache.BackCategoryCacher;
+import cn.blmdz.wolf.cache.BackCategoryCacher;
 
 @RestController
 @RequestMapping({"/api/backCategories"})

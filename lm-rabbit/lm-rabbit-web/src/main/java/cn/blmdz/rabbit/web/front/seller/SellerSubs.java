@@ -85,13 +85,13 @@ public class SellerSubs {
 
         SubSeller.SubSellerRole role = null;
         if (sub.getRoleId() != null) {
-            SellerRole sellerRole = RespHelper.or500(sellerRoleReadService.findById(sub.getRoleId()));
+            SellerRole sellerRole = RespHelper.<SellerRole>or500(sellerRoleReadService.findById(sub.getRoleId()));
             role = new SubSeller.SubSellerRole();
             role.setId(sub.getRoleId());
             role.setName(sellerRole.getName());
         }
 
-        Long userId = RespHelper.or500(userWriteService.create(user));
+        Long userId = RespHelper.<Long>or500(userWriteService.create(user));
 
         SubSeller subSeller = new SubSeller();
         subSeller.setUserId(userId);
@@ -99,7 +99,7 @@ public class SellerSubs {
         subSeller.setShopId(shopId);
         subSeller.setStatus(1);
         subSeller.setRoles(Lists.newArrayList(role));
-        RespHelper.or500(sellerWriteService.createSubSeller(subSeller));
+        RespHelper.<Long>or500(sellerWriteService.createSubSeller(subSeller));
         return userId;
     }
 
@@ -146,7 +146,7 @@ public class SellerSubs {
                 toUpdateSub.setUserName(toUpdateUser.getName());
             }
             SubSeller.SubSellerRole role = new SubSeller.SubSellerRole();
-            SellerRole sellerRole = RespHelper.or500(sellerRoleReadService.findById(sub.getRoleId()));
+            SellerRole sellerRole = RespHelper.<SellerRole>or500(sellerRoleReadService.findById(sub.getRoleId()));
             role.setId(sub.getRoleId());
             role.setName(sellerRole.getName());
             toUpdateSub.setRoles(Lists.newArrayList(role));

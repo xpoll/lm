@@ -1,7 +1,7 @@
 package cn.blmdz.wolf.search.impl.shop.impl;
 
-import cn.blmdz.wolf.parana.search.dto.IndexedShop;
-import cn.blmdz.wolf.parana.shop.model.Shop;
+import cn.blmdz.wolf.search.dto.IndexedShop;
+import cn.blmdz.wolf.shop.model.Shop;
 
 public abstract interface IndexedShopFactory<T extends IndexedShop>
 {

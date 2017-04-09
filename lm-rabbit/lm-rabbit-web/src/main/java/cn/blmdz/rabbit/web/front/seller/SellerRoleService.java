@@ -53,7 +53,7 @@ public class SellerRoleService {
         try {
             Long shopId = SellerUtils.getLoggedShopId(user);
             if (id != null) {
-                SellerRole role = RespHelper.orServEx(sellerRoleReadService.findById(id));
+                SellerRole role = RespHelper.<SellerRole>orServEx(sellerRoleReadService.findById(id));
                 if (role != null && Objects.equals(role.getShopId(), shopId)) {
                     if (Objects.equals(role.getStatus(), -1)) {
                         return Response.ok(Paging.<SellerRole>empty());
@@ -93,7 +93,7 @@ public class SellerRoleService {
                 SellerRole role = new SellerRole();
                 return Response.ok(role);
             }
-            SellerRole role = RespHelper.orServEx(sellerRoleReadService.findById(id));
+            SellerRole role = RespHelper.<SellerRole>orServEx(sellerRoleReadService.findById(id));
             if (role == null) {
                 log.warn("seller role not id={}", id);
                 return Response.fail("seller.role.not.found");

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.collect.ImmutableMap;
 
 import cn.blmdz.rabbit.web.component.GalaxyMainSearch;
-import cn.blmdz.wolf.parana.search.dto.SearchedShopWithAggs;
-import cn.blmdz.wolf.parana.search.shop.ShopDumpService;
+import cn.blmdz.wolf.search.dto.SearchedShopWithAggs;
+import cn.blmdz.wolf.search.shop.ShopDumpService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -79,7 +79,7 @@ public class OrderReadServiceImpl implements OrderReadService {
       }
    }
 
-   public Response findShopOrderById(Long id) {
+   public Response<ShopOrder> findShopOrderById(Long id) {
       try {
          ShopOrder shopOrder = (ShopOrder)this.shopOrderDao.findById(id);
          if(null == shopOrder) {

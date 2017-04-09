@@ -12,9 +12,9 @@ import com.google.common.eventbus.EventBus;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.AdminShopWriteService;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.AdminShopWriteService;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import cn.blmdz.wolf.web.core.events.shop.ShopFrozenEvent;
 import cn.blmdz.wolf.web.core.events.shop.ShopUnfrozenEvent;
 import lombok.extern.slf4j.Slf4j;

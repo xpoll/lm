@@ -13,7 +13,7 @@ import cn.blmdz.wolf.user.service.AdminUserService;
 import cn.blmdz.wolf.user.service.UserReadService;
 
 @Configuration
-@ComponentScan({ "io.terminus.parana.user" })
+@ComponentScan({ "cn.blmdz.wolf.user" })
 public class UserAutoConfig {
 	@ConditionalOnMissingBean({ UserRoleLoader.class })
 	@Bean

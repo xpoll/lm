@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import cn.blmdz.home.search.api.IndexTaskBuilder;
 import cn.blmdz.home.search.api.model.IndexAction;
 import cn.blmdz.home.search.api.model.IndexTask;
-import cn.blmdz.wolf.parana.search.dto.IndexedItem;
-import cn.blmdz.wolf.parana.search.item.SearchItemProperties;
+import cn.blmdz.wolf.search.dto.IndexedItem;
+import cn.blmdz.wolf.search.item.SearchItemProperties;
 
 @Component
 public class IndexedItemIndexAction {

@@ -31,8 +31,8 @@ import cn.blmdz.wolf.order.service.OrderActionReadService;
 import cn.blmdz.wolf.order.service.OrderReadService;
 import cn.blmdz.wolf.order.service.OrderWriteService;
 import cn.blmdz.wolf.order.util.Params;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -78,9 +78,9 @@ public class OrderConfirmAction implements TradeAction<Boolean> {
         Long orderId = Long.valueOf(Params.get(context, "orderId").toString());
 
         // 订单
-        ShopOrder shopOrder = RespHelper.orServEx(orderReadService.findShopOrderById(orderId));
+        ShopOrder shopOrder = RespHelper.<ShopOrder>orServEx(orderReadService.findShopOrderById(orderId));
         // 子订单
-        List<SkuOrder> skuOrders = RespHelper.orServEx(orderReadService.findSkuOrderByParentId(orderId));
+        List<SkuOrder> skuOrders = RespHelper.<List<SkuOrder>>orServEx(orderReadService.findSkuOrderByParentId(orderId));
 
         List<Order> toUpdates = new ArrayList<>();
         // 流转到交易完成节点

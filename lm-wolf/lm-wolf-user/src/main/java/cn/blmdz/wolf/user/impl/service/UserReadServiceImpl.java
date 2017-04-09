@@ -22,7 +22,7 @@ import cn.blmdz.wolf.user.model.User;
 import cn.blmdz.wolf.user.service.UserReadService;
 
 @Service
-public class UserReadServiceImpl implements UserReadService {
+public class UserReadServiceImpl implements UserReadService<User> {
    private static final Logger log = LoggerFactory.getLogger(UserReadServiceImpl.class);
    private final UserDao userDao;
 

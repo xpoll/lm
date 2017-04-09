@@ -9,8 +9,8 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.item.impl.dao.ItemSnapshotDao;
-import cn.blmdz.wolf.parana.item.model.ItemSnapshot;
-import cn.blmdz.wolf.parana.item.service.ItemSnapshotReadService;
+import cn.blmdz.wolf.item.model.ItemSnapshot;
+import cn.blmdz.wolf.item.service.ItemSnapshotReadService;
 
 @Service
 public class ItemSnapshotReadServiceImpl implements ItemSnapshotReadService {

@@ -35,10 +35,10 @@ import cn.blmdz.hunt.engine.config.model.Render;
 import cn.blmdz.hunt.engine.service.ConfigService;
 import cn.blmdz.rabbit.web.design.modal.EcpAppKey;
 import cn.blmdz.rabbit.web.design.modal.EcpLayoutType;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.service.ItemReadService;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.service.ItemReadService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

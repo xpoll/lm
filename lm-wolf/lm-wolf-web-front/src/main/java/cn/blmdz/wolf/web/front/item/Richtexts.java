@@ -15,9 +15,9 @@ import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.hunt.common.UserUtil;
 import cn.blmdz.wolf.common.model.ParanaUser;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.service.ItemReadService;
-import cn.blmdz.wolf.parana.item.service.ItemWriteService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.service.ItemReadService;
+import cn.blmdz.wolf.item.service.ItemWriteService;
 import cn.blmdz.wolf.web.core.util.RichTextCleaner;
 
 @RestController

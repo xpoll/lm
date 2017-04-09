@@ -3,7 +3,7 @@ package cn.blmdz.rabbit.order.dto;
 import java.io.Serializable;
 import java.util.Map;
 
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.item.model.Sku;
 import lombok.Data;
 
 /**

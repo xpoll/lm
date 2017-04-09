@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.blmdz.wolf.category.impl.dao.BackCategoryDao;
 import cn.blmdz.wolf.category.impl.dao.CategoryBindingDao;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
+import cn.blmdz.wolf.category.model.BackCategory;
 
 @Component
 public class BackCategoryManager {

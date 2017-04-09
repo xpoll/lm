@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.blmdz.home.zookeeper.leader.HostLeader;
-import cn.blmdz.wolf.parana.search.item.ItemDumpService;
+import cn.blmdz.wolf.search.item.ItemDumpService;
 
 @RestController
 @RequestMapping({"/api/search/item/"})

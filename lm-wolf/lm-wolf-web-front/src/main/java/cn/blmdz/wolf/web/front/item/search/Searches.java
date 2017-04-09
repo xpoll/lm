@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.search.item.ItemSearchReadService;
+import cn.blmdz.wolf.search.item.ItemSearchReadService;
 
 @RestController
 public class Searches {

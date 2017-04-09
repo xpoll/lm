@@ -11,10 +11,10 @@ import cn.blmdz.home.common.model.Response;
 import cn.blmdz.home.search.api.IndexExecutor;
 import cn.blmdz.wolf.item.impl.dao.ItemAttributeDao;
 import cn.blmdz.wolf.item.impl.dao.ItemDao;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
-import cn.blmdz.wolf.parana.search.dto.IndexedItem;
-import cn.blmdz.wolf.parana.search.item.ItemSearchWriteService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemAttribute;
+import cn.blmdz.wolf.search.dto.IndexedItem;
+import cn.blmdz.wolf.search.item.ItemSearchWriteService;
 
 @Service
 public class ItemSearchWriteServiceImpl implements ItemSearchWriteService {

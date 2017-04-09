@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * @See io.terminus.parana.common.util.TextValidator
+ * @See cn.blmdz.wolf.common.util.TextValidator
  *
  * Author  : panxin
  * Date    : 8:03 PM 3/7/16

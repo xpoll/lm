@@ -12,6 +12,6 @@ import cn.blmdz.boot.dubbo.autoconfigure.DubboAutoConfiguration;
 
 @Configuration
 @EnableAutoConfiguration(exclude = DubboAutoConfiguration.class)
-@ComponentScan({"io.terminus.galaxy.settlement.impl.dao"})
+@ComponentScan({"cn.blmdz.rabbit.settlement.impl.dao"})
 public class DaoConfiguration {
 }

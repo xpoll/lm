@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.web.msg.impl.common.db", "io.terminus.parana.web.msg.impl.notify.common", "io.terminus.parana.web.msg.impl.notify.db", "io.terminus.parana.web.msg.impl.notify.controller"})
+@ComponentScan({"cn.blmdz.wolf.web.msg.impl.common.db", "cn.blmdz.wolf.web.msg.impl.notify.common", "cn.blmdz.wolf.web.msg.impl.notify.db", "cn.blmdz.wolf.web.msg.impl.notify.controller"})
 public class DbNotifyConfig {
 }

@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2014 杭州端点网络科技有限公司
-  -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
@@ -12,48 +8,48 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- user services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.UserReadService" ref="userReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.UserWriteService" ref="galaxyUserWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.AdminUserService" ref="adminUserServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.UserProfileReadService" ref="userProfileReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.UserProfileWriteService" ref="userProfileWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.UserReadService" ref="userReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.UserWriteService" ref="galaxyUserWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.AdminUserService" ref="adminUserServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.UserProfileReadService" ref="userProfileReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.UserProfileWriteService" ref="userProfileWriteServiceImpl"/>
 
     <!-- notice -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.NoticeReadService" ref="noticeReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.NoticeWriteService" ref="noticeWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.NoticeReadService" ref="noticeReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.NoticeWriteService" ref="noticeWriteServiceImpl"/>
 
     <!-- user devices -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.DeviceReadService" ref="deviceReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.service.DeviceWriteService" ref="deviceWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.DeviceReadService" ref="deviceReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.service.DeviceWriteService" ref="deviceWriteServiceImpl"/>
 
     <!-- file services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.file.service.UserFolderService" ref="userFolderServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.file.service.UserFileService" ref="userFileServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.file.service.UserFolderService" ref="userFolderServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.file.service.UserFileService" ref="userFileServiceImpl"/>
 
     <!-- address services-->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.address.service.AddressReadService" ref="addressReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.address.service.ReceiveAddressReadService" ref="receiveAddressReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.user.address.service.ReceiveAddressWriteService" ref="receiveAddressWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.address.service.AddressReadService" ref="addressReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.address.service.ReceiveAddressReadService" ref="receiveAddressReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.user.address.service.ReceiveAddressWriteService" ref="receiveAddressWriteServiceImpl"/>
 
     <!-- auth services -->
-    <dubbo:service version="5.0.1" retries="0" interface="io.terminus.parana.user.auth.UserRoleLoader" ref="galaxyUserRoleLoaderImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.SellerReadService" ref="sellerReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.SellerWriteService" ref="sellerWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.SellerRoleReadService" ref="sellerRoleReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.SellerRoleWriteService" ref="sellerRoleWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.OperatorRoleReadService" ref="operatorRoleReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.OperatorRoleWriteService" ref="operatorRoleWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.OperatorReadService" ref="operatorReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.OperatorWriteService" ref="operatorWriteServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.MainSellerRoleReadService" ref="mainSellerRoleReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.MainSellerRoleWriteService" ref="mainSellerRoleWriteServiceImpl"/>
+    <dubbo:service version="5.0.1" retries="0" interface="cn.blmdz.wolf.user.auth.UserRoleLoader" ref="galaxyUserRoleLoaderImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.SellerReadService" ref="sellerReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.SellerWriteService" ref="sellerWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.SellerRoleReadService" ref="sellerRoleReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.SellerRoleWriteService" ref="sellerRoleWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.OperatorRoleReadService" ref="operatorRoleReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.OperatorRoleWriteService" ref="operatorRoleWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.OperatorReadService" ref="operatorReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.OperatorWriteService" ref="operatorWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.MainSellerRoleReadService" ref="mainSellerRoleReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.MainSellerRoleWriteService" ref="mainSellerRoleWriteServiceImpl"/>
 
     <!-- article service -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.article.service.ArticleReadService" ref="articleReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.article.service.ArticleWriteService" ref="articleWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.article.service.ArticleReadService" ref="articleReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.article.service.ArticleWriteService" ref="articleWriteServiceImpl"/>
 
     <!-- business  service -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.BusinessReadService" ref="businessReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.galaxy.user.service.BusinessWriteService" ref="businessWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.BusinessReadService" ref="businessReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.rabbit.user.service.BusinessWriteService" ref="businessWriteServiceImpl"/>
 
 </beans>

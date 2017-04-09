@@ -5,7 +5,7 @@ logging:
 
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: io.terminus.parana.pay.mock.model
+  typeAliasesPackage: cn.blmdz.wolf.pay.mock.model
 
 datasource:
   driver-class-name: com.mysql.jdbc.Driver

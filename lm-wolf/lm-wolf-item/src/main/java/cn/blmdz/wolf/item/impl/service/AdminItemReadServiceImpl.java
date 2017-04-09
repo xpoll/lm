@@ -15,10 +15,10 @@ import cn.blmdz.home.common.model.PageInfo;
 import cn.blmdz.home.common.model.Paging;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.item.impl.dao.ItemDao;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.service.AdminItemReadService;
-import cn.blmdz.wolf.parana.shop.model.Shop;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.service.AdminItemReadService;
 import cn.blmdz.wolf.shop.impl.dao.ShopDao;
+import cn.blmdz.wolf.shop.model.Shop;
 
 @Service
 public class AdminItemReadServiceImpl implements AdminItemReadService {

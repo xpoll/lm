@@ -3,7 +3,7 @@ package cn.blmdz.wolf.cart.dto;
 import java.io.Serializable;
 
 import cn.blmdz.wolf.cart.model.CartItem;
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.item.model.Sku;
 
 public class RichCartItem implements Serializable {
    private static final long serialVersionUID = 1537613794298226789L;

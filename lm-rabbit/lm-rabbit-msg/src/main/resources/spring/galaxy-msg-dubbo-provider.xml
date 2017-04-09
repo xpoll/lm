@@ -12,20 +12,20 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- msg services -->
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.ReceiverGroupReadService" ref="receiverGroupReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.ReceiverGroupWriteService" ref="receiverGroupWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.ReceiverGroupReadService" ref="receiverGroupReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.ReceiverGroupWriteService" ref="receiverGroupWriteServiceImpl"/>
 
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.SubscriptionReadService" ref="subscriptionReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.SubscriptionWriteService" ref="subscriptionWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.SubscriptionReadService" ref="subscriptionReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.SubscriptionWriteService" ref="subscriptionWriteServiceImpl"/>
 
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.MessageTemplateReadService" ref="messageTemplateReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.MessageTemplateWriteService" ref="messageTemplateWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.MessageTemplateReadService" ref="messageTemplateReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.MessageTemplateWriteService" ref="messageTemplateWriteServiceImpl"/>
 
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.MessageReadService" ref="messageReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.MessageWriteService" ref="messageWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.MessageReadService" ref="messageReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.MessageWriteService" ref="messageWriteServiceImpl"/>
 
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.NotifyReadService" ref="notifyReadServiceImpl"/>
-    <dubbo:service version="1.0.0" retries="0" interface="io.terminus.parana.msg.service.NotifyWriteService" ref="notifyWriteServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.NotifyReadService" ref="notifyReadServiceImpl"/>
+    <dubbo:service version="1.0.0" retries="0" interface="cn.blmdz.wolf.msg.service.NotifyWriteService" ref="notifyWriteServiceImpl"/>
 
 
 </beans>

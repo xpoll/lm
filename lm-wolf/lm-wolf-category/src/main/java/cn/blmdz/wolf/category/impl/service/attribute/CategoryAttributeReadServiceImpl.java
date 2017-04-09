@@ -11,8 +11,8 @@ import com.google.common.base.Throwables;
 
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.CategoryAttributeDao;
-import cn.blmdz.wolf.parana.category.model.CategoryAttribute;
-import cn.blmdz.wolf.parana.category.service.CategoryAttributeReadService;
+import cn.blmdz.wolf.category.model.CategoryAttribute;
+import cn.blmdz.wolf.category.service.CategoryAttributeReadService;
 
 @Service
 public class CategoryAttributeReadServiceImpl implements CategoryAttributeReadService {

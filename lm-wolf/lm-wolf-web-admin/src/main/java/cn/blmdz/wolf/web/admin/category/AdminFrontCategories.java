@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.category.model.FrontCategory;
-import cn.blmdz.wolf.parana.category.service.FrontCategoryReadService;
-import cn.blmdz.wolf.parana.category.service.FrontCategoryWriteService;
+import cn.blmdz.wolf.category.model.FrontCategory;
+import cn.blmdz.wolf.category.service.FrontCategoryReadService;
+import cn.blmdz.wolf.category.service.FrontCategoryWriteService;
 
 @RestController
 @RequestMapping({"/api/frontCategories"})

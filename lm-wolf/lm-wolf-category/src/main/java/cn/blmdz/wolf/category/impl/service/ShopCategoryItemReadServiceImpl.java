@@ -13,8 +13,8 @@ import cn.blmdz.home.common.model.PageInfo;
 import cn.blmdz.home.common.model.Paging;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryItemDao;
-import cn.blmdz.wolf.parana.category.model.ShopCategoryItem;
-import cn.blmdz.wolf.parana.category.service.ShopCategoryItemReadService;
+import cn.blmdz.wolf.category.model.ShopCategoryItem;
+import cn.blmdz.wolf.category.service.ShopCategoryItemReadService;
 
 @Service
 public class ShopCategoryItemReadServiceImpl implements ShopCategoryItemReadService {

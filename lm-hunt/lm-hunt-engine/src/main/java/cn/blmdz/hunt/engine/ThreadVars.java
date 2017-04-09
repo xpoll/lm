@@ -4,13 +4,22 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
 
 import cn.blmdz.hunt.engine.model.App;
 
 public enum ThreadVars {
-	APP, DOMAIN, PORT, LOCALE, SEO;
+	APP,
 
-	private static ThreadLocal<Map<ThreadVars, Object>> currentEnv = new ThreadLocal<Map<ThreadVars, Object>>();
+	DOMAIN,
+
+	PORT,
+
+	LOCALE,
+
+	SEO;
+
+	private static ThreadLocal<Map<ThreadVars, Object>> currentEnv;
 
 	@SuppressWarnings("unchecked")
 	private static <T> T get(ThreadVars var) {
@@ -67,7 +76,10 @@ public enum ThreadVars {
 
 	public static String getHost() {
 		Integer port = (Integer) Objects.firstNonNull(get(PORT), Integer.valueOf(80));
-		return port.intValue() == 80 ? getDomain() : getDomain() + ":" + port;
+		if (port.intValue() == 80) {
+			return getDomain();
+		}
+		return getDomain() + ":" + port;
 	}
 
 	public static void setLocale(Locale locale) {
@@ -80,5 +92,13 @@ public enum ThreadVars {
 
 	public static void clearLocale() {
 		clear(LOCALE);
+	}
+
+	static {
+		currentEnv = new ThreadLocal<Map<ThreadVars, Object>>() {
+			protected Map<ThreadVars, Object> initialValue() {
+				return Maps.newHashMap();
+			}
+		};
 	}
 }

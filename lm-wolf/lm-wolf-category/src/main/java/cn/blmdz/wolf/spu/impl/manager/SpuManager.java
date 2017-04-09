@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.blmdz.wolf.category.impl.dao.BackCategoryDao;
-import cn.blmdz.wolf.parana.category.model.BackCategory;
-import cn.blmdz.wolf.parana.spu.model.SkuTemplate;
-import cn.blmdz.wolf.parana.spu.model.Spu;
-import cn.blmdz.wolf.parana.spu.model.SpuAttribute;
-import cn.blmdz.wolf.parana.spu.model.SpuDetail;
+import cn.blmdz.wolf.category.model.BackCategory;
 import cn.blmdz.wolf.spu.impl.dao.SkuTemplateDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuAttributeDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuDao;
 import cn.blmdz.wolf.spu.impl.dao.SpuDetailDao;
+import cn.blmdz.wolf.spu.model.SkuTemplate;
+import cn.blmdz.wolf.spu.model.Spu;
+import cn.blmdz.wolf.spu.model.SpuAttribute;
+import cn.blmdz.wolf.spu.model.SpuDetail;
 
 @Component
 public class SpuManager {

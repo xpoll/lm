@@ -26,13 +26,13 @@ import cn.blmdz.rabbit.pay.enums.PayChannelEnum;
 import cn.blmdz.wolf.order.model.ShopOrder;
 import cn.blmdz.wolf.order.model.SkuOrder;
 import cn.blmdz.wolf.order.service.OrderReadService;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
 import cn.blmdz.wolf.pay.dto.OwnerPayChannelDto;
 import cn.blmdz.wolf.pay.dto.PayChannelDto;
 import cn.blmdz.wolf.pay.model.OwnerPayChannel;
 import cn.blmdz.wolf.pay.service.PayReadService;
 import cn.blmdz.wolf.pay.service.PayWriteService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 import cn.blmdz.wolf.web.pay.controller.OwnerPayChannels;
 import lombok.extern.slf4j.Slf4j;
 

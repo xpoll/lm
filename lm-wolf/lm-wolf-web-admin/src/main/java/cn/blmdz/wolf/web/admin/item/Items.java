@@ -19,9 +19,9 @@ import com.google.common.eventbus.EventBus;
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.home.common.util.Splitters;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.service.AdminItemWriteService;
-import cn.blmdz.wolf.parana.item.service.ItemReadService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.service.AdminItemWriteService;
+import cn.blmdz.wolf.item.service.ItemReadService;
 import cn.blmdz.wolf.web.core.events.item.ItemUpdateEvent;
 
 @RestController

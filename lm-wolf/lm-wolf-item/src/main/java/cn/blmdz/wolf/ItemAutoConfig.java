@@ -12,16 +12,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cn.blmdz.home.search.ESClient;
+import cn.blmdz.wolf.cache.BackCategoryCacher;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryItemDao;
-import cn.blmdz.wolf.parana.cache.BackCategoryCacher;
-import cn.blmdz.wolf.parana.search.item.SearchItemProperties;
 import cn.blmdz.wolf.search.impl.BaseItemQueryBuilder;
 import cn.blmdz.wolf.search.impl.DefaultIndexedItemFactory;
 import cn.blmdz.wolf.search.impl.DefaultItemQueryBuilder;
 import cn.blmdz.wolf.search.impl.IndexedItemFactory;
+import cn.blmdz.wolf.search.item.SearchItemProperties;
 
 @Configuration
-@ComponentScan({"io.terminus.parana.item.impl", "io.terminus.parana.category.impl", "io.terminus.parana.brand.impl", "io.terminus.parana.shop.impl", "io.terminus.parana.spu.impl"})
+@ComponentScan({"cn.blmdz.wolf.item.impl", "cn.blmdz.wolf.category.impl", "cn.blmdz.wolf.brand.impl", "cn.blmdz.wolf.shop.impl", "cn.blmdz.wolf.spu.impl"})
 public class ItemAutoConfig {
    @Bean
    public ObjectMapper nonNullObjectMapper() {
@@ -33,7 +33,7 @@ public class ItemAutoConfig {
    @Configuration
    @EnableConfigurationProperties({SearchItemProperties.class})
    @ConditionalOnClass({ESClient.class})
-   @ComponentScan({"io.terminus.search.api", "io.terminus.parana.search.impl", "io.terminus.parana.cache"})
+   @ComponentScan({"cn.blmdz.home.search.api", "cn.blmdz.wolf.search.impl", "cn.blmdz.wolf.cache"})
    public static class ItemSearchConfiguration {
       @Bean
       public ESClient esClient(@Value("${search.host:localhost}") String host, @Value("${search.port:9200}") Integer port) {

@@ -6,4 +6,4 @@ spring:
 
 mybatis:
   mapperLocations:  classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: io.terminus.galaxy.settlement.model,io.terminus.parana.settlement.model
+  typeAliasesPackage: cn.blmdz.rabbit.settlement.model,cn.blmdz.wolf.settlement.model

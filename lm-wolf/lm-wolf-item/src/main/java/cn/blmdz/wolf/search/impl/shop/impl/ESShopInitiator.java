@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.blmdz.home.search.ESClient;
-import cn.blmdz.wolf.parana.search.shop.SearchShopProperties;
 import cn.blmdz.wolf.search.impl.BaseESInitiator;
+import cn.blmdz.wolf.search.shop.SearchShopProperties;
 
 @Component
 public class ESShopInitiator extends BaseESInitiator

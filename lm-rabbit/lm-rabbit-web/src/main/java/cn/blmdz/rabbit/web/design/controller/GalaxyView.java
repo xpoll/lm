@@ -43,10 +43,10 @@ import cn.blmdz.hunt.engine.utils.Domains;
 import cn.blmdz.rabbit.web.design.modal.EcpAppKey;
 import cn.blmdz.rabbit.web.design.modal.ShopSitePageCategory;
 import cn.blmdz.rabbit.web.design.service.EcpSiteService;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.service.ItemReadService;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopReadService;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.service.ItemReadService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopReadService;
 
 
 /**

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.blmdz.home.common.exception.JsonResponseException;
 import cn.blmdz.home.common.model.Response;
 import cn.blmdz.rabbit.web.util.SellerUtils;
-import cn.blmdz.wolf.parana.shop.model.Shop;
-import cn.blmdz.wolf.parana.shop.service.ShopWriteService;
+import cn.blmdz.wolf.shop.model.Shop;
+import cn.blmdz.wolf.shop.service.ShopWriteService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -12,15 +12,15 @@ import com.google.common.base.Objects;
 
 import cn.blmdz.home.common.exception.ServiceException;
 import cn.blmdz.wolf.category.impl.dao.ShopCategoryItemDao;
+import cn.blmdz.wolf.category.model.ShopCategoryItem;
 import cn.blmdz.wolf.item.impl.dao.ItemAttributeDao;
 import cn.blmdz.wolf.item.impl.dao.ItemDao;
 import cn.blmdz.wolf.item.impl.dao.ItemDetailDao;
 import cn.blmdz.wolf.item.impl.dao.SkuDao;
-import cn.blmdz.wolf.parana.category.model.ShopCategoryItem;
-import cn.blmdz.wolf.parana.item.model.Item;
-import cn.blmdz.wolf.parana.item.model.ItemAttribute;
-import cn.blmdz.wolf.parana.item.model.ItemDetail;
-import cn.blmdz.wolf.parana.item.model.Sku;
+import cn.blmdz.wolf.item.model.Item;
+import cn.blmdz.wolf.item.model.ItemAttribute;
+import cn.blmdz.wolf.item.model.ItemDetail;
+import cn.blmdz.wolf.item.model.Sku;
 
 @Component
 public class ItemManager {

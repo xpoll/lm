@@ -12,7 +12,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import cn.blmdz.home.common.model.Response;
-import cn.blmdz.wolf.parana.storage.service.StorageService;
+import cn.blmdz.wolf.storage.service.StorageService;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -3,13 +3,15 @@ package cn.blmdz.wolf.order.service;
 import java.util.List;
 
 import cn.blmdz.home.common.model.Response;
+import cn.blmdz.wolf.order.model.ShopOrder;
+import cn.blmdz.wolf.order.model.SkuOrder;
 
 public interface OrderReadService {
    Response findMergeOrderById(Long var1);
 
    Response findMergeOrderRefundById(Long var1);
 
-   Response findShopOrderById(Long var1);
+   Response<ShopOrder> findShopOrderById(Long var1);
 
    Response findSkuOrderById(Long var1);
 
@@ -33,7 +35,7 @@ public interface OrderReadService {
 
    Response findShopOrderByParentId(Long var1);
 
-   Response findSkuOrderByParentId(Long var1);
+   Response<List<SkuOrder>> findSkuOrderByParentId(Long var1);
 
    Response findSkuOrderRefundByParentId(Long var1);
 

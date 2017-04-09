@@ -8,19 +8,19 @@ spring:
 mybatis:
   mapperLocations:  classpath*:mapper/*Mapper.xml
   typeAliasesPackage: >
-    io.terminus.parana.item.model,
-    io.terminus.parana.category.model,
-    io.terminus.parana.brand.model,
-    io.terminus.parana.spu.model,
-    io.terminus.parana.shop.model,
-    io.terminus.parana.user.model,
-    io.terminus.parana.cart.model,
-    io.terminus.parana.order.model,
-    io.terminus.parana.user.address.model,
-    io.terminus.parana.file.model,
-    io.terminus.galaxy.user.model,
-    io.terminus.galaxy.order.model,
-    io.terminus.parana.article.model
+    cn.blmdz.wolf.item.model,
+    cn.blmdz.wolf.category.model,
+    cn.blmdz.wolf.brand.model,
+    cn.blmdz.wolf.spu.model,
+    cn.blmdz.wolf.shop.model,
+    cn.blmdz.wolf.user.model,
+    cn.blmdz.wolf.cart.model,
+    cn.blmdz.wolf.order.model,
+    cn.blmdz.wolf.user.address.model,
+    cn.blmdz.wolf.file.model,
+    cn.blmdz.rabbit.user.model,
+    cn.blmdz.rabbit.order.model,
+    cn.blmdz.wolf.article.model
 
 image:
   base:

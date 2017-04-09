@@ -8,8 +8,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import cn.blmdz.rabbit.interceptor.MockLoginInterceptor;
 import cn.blmdz.rabbit.order.GalaxyTradeConfiguration;
+import cn.blmdz.wolf.ItemApiConfiguration;
 import cn.blmdz.wolf.ItemAutoConfig;
-import cn.blmdz.wolf.parana.ItemApiConfiguration;
 import cn.blmdz.wolf.user.UserAutoConfig;
 import cn.blmdz.wolf.web.front.FrontConfiguration;
 
@@ -28,7 +28,7 @@ import cn.blmdz.wolf.web.front.FrontConfiguration;
 })
 
 @ComponentScan({
-        "io.terminus.galaxy.web.core.trade"
+        "cn.blmdz.rabbit.web.core.trade"
 })
 public class FrontWebConfiguration extends WebMvcConfigurerAdapter {
 
