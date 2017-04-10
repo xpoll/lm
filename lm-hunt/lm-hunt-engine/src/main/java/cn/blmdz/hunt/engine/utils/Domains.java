@@ -29,6 +29,6 @@ public class Domains {
 	}
 
 	public static String getNaiveDomainFromRequest(HttpServletRequest request) {
-		return (String) Splitters.COLON.splitToList(request.getHeader("Host")).get(0);
+		return Splitters.COLON.splitToList(request.getHeader("Host")).get(0);
 	}
 }

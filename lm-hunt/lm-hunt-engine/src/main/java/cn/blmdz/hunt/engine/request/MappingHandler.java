@@ -40,7 +40,8 @@ public class MappingHandler {
 
 	@PostConstruct
 	public void init() {
-		this.actionEngine.registerOnce(LoginAction.class, new ActionInvoker<LoginAction>() {
+		actionEngine.registerOnce(LoginAction.class, new ActionInvoker<LoginAction>() {
+			@Override
 			public boolean invoke(LoginAction loginAction, HttpServletRequest request, HttpServletResponse response) {
 				if (loginAction.getUserId() == null) {
 					return false;
@@ -55,7 +56,8 @@ public class MappingHandler {
 				}
 			}
 		});
-		this.actionEngine.registerOnce(LogoutAction.class, new ActionInvoker<LogoutAction>() {
+		actionEngine.registerOnce(LogoutAction.class, new ActionInvoker<LogoutAction>() {
+			@Override
 			public boolean invoke(LogoutAction action, HttpServletRequest request, HttpServletResponse response) {
 				String domain = ThreadVars.getDomain().equals("localhost") ? null
 						: "." + Domains.removeSubDomain(ThreadVars.getDomain());
@@ -68,21 +70,21 @@ public class MappingHandler {
 
 	public boolean handle(String path, HttpServletRequest request, HttpServletResponse response,
 			Map<String, Object> context) {
-		return this.handle(ThreadVars.getAppKey(), path, request, response, context);
+		return handle(ThreadVars.getAppKey(), path, request, response, context);
 	}
 
 	protected boolean handle(String app, String path, HttpServletRequest request, HttpServletResponse response,
 			Map<String, Object> context) {
 		String method = request.getMethod().toUpperCase();
-		Mapping mapping = this.invoker.mappingMatch(app, Joiners.COLON.join(method, path, new Object[0]));
+		Mapping mapping = invoker.mappingMatch(app, Joiners.COLON.join(method, path));
 		if (mapping == null) {
 			return false;
-		} else if (mapping.isCsrfCheck() && !this.csrfHelper.check(request)) {
+		} else if (mapping.isCsrfCheck() && !csrfHelper.check(request)) {
 			throw new JsonResponseException(403, "Duplicate request");
 		} else {
 			response.setContentType(MediaType.JSON_UTF_8.toString());
-			Object result = this.invoker.mappingInvoke(mapping, path, context);
-			if (result instanceof Action && this.actionEngine.handler((Action) result, request, response)) {
+			Object result = invoker.mappingInvoke(mapping, path, context);
+			if (result instanceof Action && actionEngine.handler((Action) result, request, response)) {
 				return true;
 			} else {
 				Object realResult = result instanceof Action ? ((Action) result).getData() : result;

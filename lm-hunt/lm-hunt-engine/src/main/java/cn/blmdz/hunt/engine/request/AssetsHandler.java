@@ -13,11 +13,14 @@ import com.google.common.collect.Iterables;
 
 import cn.blmdz.home.common.util.Splitters;
 import cn.blmdz.hunt.engine.Setting;
-import cn.blmdz.hunt.engine.utils.FileLoader;
+import cn.blmdz.hunt.engine.utils.FileLoader.Resp;
 import cn.blmdz.hunt.engine.utils.FileLoaderHelper;
 import cn.blmdz.hunt.engine.utils.MimeTypes;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 资源文件管理
+ */
 @Slf4j
 @Component
 public class AssetsHandler {
@@ -26,6 +29,10 @@ public class AssetsHandler {
 	@Autowired
 	private FileLoaderHelper fileLoaderHelper;
 
+	/**
+	 * 不是媒体或静态文件返回false <br>
+	 * 有资源直接write（404设置状态）返回true 
+	 */
 	public boolean handle(String path, HttpServletResponse response) {
 		String lastPath = Iterables.getLast(Splitters.SLASH.split(path));
 		List<String> fileInfo = Splitters.DOT.splitToList(lastPath);
@@ -35,10 +42,11 @@ public class AssetsHandler {
 		response.setContentType(MimeTypes.getType(Iterables.getLast(fileInfo)));
 
 		String realPath = setting.getRootPath() + path;
-		FileLoader.Resp resp = fileLoaderHelper.load(realPath);
+		Resp resp = fileLoaderHelper.load(realPath);
 		if (resp.isNotFound()) {
-			if (log.isDebugEnabled())
+			if (log.isDebugEnabled()) {
 				log.debug("Assets not found, path: [{}]", path);
+			}
 			response.setStatus(HttpStatus.NOT_FOUND.value());
 			return true;
 		}

@@ -31,7 +31,7 @@ public class Entrance {
 
 	@RequestMapping
 	public void doRequest(HttpServletRequest request,
-			HttpServletResponse response, Map<String, Object> context) {
+			HttpServletResponse response,Map<String, Object> context) {
 		String domain = Domains.getDomainFromRequest(request);
 		// if(!domain.equals("localhost") && !domain.equals("127.0.0.1")) {
 		// boolean isAuthed = tLicense.hasLicense(domain);
@@ -40,13 +40,14 @@ public class Entrance {
 		// }
 		// }
 
-		String path = request.getRequestURI().substring(
-				request.getContextPath().length() + 1);
+		String path = request.getRequestURI().substring(request.getContextPath().length() + 1);
+		
 		if (Strings.isNullOrEmpty(path)) {
 			path = "index";
 		}
 
 		context = prepareContext(request, context);
+		
 		boolean isAssets = assetsHandler.handle(path, response);
 		if (!isAssets) {
 			boolean hasMapping = mappingHandler.handle(path, request, response, context);
@@ -58,8 +59,8 @@ public class Entrance {
 
 	private Map<String, Object> prepareContext(HttpServletRequest request, Map<String, Object> context) {
 		if (request != null) {
-			for (Object name : request.getParameterMap().keySet()) {
-				context.put((String) name, request.getParameter((String) name));
+			for (String name : request.getParameterMap().keySet()) {
+				context.put(name, request.getParameter(name));
 			}
 		}
 

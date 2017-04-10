@@ -11,12 +11,10 @@
         <dependency>
             <groupId>cn.blmdz.hunt</groupId>
             <artifactId>lm-hunt-engine-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.blmdz.hunt</groupId>
             <artifactId>lm-hunt-client</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.blmdz.home</groupId>
@@ -28,6 +26,7 @@
             <artifactId>license-core</artifactId>
         </dependency>
          -->
+         
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -75,8 +74,8 @@
         <dependency>
             <groupId>com.101tec</groupId>
             <artifactId>zkclient</artifactId>
-            <optional>true</optional>
             <version>0.7</version>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

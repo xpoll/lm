@@ -3,9 +3,14 @@ package cn.blmdz.hunt.engine.utils;
 import lombok.Getter;
 
 public enum Protocol {
-	HTTP("http://"), HTTPS("https://"), SERVLET("resources://"), CLASSPATH(
-			"classpath:"), NONE(""), FILE("file:"), ZK("zookeeper://"), REDIS(
-			"redis:");
+	NONE(""),
+	HTTP("http://"),
+	HTTPS("https://"),
+	SERVLET("resources://"),
+	CLASSPATH("classpath:"),
+	FILE("file:"),
+	ZK("zookeeper://"),
+	REDIS("redis:");
 
 	@Getter
 	private String prefix;

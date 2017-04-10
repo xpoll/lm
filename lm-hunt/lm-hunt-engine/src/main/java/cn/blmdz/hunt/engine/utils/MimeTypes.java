@@ -6,8 +6,8 @@ import cn.blmdz.home.common.util.MapBuilder;
 
 public class MimeTypes {
 	private static final String DEFAULT_TYPE = "application/octet-stream";
-	private static final Map<Object, Object> TYPE_MAP = MapBuilder
-			.of()
+	private static final Map<String, String> TYPE_MAP = MapBuilder
+			.<String, String>of()
 			.put("html", "text/html")
 			.put("htm", "text/html")
 			.put("shtml", "text/html")
@@ -109,7 +109,7 @@ public class MimeTypes {
 			.map();
 
 	public static String getType(String suffix) {
-		String type = (String) TYPE_MAP.get(suffix);
+		String type = TYPE_MAP.get(suffix);
 		return type == null ? DEFAULT_TYPE : type;
 	}
 }

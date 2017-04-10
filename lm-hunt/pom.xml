@@ -18,6 +18,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	
+		<lm-home.version>0.0.1-SNAPSHOT</lm-home.version>
+		<lm-hunt.version>0.0.1-SNAPSHOT</lm-hunt.version>
 		
 		<dubbo.version>2.5.3</dubbo.version>
 		<guava.version>19.0</guava.version>
@@ -28,14 +31,8 @@
 		<kotlin.version>1.0.1</kotlin.version>
 		<jackson.version>2.6.3</jackson.version>
 		<ebean.version>7.1.1</ebean.version>
-		
-		<!-- persistence -->
 		<mybatis.version>3.2.3</mybatis.version>
 		<mybatis.spring.version>1.1.1</mybatis.spring.version>
-	
-		<lm.home.version>0.0.1-SNAPSHOT</lm.home.version>
-		<lm.hunt.version>0.0.1-SNAPSHOT</lm.hunt.version>
-
         <jackson.version>2.4.2</jackson.version>
         <spring.version>3.2.6.RELEASE</spring.version>
         <slf4j.version>1.7.5</slf4j.version>
@@ -49,12 +46,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>cn.blmdz.home</groupId>
-                <artifactId>lm-home-common</artifactId>
-                <version>${lm.home.version}</version>
-            </dependency>
-        
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
@@ -75,14 +66,65 @@
 		        </exclusions>
 	            <version>${dubbo.version}</version>
 	        </dependency>
+	        
+	        <!-- home -->
+            <dependency>
+                <groupId>cn.blmdz.home</groupId>
+                <artifactId>lm-home-common</artifactId>
+                <version>${lm-home.version}</version>
+            </dependency>
+            
+			<!-- hunt -->
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-client</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-common</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-design</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-design-api</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-engine</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-engine-api</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-protocol</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.blmdz.hunt</groupId>
+				<artifactId>lm-hunt-wec</artifactId>
+				<version>${lm-hunt.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+    
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>

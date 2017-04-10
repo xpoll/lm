@@ -12,17 +12,16 @@
         <dependency>
             <groupId>cn.blmdz.hunt</groupId>
             <artifactId>lm-hunt-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.blmdz.hunt</groupId>
             <artifactId>lm-hunt-engine-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.blmdz.home</groupId>
             <artifactId>lm-home-common</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

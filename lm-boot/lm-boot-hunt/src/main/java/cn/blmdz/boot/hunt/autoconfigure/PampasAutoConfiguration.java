@@ -29,10 +29,15 @@ import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
 @EnableConfigurationProperties({ PampasProperties.class })
-@ComponentScan(basePackages = { "cn.blmdz.hunt.engine" }, excludeFilters = { @Filter({ Configuration.class }),
-		@Filter(type = FilterType.ASSIGNABLE_TYPE, value = { SettingHelper.class, PageRender.class }) })
-@Import({ PampasMVCAutoConfiguration.class })
+@ComponentScan(
+		basePackages = { "cn.blmdz.hunt.engine" },
+		excludeFilters = {
+				@Filter(Configuration.class),
+				@Filter(type = FilterType.ASSIGNABLE_TYPE, value = { SettingHelper.class, PageRender.class })
+				})
+@Import(PampasMVCAutoConfiguration.class)
 public class PampasAutoConfiguration {
+	
 	@Autowired
 	private PampasProperties properties;
 	@Autowired
@@ -41,38 +46,39 @@ public class PampasAutoConfiguration {
 	@Bean
 	public Setting setting() {
 		Setting setting = new Setting();
-		setting.setRootPath(this.properties.getRootPath());
-		setting.setApps(this.properties.getApps());
-		setting.setRegistryId(this.properties.getRegistryId());
-		setting.setDevMode(this.properties.isDevMode());
-		setting.setLocale(this.properties.getLocale());
-		setting.setClearInjectNestedContext(this.properties.isClearInjectNestedContext());
+		setting.setRootPath(properties.getRootPath());
+		setting.setApps(properties.getApps());
+		setting.setRegistryId(properties.getRegistryId());
+		setting.setDevMode(properties.isDevMode());
+		setting.setLocale(properties.getLocale());
+		setting.setClearInjectNestedContext(properties.isClearInjectNestedContext());
 		return setting;
 	}
 
-	@Bean(name = { "pampasJedisTemplate" })
+	@Bean(name = { "jedisTemplate" })
 	@ConditionalOnProperty(prefix = "pampas.redis", name = { "jedisPool" })
-	public JedisTemplate pampasJedisTemplate1() {
-		JedisPool jedisPool = (JedisPool) this.applicationContext.getBean(this.properties.getRedis().getJedisPool(),
-				JedisPool.class);
+	public JedisTemplate jedisTemplate1() {
+		JedisPool jedisPool = applicationContext.getBean(properties.getRedis().getJedisPool(), JedisPool.class);
+		System.out.println("---------jedisTemplate init 1----------");
 		return new JedisTemplate(jedisPool);
 	}
 
-	@Bean(name = { "pampasJedisTemplate" })
+	@Bean(name = { "jedisTemplate" })
 	@ConditionalOnMissingBean(name = { "pampasJedisTemplate" })
 	@ConditionalOnProperty(prefix = "pampas.redis", name = { "host" })
-	public JedisTemplate pampasJedisTemplate2() {
+	public JedisTemplate jedisTemplate2() {
 		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
 		jedisPoolConfig.setMaxTotal(20);
 		jedisPoolConfig.setMaxIdle(2);
 		jedisPoolConfig.setMaxWaitMillis(10000L);
 		jedisPoolConfig.setTestOnBorrow(true);
-		PampasProperties.RedisProperties redisProperties = this.properties.getRedis();
+		PampasProperties.RedisProperties redisProperties = properties.getRedis();
 		JedisPool jedisPool = new JedisPool(jedisPoolConfig, redisProperties.getHost(),
-				((Integer) MoreObjects.firstNonNull(redisProperties.getPort(), Integer.valueOf(6379))).intValue(),
-				((Integer) MoreObjects.firstNonNull(redisProperties.getTimeout(), Integer.valueOf(2000))).intValue(),
+				MoreObjects.firstNonNull(redisProperties.getPort(), Integer.valueOf(6379)).intValue(),
+				MoreObjects.firstNonNull(redisProperties.getTimeout(), Integer.valueOf(2000)).intValue(),
 				redisProperties.getPassword(),
-				((Integer) MoreObjects.firstNonNull(redisProperties.getDatabase(), Integer.valueOf(0))).intValue());
+				MoreObjects.firstNonNull(redisProperties.getDatabase(), Integer.valueOf(0)).intValue());
+		System.out.println("---------jedisTemplate init 2----------");
 		return new JedisTemplate(jedisPool);
 	}
 

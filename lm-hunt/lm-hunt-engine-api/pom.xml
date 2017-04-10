@@ -11,8 +11,8 @@
         <dependency>
             <groupId>cn.blmdz.hunt</groupId>
             <artifactId>lm-hunt-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>

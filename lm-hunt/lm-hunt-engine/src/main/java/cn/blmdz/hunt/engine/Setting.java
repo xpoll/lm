@@ -33,7 +33,7 @@ public class Setting extends AbstractSetting {
 				app.setConfigPath(app.getAssetsHome() + "back_config.yaml");
 			}
 
-			app.setConfigJsFile((String) Objects.firstNonNull(app.getConfigJsFile(), "assets/scripts/config.js"));
+			app.setConfigJsFile(Objects.firstNonNull(app.getConfigJsFile(), "assets/scripts/config.js"));
 			if (!Strings.isNullOrEmpty(app.getJudgePattern())) {
 				app.setRegexJudgePattern(Pattern.compile(app.getJudgePattern()));
 			}
@@ -41,7 +41,7 @@ public class Setting extends AbstractSetting {
 			this.appMap.put(app.getKey(), app);
 		}
 
-		this.defaultApp = (App) this.getApps().get(0);
+		this.defaultApp = this.getApps().get(0);
 	}
 
 	private String normalize(String rootPath) {

@@ -35,39 +35,41 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import cn.blmdz.boot.hunt.autoconfigure.PampasMVCProperties.Interceptors;
 import cn.blmdz.hunt.engine.handlebars.HandlebarsEngine;
 import cn.blmdz.hunt.webc.converter.JsonMessageConverter;
-import cn.blmdz.hunt.webc.resolver.ExceptionResolver2;
+import cn.blmdz.hunt.webc.resolver.ExceptionResolver;
 import cn.blmdz.hunt.webc.resolver.HandlebarsViewResolver;
 
 @Configuration
 @ConditionalOnProperty(prefix = "pampas", name = { "autoConfigureMVC" }, matchIfMissing = true)
-@EnableConfigurationProperties({ PampasMVCProperties.class })
+@EnableConfigurationProperties(PampasMVCProperties.class)
 @EnableWebMvc
-@ComponentScan({ "cn.blmdz.hunt.webc" })
-@AutoConfigureAfter({ PampasAutoConfiguration.class })
+@ComponentScan("cn.blmdz.hunt.webc")
+@AutoConfigureAfter(PampasAutoConfiguration.class)
 public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
 	private PampasMVCProperties properties;
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		Map<PampasMVCProperties.Interceptors, HandlerInterceptor> interceptors = Maps.newLinkedHashMap();
-		interceptors.put(PampasMVCProperties.Interceptors.CSRFCheck,
-				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasCSRFCheckInterceptor"));
+		Map<Interceptors, HandlerInterceptor> interceptors = Maps.newLinkedHashMap();
+		interceptors.put(Interceptors.CSRFCheck,
+				(HandlerInterceptorAdapter) applicationContext.getBean("pampasCSRFCheckInterceptor"));
 		interceptors.put(PampasMVCProperties.Interceptors.App,
-				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasAppInterceptor"));
+				(HandlerInterceptorAdapter) applicationContext.getBean("pampasAppInterceptor"));
 		interceptors.put(PampasMVCProperties.Interceptors.LocaleJudge,
-				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasLocaleJudgeInterceptor"));
+				(HandlerInterceptorAdapter) applicationContext.getBean("pampasLocaleJudgeInterceptor"));
 		interceptors.put(PampasMVCProperties.Interceptors.Cookie,
-				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasCookieInterceptor"));
+				(HandlerInterceptorAdapter) applicationContext.getBean("pampasCookieInterceptor"));
 		interceptors.put(PampasMVCProperties.Interceptors.Login,
-				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasLoginInterceptor"));
+				(HandlerInterceptorAdapter) applicationContext.getBean("pampasLoginInterceptor"));
 		interceptors.put(PampasMVCProperties.Interceptors.Auth,
-				(HandlerInterceptorAdapter) this.applicationContext.getBean("pampasAuthInterceptor"));
-		if (this.properties.getIgnoreInterceptors() != null) {
-			for (PampasMVCProperties.Interceptors key : this.properties.getIgnoreInterceptors()) {
+				(HandlerInterceptorAdapter) applicationContext.getBean("pampasAuthInterceptor"));
+		if (properties.getIgnoreInterceptors() != null) {
+			for (Interceptors key : properties.getIgnoreInterceptors()) {
 				interceptors.remove(key);
 			}
 		}
@@ -76,14 +78,15 @@ public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 			registry.addInterceptor(interceptor);
 		}
 
-		if (this.properties.getCustomInterceptors() != null) {
-			for (String beanName : this.properties.getCustomInterceptors()) {
-				registry.addInterceptor((HandlerInterceptor) this.applicationContext.getBean(beanName));
+		if (properties.getCustomInterceptors() != null) {
+			for (String beanName : properties.getCustomInterceptors()) {
+				registry.addInterceptor((HandlerInterceptor) applicationContext.getBean(beanName));
 			}
 		}
 
 	}
 
+	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		Iterators.removeIf(converters.iterator(), new Predicate<HttpMessageConverter<?>>() {
 			@Override
@@ -98,9 +101,9 @@ public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 		converters.add(new JsonMessageConverter());
 	}
 
+	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		HandlebarsViewResolver viewResolver = new HandlebarsViewResolver(
-				(HandlebarsEngine) this.applicationContext.getBean(HandlebarsEngine.class));
+		HandlebarsViewResolver viewResolver = new HandlebarsViewResolver(applicationContext.getBean(HandlebarsEngine.class));
 		registry.viewResolver(viewResolver);
 	}
 
@@ -113,13 +116,13 @@ public class PampasMVCAutoConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public ExceptionHandlerExceptionResolver exceptionResolver() {
-		ExceptionResolver2 exceptionResolver = new ExceptionResolver2();
+		ExceptionResolver exceptionResolver = new ExceptionResolver();
 		exceptionResolver.setOrder(Integer.MIN_VALUE);
-		if (!Strings.isNullOrEmpty(this.properties.getDefaultErrorView())) {
-			exceptionResolver.setDefaultErrorView(this.properties.getDefaultErrorView());
+		if (!Strings.isNullOrEmpty(properties.getDefaultErrorView())) {
+			exceptionResolver.setDefaultErrorView(properties.getDefaultErrorView());
 		}
 
-		exceptionResolver.setCodeErrorViews(this.properties.getCodeErrorViews());
+		exceptionResolver.setCodeErrorViews(properties.getCodeErrorViews());
 		return exceptionResolver;
 	}
 

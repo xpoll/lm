@@ -12,9 +12,19 @@ import lombok.Setter;
 @Setter
 @ConfigurationProperties(prefix = "pampas.mvc")
 public class PampasMVCProperties {
+	/**
+	 * 忽略拦截器 
+	 */
 	private List<Interceptors> ignoreInterceptors;
+	/**
+	 * 自定义拦截器
+	 */
 	private List<String> customInterceptors;
+	/**
+	 * 默认错误视图
+	 */
 	private String defaultErrorView;
+	
 	private Map<Integer, String> codeErrorViews;
 
 	public static enum Interceptors {

@@ -10,7 +10,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix = "pampas")
 public class PampasProperties extends AbstractSetting {
-	private PampasProperties.RedisProperties redis;
+	/**
+	 * redis配置
+	 */
+	private RedisProperties redis;
 
 	@Data
 	public static class RedisProperties {

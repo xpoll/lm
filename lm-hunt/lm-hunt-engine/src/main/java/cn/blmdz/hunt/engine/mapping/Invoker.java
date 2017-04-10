@@ -67,7 +67,7 @@ public class Invoker {
 		Set<Mapping> mappings = configManager.findMappings(app);
 		if (mappings != null && !mappings.isEmpty()) {
 			List<String> urls = Splitters.COLON.splitToList(urlWithMethod);
-			HttpMethod method = HttpMethod.valueOf((String) urls.get(0));
+			HttpMethod method = HttpMethod.valueOf(urls.get(0));
 			String url = urls.get(1);
 			Mapping targetMapping = null;
 			int targetMatchCount = Integer.MAX_VALUE;
