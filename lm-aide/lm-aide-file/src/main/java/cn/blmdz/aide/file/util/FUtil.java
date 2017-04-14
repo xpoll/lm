@@ -22,25 +22,23 @@ public class FUtil {
 	public static ImageInfo image(MultipartFile file) throws ImageInfoException {
 		try {
 			return getImageInfo(file.getBytes());
-		} catch (IOException var2) {
-			throw new ImageInfoException("Get image info failed.", var2);
+		} catch (IOException e) {
+			throw new ImageInfoException("Get image info failed.", e);
 		}
 	}
 
 	public static ImageInfo image(File file) throws ImageInfoException {
 		try {
 			return getImageInfo(Files.toByteArray(file));
-		} catch (IOException var2) {
-			throw new ImageInfoException("Get image info failed.", var2);
+		} catch (IOException e) {
+			throw new ImageInfoException("Get image info failed.", e);
 		}
 	}
 
 	public static ImageInfo image(InputStream input) throws ImageInfoException {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			Throwable var2 = null;
-
-			ImageInfo var5;
+			ImageInfo imageInfo;
 			try {
 				byte[] buffer = new byte[1024];
 
@@ -50,53 +48,37 @@ public class FUtil {
 				}
 
 				outputStream.flush();
-				var5 = getImageInfo(outputStream.toByteArray());
-			} catch (Throwable var15) {
-				var2 = var15;
-				throw var15;
+				imageInfo = getImageInfo(outputStream.toByteArray());
 			} finally {
-				if (outputStream != null) {
-					if (var2 != null) {
-						try {
-							outputStream.close();
-						} catch (Throwable var14) {
-							var2.addSuppressed(var14);
-						}
-					} else {
-						outputStream.close();
-					}
-				}
-
+				if (outputStream != null) outputStream.close();
 			}
 
-			return var5;
-		} catch (IOException var17) {
-			throw new ImageInfoException("Get image info failed.", var17);
+			return imageInfo;
+		} catch (IOException e) {
+			throw new ImageInfoException("Get image info failed.", e);
 		}
 	}
 
 	public static FileInfo file(MultipartFile file) throws FileInfoException {
 		try {
 			return new FileInfo(Integer.valueOf(file.getBytes().length));
-		} catch (IOException var2) {
-			throw new FileInfoException("Get file info failed.", var2);
+		} catch (IOException e) {
+			throw new FileInfoException("Get file info failed.", e);
 		}
 	}
 
 	public static FileInfo file(File file) throws ImageInfoException {
 		try {
 			return new FileInfo(Integer.valueOf(Files.toByteArray(file).length));
-		} catch (IOException var2) {
-			throw new ImageInfoException("Get file info failed.", var2);
+		} catch (IOException e) {
+			throw new ImageInfoException("Get file info failed.", e);
 		}
 	}
 
 	public static FileInfo file(InputStream input) throws ImageInfoException {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			Throwable var2 = null;
-
-			FileInfo var5;
+			FileInfo fileInfo;
 			try {
 				byte[] buffer = new byte[1024];
 
@@ -106,28 +88,14 @@ public class FUtil {
 				}
 
 				outputStream.flush();
-				var5 = new FileInfo(Integer.valueOf(outputStream.toByteArray().length));
-			} catch (Throwable var15) {
-				var2 = var15;
-				throw var15;
+				fileInfo = new FileInfo(Integer.valueOf(outputStream.toByteArray().length));
 			} finally {
-				if (outputStream != null) {
-					if (var2 != null) {
-						try {
-							outputStream.close();
-						} catch (Throwable var14) {
-							var2.addSuppressed(var14);
-						}
-					} else {
-						outputStream.close();
-					}
-				}
-
+				if (outputStream != null) outputStream.close();
 			}
 
-			return var5;
-		} catch (IOException var17) {
-			throw new ImageInfoException("Get file info failed.", var17);
+			return fileInfo;
+		} catch (IOException e) {
+			throw new ImageInfoException("Get file info failed.", e);
 		}
 	}
 
@@ -149,31 +117,15 @@ public class FUtil {
 	private static ImageInfo getImageInfo(byte[] fileData) throws IOException {
 		ImageInfo imageInfo = new ImageInfo();
 		InputStream inputStream = new ByteArrayInputStream(fileData);
-		Throwable var3 = null;
-
 		try {
 			BufferedImage originalImage = ImageIO.read(inputStream);
 			imageInfo.setWeight(Integer.valueOf(originalImage.getWidth()));
 			imageInfo.setHeight(Integer.valueOf(originalImage.getHeight()));
 			imageInfo.setSize(Integer.valueOf(fileData.length));
-		} catch (Throwable var12) {
-			var3 = var12;
-			throw var12;
 		} finally {
-			if (inputStream != null) {
-				if (var3 != null) {
-					try {
-						inputStream.close();
-					} catch (Throwable var11) {
-						var3.addSuppressed(var11);
-					}
-				} else {
-					inputStream.close();
-				}
-			}
-
+			if (inputStream != null) inputStream.close();
 		}
-
+		
 		return imageInfo;
 	}
 }
